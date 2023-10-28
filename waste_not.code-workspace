@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "name": "/",
+      "path": "."
+    },
+    {
+      "name": "/app",
+      "path": "app"
+    },
+    {
+      "name": "/packages",
+      "path": "packages",
+    },
+  ],
+  "settings": {
+    "todo-tree.tree.showCountsInTree": false,
+    "todo-tree.tree.showBadges": false,
+    "todo-tree.filtering.excludeGlobs": [
+      "**/node_modules/*/**",
+    ],
+    "dart.debugSdkLibraries": true,
+    "dart.debugExternalPackageLibraries": true,
+    "dart.flutterSdkPath": "~/development/expired_date_tracking/.fvm/flutter_sdk"
+  }
+}

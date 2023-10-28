@@ -1,0 +1,17 @@
+name: wast_not
+sdkPath: .fvm/flutter_sdk
+
+packages:
+  - packages/*
+
+scripts:
+  analyze:
+    exec: fvm dart analyze .
+
+  generate:
+    exec: fvm dart run build_runner build --delete-conflicting-outputs
+    packageFilters:
+      dependsOn: build_runner
+
+  format:
+    exec: fvm dart fix ./lib --apply && fvm dart format ./lib

@@ -1,0 +1,10 @@
+name: waste_not
+description: Waste not project
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+dev_dependencies:
+  melos: ^3.1.1
+  very_good_analysis: ^5.1.0
