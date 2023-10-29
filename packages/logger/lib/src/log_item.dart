@@ -1,5 +1,4 @@
 class LogItem {
-
   LogItem({
     required this.source,
     required this.message,
@@ -8,7 +7,7 @@ class LogItem {
     required this.dateTime,
     this.error,
   });
-  
+
   String source;
   String message;
   String timestamp;

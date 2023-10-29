@@ -9,9 +9,8 @@ import 'package:logger/src/logger_level.dart';
 import 'package:logger/src/printer/printer.dart';
 
 class DefaultPrinter extends Printer {
-
   DefaultPrinter(this._formatter) : super(LoggerLevel.trace);
-  
+
   final Formatter _formatter;
 
   @override

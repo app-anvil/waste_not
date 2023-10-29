@@ -15,7 +15,6 @@ export 'logger_mixin.dart';
 /// The logger package
 /// {@endtemplate}
 class Logger {
-
   /// {@macro logger}
   const Logger(this._source, [this._zone = Zone.root]);
   final String _source;
