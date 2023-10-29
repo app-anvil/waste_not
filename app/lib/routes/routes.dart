@@ -4,9 +4,9 @@ import 'package:app/features/add_product/add_product.dart';
 import 'package:app/features/features.dart';
 import 'package:app/routes/app_route.dart';
 import 'package:app/widgets/widgets.dart';
-import 'package:base_products_repository/base_products_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:products_repository/products_repository.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _pantryNavigatorKey = GlobalKey<NavigatorState>();
@@ -53,7 +53,7 @@ final router = GoRouter(
                       name: AppRoute.addProduct.name,
                       parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) {
-                        final product = state.extra! as BaseProductEntity;
+                        final product = state.extra! as ProductEntity;
                         return AddProductPage(product);
                       },
                     ),

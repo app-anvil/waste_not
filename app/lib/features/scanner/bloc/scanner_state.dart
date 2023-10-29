@@ -16,13 +16,13 @@ class ScannerState extends SuperBlocState {
 
   final String? barcode;
 
-  final BaseProductEntity? product;
+  final ProductEntity? product;
 
   @override
   ScannerState copyWith({
     StateStatus? status,
     Optional<String?> barcode = const Optional.absent(),
-    Optional<BaseProductEntity?> product = const Optional.absent(),
+    Optional<ProductEntity?> product = const Optional.absent(),
   }) {
     return ScannerState._(
       status: status ?? this.status,
