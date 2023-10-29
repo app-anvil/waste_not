@@ -1,10 +1,10 @@
-import 'package:base_products_repository/base_products_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:products_repository/products_repository.dart';
 
 class AddProductPage extends StatelessWidget {
   const AddProductPage(this.product, {super.key});
 
-  final BaseProductEntity product;
+  final ProductEntity product;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class AddProductPage extends StatelessWidget {
 class AddProductView extends StatelessWidget {
   const AddProductView(this.product, {super.key});
 
-  final BaseProductEntity product;
+  final ProductEntity product;
 
   @override
   Widget build(BuildContext context) {
