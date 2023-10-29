@@ -1,4 +1,5 @@
 import 'package:app/features/scanner/bloc/scanner_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
@@ -32,71 +33,80 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
   Widget build(BuildContext context) {
     // bloc builder scanner cubit, with listener, when code is not null
     // performs a fetch.
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        MobileScanner(
-          controller: _controller,
-          errorBuilder: (context, error, child) {
-            return ScannerErrorWidget(error: error);
-          },
-          placeholderBuilder: (ctx, child) {
-            return const Center(
-              child: SizedBox(
-                height: 80,
-                width: 80,
-                child: CircularProgressIndicator(strokeWidth: 5),
+    return BlocBuilder<ScannerBloc, ScannerState>(
+      builder: (context, state) {
+        if (state.status.isProgress) {
+          return const Center(child: CupertinoActivityIndicator());
+        }
+        return Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            MobileScanner(
+              controller: _controller,
+              errorBuilder: (context, error, child) {
+                return ScannerErrorWidget(error: error);
+              },
+              placeholderBuilder: (ctx, child) {
+                return const Center(
+                  child: SizedBox(
+                    height: 80,
+                    width: 80,
+                    child: CircularProgressIndicator(strokeWidth: 5),
+                  ),
+                );
+              },
+              onDetect: (capture) {
+                logger.d('${capture.barcodes.first.rawValue}');
+                if (capture.barcodes.first.rawValue != null) {
+                  context.read<ScannerBloc>().add(
+                        ScannerOnBarcodeChanged(
+                          capture.barcodes.first.rawValue!,
+                        ),
+                      );
+                }
+              },
+              overlay: QRScannerOverlay(
+                overlayColour: Colors.black.withOpacity(0.5),
               ),
-            );
-          },
-          onDetect: (capture) {
-            logger.d('${capture.barcodes.first.rawValue}');
-            if (capture.barcodes.first.rawValue != null) {
-              context.read<ScannerBloc>().add(
-                    ScannerOnBarcodeChanged(capture.barcodes.first.rawValue!),
-                  );
-            }
-          },
-          overlay: QRScannerOverlay(
-            overlayColour: Colors.black.withOpacity(0.5),
-          ),
-        ),
-        // manual input
-        // SizedBox(
-        //   height: 100,
-        //   width: double.infinity,
-        //   child: ColoredBox(
-        //     color: Colors.white,
-        //     child: Padding(
-        //       padding: const EdgeInsets.symmetric(horizontal: 25),
-        //       child: Row(
-        //         mainAxisSize: MainAxisSize.min,
-        //         children: [
-        //           Expanded(
-        //             child: TextField(
-        //               textInputAction: TextInputAction.search,
-        //               controller: TextEditingController(
-        //                 text: '8076809580748',
-        //               ),
-        //               decoration: const InputDecoration(
-        //                 hintText: 'Inserisci codice a barre',
-        //                 prefixIcon: Icon(Icons.search_rounded),
-        //               ),
-        //               onSubmitted: (value) {
-        //                 if (value.isNotEmpty) {
-        //                   context.read<ScannerBloc>().add(
-        //                         ScannerOnBarcodeChanged(value),
-        //                       );
-        //                 }
-        //               },
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
+            ),
+            // manual input
+            SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: ColoredBox(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          controller: TextEditingController(
+                            text: '8076809580748',
+                          ),
+                          decoration: const InputDecoration(
+                            hintText: 'Inserisci codice a barre',
+                            prefixIcon: Icon(Icons.search_rounded),
+                          ),
+                          onSubmitted: (value) {
+                            if (value.isNotEmpty) {
+                              context.read<ScannerBloc>().add(
+                                    ScannerOnBarcodeChanged(value),
+                                  );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,8 +1,10 @@
 // We start wth only one navigator key, because the bottom navigation bar
 // should be present only in the root pages.
+import 'package:app/features/add_product/add_product.dart';
 import 'package:app/features/features.dart';
 import 'package:app/routes/app_route.dart';
 import 'package:app/widgets/widgets.dart';
+import 'package:base_products_repository/base_products_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +15,7 @@ final _accountNavigatorKey = GlobalKey<NavigatorState>();
 // Because child of routes doesn't have a bottom navigation bar, they use
 // _rootNavigatorKey as a parentNavigationKey parameter.
 final router = GoRouter(
-  // FIXME: use / with redirect. 
+  // FIXME: use / with redirect.
   initialLocation: '/pantry',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
@@ -45,6 +47,17 @@ final router = GoRouter(
                       child: ScannerPage(),
                     );
                   },
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.addProduct.path,
+                      name: AppRoute.addProduct.name,
+                      parentNavigatorKey: _rootNavigatorKey,
+                      builder: (context, state) {
+                        final product = state.extra! as BaseProductEntity;
+                        return AddProductPage(product);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
