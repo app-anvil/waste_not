@@ -1,4 +1,4 @@
-// ignore_for_file: comment_references
+// ignore_for_file: comment_references, type_annotate_public_apis
 
 import 'dart:async';
 

@@ -8,5 +8,5 @@ abstract interface class BaseProductsRepository {
   /// Fetchs a product by its barcode.
   ///
   /// Should throw an exception if no product is found or something is wrong.
-  Future<BaseProductEntity?> fetchProduct(String barcode);
+  Future<BaseProductEntity> fetchProduct(String barcode);
 }
