@@ -1,9 +1,7 @@
 import 'package:common_components/common_components.dart';
 import 'package:flutter/material.dart';
 
-
 class FlavorBanner extends StatelessWidget {
-
   const FlavorBanner({
     required this.child,
     required this.flavor,

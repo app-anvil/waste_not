@@ -6,7 +6,6 @@ import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
 
 class HiveLogPrinter extends Printer {
-
   HiveLogPrinter(
     this._formatter, {
     this.retentionDays = 7,

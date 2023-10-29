@@ -4,7 +4,6 @@ import 'dart:developer' as developer;
 import 'package:logger/logger.dart';
 
 class DevLogPrinter extends Printer {
-
   DevLogPrinter(this._formatter) : super(LoggerLevel.trace);
   final Formatter _formatter;
 

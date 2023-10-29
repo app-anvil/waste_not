@@ -1,10 +1,7 @@
-
-
 import 'package:common_components/src/core/bloc_state/bloc_state.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class SuperBlocState extends Equatable {
-
   const SuperBlocState({
     required this.status,
     this.errorMessage,
@@ -20,7 +17,6 @@ abstract class SuperBlocState extends Equatable {
   SuperBlocState copyWith({StateStatus? status});
 
   SuperBlocState copyWithError(String errorMessage);
-
 
   bool get hasError => errorMessage != null;
 

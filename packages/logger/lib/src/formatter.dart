@@ -8,7 +8,6 @@ import 'package:logger/src/log_item.dart';
 import 'package:logger/src/logger_level.dart';
 
 class Formatter {
-
   const Formatter({
     this.useColors = true,
     this.colorOnlyLevel = false,
@@ -82,8 +81,7 @@ class Formatter {
     var msg = _stringifyMessage(message);
 
     // Format stackTrace and error
-    final st =
-        stackTrace == null ? '' : '\n\n## STACKTRACE\n${stackTrace.toString()}';
+    final st = stackTrace == null ? '' : '\n\n## STACKTRACE\n$stackTrace';
     var err = error == null
         ? ''
         : '''

@@ -46,7 +46,7 @@ class LoggerLevel implements Comparable<LoggerLevel> {
     severe,
     off,
   ];
- 
+
   @override
   bool operator ==(Object other) =>
       other is LoggerLevel && value == other.value;
