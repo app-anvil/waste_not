@@ -3,4 +3,5 @@ library common_components;
 
 export 'src/config/config.dart';
 export 'src/core/core.dart';
+export 'src/framework/framework.dart';
 export 'src/widgets/widgets.dart';

@@ -1,7 +1,6 @@
 // We start wth only one navigator key, because the bottom navigation bar
 // should be present only in the root pages.
-import 'package:app/features/account/view/account_page.dart';
-import 'package:app/features/pantry/view/pantry_page.dart';
+import 'package:app/features/features.dart';
 import 'package:app/routes/app_route.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ final _accountNavigatorKey = GlobalKey<NavigatorState>();
 // Because child of routes doesn't have a bottom navigation bar, they use
 // _rootNavigatorKey as a parentNavigationKey parameter.
 final router = GoRouter(
+  // FIXME: use / with redirect. 
   initialLocation: '/pantry',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
@@ -34,7 +34,19 @@ final router = GoRouter(
                 child: PantryPage(),
               ),
               // all children routes
-              // routes: const [],
+              routes: [
+                GoRoute(
+                  path: AppRoute.scanner.path,
+                  name: AppRoute.scanner.name,
+                  parentNavigatorKey: _rootNavigatorKey,
+                  pageBuilder: (context, state) {
+                    return const MaterialPage(
+                      fullscreenDialog: true,
+                      child: ScannerPage(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
