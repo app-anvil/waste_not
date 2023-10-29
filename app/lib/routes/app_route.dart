@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 enum AppRoute {
   pantry,
   scanner,
@@ -14,4 +17,7 @@ extension AppRoutePathExt on AppRoute {
       };
 
   String get rootPath => '/$path';
+
+  /// Gets the location of the AppRoute.
+  String location(BuildContext context) => context.namedLocation(name);
 }
