@@ -1,13 +1,13 @@
-import 'package:base_products_repository/base_products_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:products_repository/products_repository.dart';
 
 class MockBaseProductsApiClient extends Mock
     implements OpenFoodFactsApiClient {}
 
 void main() {
-  late BaseProductsRepositoryImpl repo;
+  late ProductsRepositoryImpl repo;
   late MockBaseProductsApiClient client;
 
   final product = Product(
@@ -16,13 +16,13 @@ void main() {
     brands: 'Miluno Bianco',
   );
 
-  final baseModel = BaseProductModel.fromOFF(product);
+  final baseModel = ProductModel.fromOFF(product);
 
-  final BaseProductEntity baseEntity = baseModel;
+  final ProductEntity baseEntity = baseModel;
 
   setUp(() {
     client = MockBaseProductsApiClient();
-    repo = BaseProductsRepositoryImpl(client);
+    repo = ProductsRepositoryImpl(client);
   });
 
   test('Fetch a product', () async {

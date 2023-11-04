@@ -1,11 +1,11 @@
-import 'package:base_products_repository/base_products_repository.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:products_repository/products_repository.dart';
 
 /// {@template open_food_facts_api_client}
 /// A client for the Openfoodfacts API. It extends BaseProductApiClient.
 ///
 /// {@endtemplate}
-class OpenFoodFactsApiClient implements BaseProductApiClient {
+class OpenFoodFactsApiClient implements ProductsApiClient {
   /// {@macro open_food_facts_api_client}
   OpenFoodFactsApiClient() {
     OpenFoodAPIConfiguration.userAgent = UserAgent(
@@ -18,7 +18,7 @@ class OpenFoodFactsApiClient implements BaseProductApiClient {
   }
 
   @override
-  Future<BaseProductModel> fetchProduct(String barcode) async {
+  Future<ProductModel> fetchProduct(String barcode) async {
     final config = ProductQueryConfiguration(
       barcode,
       version: ProductQueryVersion.v3,
@@ -27,6 +27,6 @@ class OpenFoodFactsApiClient implements BaseProductApiClient {
     // FIXME: parse the possible errors such as connection error.
     if (result.product == null) throw BaseProductNotFound();
     final offProduct = result.product!;
-    return BaseProductModel.fromOFF(offProduct);
+    return ProductModel.fromOFF(offProduct);
   }
 }
