@@ -21,6 +21,6 @@
     ],
     "dart.debugSdkLibraries": true,
     "dart.debugExternalPackageLibraries": true,
-    "dart.flutterSdkPath": "~/development/expired_date_tracking/.fvm/flutter_sdk"
+    "dart.flutterSdkPath": ".fvm/flutter_sdk"
   }
 }
