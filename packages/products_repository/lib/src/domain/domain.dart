@@ -1,3 +1,3 @@
-export 'base_product_api_client.dart';
 export 'entities/entities.dart';
+export 'product_api_client.dart';
 export 'repositories/repositories.dart';
