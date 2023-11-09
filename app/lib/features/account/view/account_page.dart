@@ -5,8 +5,13 @@ class AccountAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: const Text('Account'),
+    return SliverAppBar.large(
+      title: Text(
+        'Account',
+        style: const TextStyle().copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 

@@ -8,3 +8,14 @@ extension ContextGoRouterExt on BuildContext {
   /// Returns same as GoRouterState.of(context).
   GoRouterState get routerState => GoRouterState.of(this);
 }
+
+extension GoRouterExtension on GoRouter {
+  String location() {
+    final lastMatch = routerDelegate.currentConfiguration.last;
+    final matchList = lastMatch is ImperativeRouteMatch
+        ? lastMatch.matches
+        : routerDelegate.currentConfiguration;
+    final location = matchList.uri.toString();
+    return location;
+  }
+}
