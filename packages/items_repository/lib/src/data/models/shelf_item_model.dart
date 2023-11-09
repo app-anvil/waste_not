@@ -9,7 +9,7 @@ class ShelfItemModel extends ItemModel implements ShelfItemEntity {
     required super.remainingMeasure,
     required super.storage,
     this.shelf,
-  })  : assert(
+  }) : assert(
           storage.storageType == StorageType.fridge ||
               storage.storageType == StorageType.freezer,
           'The type of the storage must be fridge or freezer',

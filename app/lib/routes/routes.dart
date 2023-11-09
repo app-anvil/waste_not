@@ -33,7 +33,7 @@ final router = GoRouter(
               path: AppRoute.pantry.rootPath,
               name: AppRoute.pantry.name,
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: PantryPage(),
+                child: InventoryPage(),
               ),
               // all children routes
               routes: [

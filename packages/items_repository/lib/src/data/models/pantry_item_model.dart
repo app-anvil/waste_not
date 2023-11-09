@@ -1,7 +1,7 @@
 import 'package:items_repository/items_repository.dart';
 
 class PantryItemModel extends ItemModel {
-   const PantryItemModel({
+  const PantryItemModel({
     required super.id,
     required super.product,
     required super.expirationDate,

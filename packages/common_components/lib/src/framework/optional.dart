@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 /// absent values.
 @immutable
 class Optional<T> {
-
   /// Create a (present) value by wrapping the [value] provided.
   const Optional(T value)
       : _value = value,
@@ -36,6 +35,7 @@ class Optional<T> {
         ),
         _value = value,
         present = value != null;
+
   /// Whether this [Optional] wrapper contains a present [value].
   final bool present;
 
