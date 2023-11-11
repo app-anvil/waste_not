@@ -1,5 +1,6 @@
 import 'package:items_repository/items_repository.dart';
 import 'package:products_repository/products_repository.dart';
+import 'package:storages_repository/storages_repository.dart';
 
 abstract class ItemModel implements ItemEntity {
   const ItemModel({
@@ -24,7 +25,7 @@ abstract class ItemModel implements ItemEntity {
   final DateTime createdAt;
 
   @override
-  final Storage storage;
+  final StorageEntity storage;
 
   @override
   final Measure remainingMeasure;
@@ -32,7 +33,7 @@ abstract class ItemModel implements ItemEntity {
   ItemModel copyWith({
     DateTime? expirationDate,
     Measure? remainingMeasure,
-    Storage? storage,
+    StorageEntity? storage,
   });
 
   @override

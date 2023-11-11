@@ -20,8 +20,13 @@ dependencies:
   logger:
     path: ../packages/logger
   mobile_scanner: ^3.5.1
+  path: ^1.8.3
   products_repository:
     path: ../packages/products_repository
+  shimmer: ^3.0.0
+  storages_repository:
+    path: ../packages/storages_repository
+  uuid: ^4.2.1
 
 dev_dependencies:
   bloc_test: ^9.1.2

@@ -34,6 +34,7 @@ class _Insets {
 
   // alias
   late final cardPadding = sm;
+  late final screenHMargin = sm;
 }
 
 class _Corners {
@@ -41,4 +42,6 @@ class _Corners {
   late final double md = 8;
   late final double lg = 16;
   late final double xl = 32;
+
+  late final cardCorner = 20.0;
 }

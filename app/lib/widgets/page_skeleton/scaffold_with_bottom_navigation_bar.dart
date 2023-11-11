@@ -21,12 +21,12 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
     // change. (Go to scanner page from pantry).
     // or use context.router.location()
     final uri = context.routerState.uri.toString();
-    if (uri.contains(AppRoute.pantry.rootPath)) {
+    if (uri.contains(AppRoute.inventory.rootPath)) {
       return const InventorySliverAppBar();
     } else if (uri.contains(AppRoute.account.rootPath)) {
       return const AccountAppBar();
     }
-    throw ArgumentError('Invalid uri root path');
+    throw ArgumentError('Invalid uri root path: $uri');
   }
 
   // String _buildAppBarTitle(BuildContext context) {
@@ -47,7 +47,7 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
 
     return PageScaffold(
       sliverAppBar: _buildAppBar(context),
-      fab: state.fullPath == AppRoute.pantry.rootPath
+      fab: state.fullPath == AppRoute.inventory.rootPath
           ? const InventoryFAB()
           : null,
       bottomNavigationBar: NavigationBar(

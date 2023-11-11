@@ -1,4 +1,5 @@
 import 'package:items_repository/items_repository.dart';
+import 'package:storages_repository/storages_repository.dart';
 
 class ShelfItemModel extends ItemModel implements ShelfItemEntity {
   ShelfItemModel({
@@ -19,7 +20,7 @@ class ShelfItemModel extends ItemModel implements ShelfItemEntity {
   ShelfItemModel copyWith({
     DateTime? expirationDate,
     Measure? remainingMeasure,
-    Storage? storage,
+    StorageEntity? storage,
     int? shelf,
   }) {
     return ShelfItemModel(

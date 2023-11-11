@@ -6,6 +6,7 @@ class AccountAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar.large(
+      // FIXME: [text]
       title: Text(
         'Account',
         style: const TextStyle().copyWith(

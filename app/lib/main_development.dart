@@ -1,14 +1,10 @@
 import 'package:app/app/app.dart';
 import 'package:app/bootstrap.dart';
-import 'package:get_it/get_it.dart';
-import 'package:products_repository/products_repository.dart';
+import 'package:app/injection.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
-  final baseProductsClient = OpenFoodFactsApiClient();
-
-  GetIt.I.registerSingleton<ProductsApiClient>(
-    baseProductsClient,
-  );
-  
+  WidgetsFlutterBinding.ensureInitialized();
+  initializeDependencies();
   bootstrap(() => const App());
 }

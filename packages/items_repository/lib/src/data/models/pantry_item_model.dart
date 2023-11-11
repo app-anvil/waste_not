@@ -1,4 +1,5 @@
 import 'package:items_repository/items_repository.dart';
+import 'package:storages_repository/storages_repository.dart';
 
 class PantryItemModel extends ItemModel {
   const PantryItemModel({
@@ -14,7 +15,7 @@ class PantryItemModel extends ItemModel {
   PantryItemModel copyWith({
     DateTime? expirationDate,
     Measure? remainingMeasure,
-    Storage? storage,
+    StorageEntity? storage,
   }) {
     return PantryItemModel(
       id: id,
