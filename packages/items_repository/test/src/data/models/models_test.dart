@@ -2,11 +2,30 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:products_repository/products_repository.dart';
+import 'package:storages_repository/storages_repository.dart';
 
 class MockProduct extends Mock implements ProductEntity {}
 
 void main() {
   final product = MockProduct();
+  final pantry = StorageModel(
+    uuid: '0',
+    name: 'Pantry',
+    storageType: StorageType.pantry,
+    orderingPriority: 1,
+  );
+  final fridge = StorageModel(
+    uuid: '0',
+    name: 'Fridge',
+    storageType: StorageType.fridge,
+    orderingPriority: 2,
+  );
+  final freezer = StorageModel(
+    uuid: '0',
+    name: 'Freezer',
+    storageType: StorageType.freezer,
+    orderingPriority: 3,
+  );
   final pantryItem = PantryItemModel(
     id: '0',
     product: product,
@@ -16,7 +35,7 @@ void main() {
       quantity: 1,
       unitOfMeasure: UnitOfMeasure.unit,
     ),
-    storage: DefaultStorages.pantry,
+    storage: pantry,
   );
 
   final fridgeItem = ShelfItemModel(
@@ -28,7 +47,7 @@ void main() {
       quantity: 1,
       unitOfMeasure: UnitOfMeasure.unit,
     ),
-    storage: DefaultStorages.fridge,
+    storage: fridge,
   );
 
   final freezerItem = ShelfItemModel(
@@ -40,7 +59,7 @@ void main() {
       quantity: 1,
       unitOfMeasure: UnitOfMeasure.unit,
     ),
-    storage: DefaultStorages.freezer,
+    storage: freezer,
   );
 
   setUp(() {});

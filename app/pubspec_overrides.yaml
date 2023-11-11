@@ -1,0 +1,10 @@
+# melos_managed_dependency_overrides: common_components,logger,products_repository,storages_repository
+dependency_overrides:
+  common_components:
+    path: ../packages/common_components
+  logger:
+    path: ../packages/logger
+  products_repository:
+    path: ../packages/products_repository
+  storages_repository:
+    path: ../packages/storages_repository

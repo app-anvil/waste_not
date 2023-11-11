@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoute {
-  pantry,
+  inventory,
   scanner,
   addProduct,
   account,
+  storages,
+  addStorage,
+  editStorage,
 }
 
 extension AppRoutePathExt on AppRoute {
   String get path => switch (this) {
-        AppRoute.pantry => 'pantry',
+        AppRoute.inventory => 'inventory',
         AppRoute.scanner => 'scanner',
         AppRoute.addProduct => 'add-product',
+        AppRoute.storages => 'storages',
         AppRoute.account => 'account',
+        AppRoute.addStorage => 'add-storage',
+        AppRoute.editStorage => 'edit-storage',
       };
 
   String get rootPath => '/$path';

@@ -25,7 +25,7 @@ class OpenFoodFactsApiClient implements ProductsApiClient {
     );
     final result = await OpenFoodAPIClient.getProductV3(config);
     // FIXME: parse the possible errors such as connection error.
-    if (result.product == null) throw BaseProductNotFound();
+    if (result.product == null) throw ProductNotFound();
     final offProduct = result.product!;
     return ProductModel.fromOFF(offProduct);
   }

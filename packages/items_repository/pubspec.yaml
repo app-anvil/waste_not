@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   products_repository:
     path: ../products_repository
+  storages_repository:
+    path: ../storages_repository
   uuid: ^4.1.0
 
 dev_dependencies:

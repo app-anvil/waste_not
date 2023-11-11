@@ -1,9 +1,13 @@
 import 'package:app/core/core.dart';
+import 'package:app/features/storages/cubit/storages_cubit.dart';
 import 'package:app/routes/app_route.dart';
 import 'package:app/styles/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:storages_repository/storages_repository.dart';
 
 class InventorySliverAppBar extends StatelessWidget {
   const InventorySliverAppBar({super.key});
@@ -11,6 +15,7 @@ class InventorySliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar.large(
+      // FIXME: [text]
       title: Text(
         'Inventory',
         style: const TextStyle().copyWith(
@@ -38,7 +43,14 @@ class InventoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const InventoryView();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => StoragesCubit(StoragesRepository.I)..onFetch(),
+        ),
+      ],
+      child: const InventoryView(),
+    );
   }
 }
 
@@ -93,54 +105,107 @@ class InventoryView extends StatelessWidget {
 class _StorageSection extends StatelessWidget {
   const _StorageSection();
 
-  @override
-  Widget build(BuildContext context) {
-    final list = ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      children: [
-        const _StorageItem(
-          iconData: Icons.timelapse_rounded,
-          label: 'Opened',
-        ),
-        HSpan($styles.insets.md),
-        const _StorageItem(
-          iconData: Icons.inventory_2_rounded,
-          label: 'Pantry',
-        ),
-        HSpan($styles.insets.md),
-        const _StorageItem(
-          iconData: Icons.kitchen_rounded,
-          label: 'Fridge',
-        ),
-        HSpan($styles.insets.md),
-        const _StorageItem(
-          iconData: Icons.kitchen_rounded,
-          label: 'Fridge 2',
-        ),
-        HSpan($styles.insets.md),
-        const _StorageItem(
-          iconData: Icons.ac_unit_rounded,
-          label: 'Freezer',
-        ),
-        HSpan($styles.insets.md),
-        const _StorageItem(
-          iconData: Icons.ac_unit_rounded,
-          label: 'Freezer 2',
-        ),
-      ],
-    );
+  Widget _buildShimmer() {
     return Padding(
       padding: EdgeInsets.only(bottom: $styles.insets.sm),
-      child: WCard(
-        child: PrototypeHeight(
-          prototype: const _StorageItem(
-            iconData: Icons.timelapse_rounded,
-            label: 'Opened',
+      child: Stack(
+        children: [
+          const IgnorePointer(
+            child: Opacity(
+              opacity: 0,
+              child: WCard(
+                child: _StorageItem(
+                  iconData: Icons.timelapse_rounded,
+                  label: 'Opened',
+                ),
+              ),
+            ),
           ),
-          listView: list,
-        ),
+          Positioned.fill(
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              period: const Duration(milliseconds: 1000),
+              enabled: true,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    $styles.corners.cardCorner,
+                  ),
+                  color: Colors.grey[300],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<StoragesCubit, StoragesState>(
+      builder: (context, state) {
+        if (state.status.isFailure) {
+          // TODO: show error
+          return const Center(
+            // FIXME: [text]
+            child: Text('Error'),
+          );
+        }
+        if (state.status.isSuccess) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: $styles.insets.sm),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: () => context.router.goNamed(
+                    AppRoute.storages.name,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // FIXME: [text]
+                      const Text('Edit'),
+                      HSpan($styles.insets.xs),
+                      const Icon(
+                        Icons.edit_rounded,
+                        size: 18,
+                      ),
+                    ],
+                  ),
+                ),
+                WCard(
+                  child: PrototypeHeight(
+                    prototype: const _StorageItem(
+                      iconData: Icons.timelapse_rounded,
+                      label: 'Opened',
+                    ),
+                    listView: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final storage = state.storages[index];
+                        return _StorageItem(
+                          iconData: storage.storageType.icon,
+                          label: storage.name,
+                        );
+                      },
+                      separatorBuilder: (context, index) =>
+                          HSpan($styles.insets.md),
+                      itemCount: state.storages.length,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return _buildShimmer();
+      },
     );
   }
 }

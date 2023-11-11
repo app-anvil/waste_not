@@ -42,6 +42,17 @@ class AppTheme {
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: _colors.surface,
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: MaterialStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                $styles.corners.cardCorner,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

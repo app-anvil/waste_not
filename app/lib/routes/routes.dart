@@ -9,14 +9,14 @@ import 'package:go_router/go_router.dart';
 import 'package:products_repository/products_repository.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _pantryNavigatorKey = GlobalKey<NavigatorState>();
+final _inventoryNavigatorKey = GlobalKey<NavigatorState>();
 final _accountNavigatorKey = GlobalKey<NavigatorState>();
 
 // Because child of routes doesn't have a bottom navigation bar, they use
 // _rootNavigatorKey as a parentNavigationKey parameter.
 final router = GoRouter(
   // FIXME: use / with redirect.
-  initialLocation: '/pantry',
+  initialLocation: '/inventory',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -27,11 +27,11 @@ final router = GoRouter(
       },
       branches: [
         StatefulShellBranch(
-          navigatorKey: _pantryNavigatorKey,
+          navigatorKey: _inventoryNavigatorKey,
           routes: [
             GoRoute(
-              path: AppRoute.pantry.rootPath,
-              name: AppRoute.pantry.name,
+              path: AppRoute.inventory.rootPath,
+              name: AppRoute.inventory.name,
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: InventoryPage(),
               ),
@@ -55,6 +55,36 @@ final router = GoRouter(
                       builder: (context, state) {
                         final product = state.extra! as ProductEntity;
                         return AddProductPage(product);
+                      },
+                    ),
+                  ],
+                ),
+                GoRoute(
+                  path: AppRoute.storages.path,
+                  name: AppRoute.storages.name,
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state) => const StoragesPage(),
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.addStorage.path,
+                      name: AppRoute.addStorage.name,
+                      parentNavigatorKey: _rootNavigatorKey,
+                      pageBuilder: (context, state) {
+                        return const MaterialPage(
+                          fullscreenDialog: true,
+                          child: AddEditStoragePage(),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: AppRoute.editStorage.path,
+                      name: AppRoute.editStorage.name,
+                      parentNavigatorKey: _rootNavigatorKey,
+                      builder: (context, state) {
+                        final storageId = state.extra as String?;
+                        return AddEditStoragePage(
+                          storageId: storageId,
+                        );
                       },
                     ),
                   ],
