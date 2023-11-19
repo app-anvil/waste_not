@@ -61,4 +61,7 @@ final class AddEditStorageState extends SuperBlocState {
         storageType,
         ...super.props,
       ];
+
+  @override
+  bool? get stringify => true;
 }
