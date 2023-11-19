@@ -37,19 +37,19 @@ class StoragesView extends StatelessWidget {
         child: const Icon(Icons.add_rounded),
         onPressed: () => context.router.goNamed(AppRoute.addStorage.name),
       ),
-      child: const _StaragesContent(),
+      child: const _StoragesContent(),
     );
   }
 }
 
-class _StaragesContent extends StatefulWidget {
-  const _StaragesContent();
+class _StoragesContent extends StatefulWidget {
+  const _StoragesContent();
 
   @override
-  State<_StaragesContent> createState() => __StaragesContentState();
+  State<_StoragesContent> createState() => _StoragesContentState();
 }
 
-class __StaragesContentState extends State<_StaragesContent> {
+class _StoragesContentState extends State<_StoragesContent> {
   List<StorageEntity> _items = [];
 
   @override

@@ -40,11 +40,13 @@ extension OnNavigatorState on NavigatorState {
       reverseTransitionDuration: Duration.zero,
     );
 
+    final future = push(route);
+
     // Wait 100ms to add the event to be sure that the route has been already
     // pushed successfully before.
-    //await Future.delayed(const Duration(milliseconds: 100), trigger);
-    trigger();
-    return push(route);
+    await Future.delayed(const Duration(milliseconds: 100), trigger);
+    return future;
+
   }
 
   /// [B] and [S] are generic type related to the bloc who executes the

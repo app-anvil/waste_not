@@ -38,72 +38,57 @@ class AddEditStorageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: remove it
-    return BlocListener<AddEditStorageCubit, AddEditStorageState>(
-      listener: (context, state) {
-        if (state.status.isSuccess) {
-          // Pop the add/edit screen.
-          context.router.pop();
-        }
-        if (state.status.isFailure) {
-          // show error message
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(_title),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: $styles.insets.screenHMargin),
-              child: UnconstrainedBox(
-                child: BlocBuilder<AddEditStorageCubit, AddEditStorageState>(
-                  builder: (_, state) {
-                    return ElevatedButton(
-                      onPressed: state.isValid
-                          ? () {
-                              final cubit = context.read<AddEditStorageCubit>();
-                              // ignore: cascade_invocations
-                              cubit.onSave();
-                              // context.navRoot.
-                              // pushLoading<AddEditStorageCubit,
-                              //     AddEditStorageState>(
-                              //   bloc: cubit,
-                              //   listener: (ctx, curr) {
-                              //     if (curr.status.isSuccess) {
-                              //       // Pop the loading screen
-                              //       ctx.navRoot.pop();
-                              //       // Pop the add/edit screen.
-                              //       context.router.pop();
-                              //     }
-                              //     if (curr.status.isFailure) {
-                              //       // Pop the loading screen
-                              //       ctx.navRoot.pop();
-                              //       // show error message
-                              //     }
-                              //   },
-                              //   trigger: cubit.onSave,
-                              // );
-                            }
-                          : null,
-                      // FIXME: [text]
-                      child: const Text('Done'),
-                    );
-                  },
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_title),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: $styles.insets.screenHMargin),
+            child: UnconstrainedBox(
+              child: BlocBuilder<AddEditStorageCubit, AddEditStorageState>(
+                builder: (_, state) {
+                  return ElevatedButton(
+                    onPressed: state.isValid
+                        ? () {
+                            final cubit = context.read<AddEditStorageCubit>();
+                            context.navRoot.pushLoading<AddEditStorageCubit,
+                                AddEditStorageState>(
+                              bloc: cubit,
+                              listener: (ctx, curr) {
+                                if (curr.status.isSuccess) {
+                                  // Pop the loading screen
+                                  ctx.navRoot.pop();
+                                  // Pop the add/edit screen.
+                                  context.router.pop();
+                                }
+                                if (curr.status.isFailure) {
+                                  // Pop the loading screen
+                                  ctx.navRoot.pop();
+                                  // show error message
+                                }
+                              },
+                              trigger: cubit.onSave,
+                            );
+                          }
+                        : null,
+                    // FIXME: [text]
+                    child: const Text('Done'),
+                  );
+                },
               ),
             ),
-          ],
-        ),
-        body: PageContent(
-          child: CustomScrollView(
-            slivers: [
-              const _NameSection().toSliver(),
-              VSpan($styles.insets.sm).toSliver(),
-              const _StorageTypeSection().toSliver(),
-              VSpan($styles.insets.sm).toSliver(),
-              const _DescriptionSection().toSliver(),
-            ],
           ),
+        ],
+      ),
+      body: PageContent(
+        child: CustomScrollView(
+          slivers: [
+            const _NameSection().toSliver(),
+            VSpan($styles.insets.sm).toSliver(),
+            const _StorageTypeSection().toSliver(),
+            VSpan($styles.insets.sm).toSliver(),
+            const _DescriptionSection().toSliver(),
+          ],
         ),
       ),
     );
