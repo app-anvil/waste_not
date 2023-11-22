@@ -10,8 +10,8 @@ class StoragesRepositoryInitial extends StoragesRepositoryState {
   List<Object?> get props => [];
 }
 
-class StoragesRepositoryStorageAddSuccess extends StoragesRepositoryState {
-  const StoragesRepositoryStorageAddSuccess(this.storage);
+class StoragesRepositoryStorageAddedSuccess extends StoragesRepositoryState {
+  const StoragesRepositoryStorageAddedSuccess(this.storage);
 
   final StorageEntity storage;
 
@@ -28,8 +28,8 @@ class StoragesRepositoryLoadedSuccess extends StoragesRepositoryState {
   List<Object?> get props => [storage];
 }
 
-class StoragesRepositoryStorageUpdateSuccess extends StoragesRepositoryState {
-  const StoragesRepositoryStorageUpdateSuccess(this.prevstorage, this.storage);
+class StoragesRepositoryStorageUpdatedSuccess extends StoragesRepositoryState {
+  const StoragesRepositoryStorageUpdatedSuccess(this.prevstorage, this.storage);
 
   final StorageEntity prevstorage;
 
@@ -39,13 +39,13 @@ class StoragesRepositoryStorageUpdateSuccess extends StoragesRepositoryState {
   List<Object?> get props => [prevstorage, storage];
 }
 
-class StoragesRepositoryStorageDeleteSuccess extends StoragesRepositoryState {
+class StoragesRepositoryStorageDeletedSuccess extends StoragesRepositoryState {
   @override
   List<Object?> get props => [];
 }
 
-class StoragesRepositoryUpdateSuccess extends StoragesRepositoryState {
-  const StoragesRepositoryUpdateSuccess(this.storages);
+class StoragesRepositoryUpdatedSuccess extends StoragesRepositoryState {
+  const StoragesRepositoryUpdatedSuccess(this.storages);
   final List<StorageEntity> storages;
 
   @override

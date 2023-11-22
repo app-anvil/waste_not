@@ -9,8 +9,8 @@ import '../../../items_repository.dart';
 abstract interface class ItemEntity extends Equatable {
   /// The identifier of the product.
   ///
-  /// Two products with same [barcode] will have the different [id].
-  abstract final String id;
+  /// Two products with same [barcode] can have the different [uuid].
+  abstract final String uuid;
 
   /// The product with base information such as name, brand, image.
   abstract final ProductEntity product;

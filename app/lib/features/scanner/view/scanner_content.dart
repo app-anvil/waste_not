@@ -71,6 +71,7 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
               ),
             ),
             // manual input
+            // TODO: Uncomment: use only for dev purposes
             SizedBox(
               height: 100,
               width: double.infinity,
@@ -88,6 +89,7 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
                             text: '8076809580748',
                           ),
                           decoration: const InputDecoration(
+                            // FIXME: l10n
                             hintText: 'Inserisci codice a barre',
                             prefixIcon: Icon(Icons.search_rounded),
                           ),

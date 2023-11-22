@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 
 class PageScaffold extends StatelessWidget {
   const PageScaffold({
-    required this.sliverAppBar,
     required this.child,
     this.fab,
     this.bottomNavigationBar,
     super.key,
   });
-
-  /// This must be a SliverAppBar.
-  final Widget sliverAppBar;
 
   final Widget? fab;
 
@@ -23,15 +19,16 @@ class PageScaffold extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: fab,
-      body: CustomScrollView(
-        primary: true,
-        slivers: [
-          sliverAppBar,
-          SliverFillRemaining(
-            child: child,
-          ),
-        ],
-      ),
+      body: child,
+      // body: CustomScrollView(
+      //   primary: true,
+      //   slivers: [
+      //     sliverAppBar,
+      //     SliverFillRemaining(
+      //       child: child,
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

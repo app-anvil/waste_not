@@ -1,14 +1,13 @@
 import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:items_repository/items_repository.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 import '../../../routes/app_route.dart';
-import '../../../styles/app_colors.dart';
-import '../../../theme/theme.dart';
 import '../../../widgets/w_card.dart';
-import '../../storages/cubit/storages_cubit.dart';
+import '../../features.dart';
 
 class InventorySliverAppBar extends StatelessWidget {
   const InventorySliverAppBar({super.key});
@@ -16,7 +15,7 @@ class InventorySliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar.large(
-      // FIXME: [text]
+      // FIXME: l10n
       title: Text(
         'Inventory',
         style: const TextStyle().copyWith(
@@ -49,6 +48,9 @@ class InventoryPage extends StatelessWidget {
         BlocProvider(
           create: (context) => StoragesCubit(StoragesRepository.I)..onFetch(),
         ),
+        BlocProvider(
+          create: (context) => ItemsCubit(ItemsRepository.I)..onFetch(),
+        ),
       ],
       child: const InventoryView(),
     );
@@ -60,46 +62,33 @@ class InventoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageContent(
-      includeTopPadding: false,
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          if (index == 0) return const _StorageSection();
-          if (index == 1) {
-            return const _ItemTile(
-              category: '🥩',
-              itemName: 'Filetto',
-              storageName: 'Fridge - 1Kg',
-              status: ItemStatus.ok,
-            );
-          }
-          if (index == 2) {
-            return const _ItemTile(
-              category: '🥚',
-              itemName: 'Uova',
-              storageName: 'Fridge - 4 units',
-              status: ItemStatus.warning,
-            );
-          }
-          if (index == 3) {
-            return const _ItemTile(
-              category: '🥬',
-              itemName: 'Insalata',
-              storageName: 'Fridge - 200g',
-              status: ItemStatus.alert,
-            );
-          }
-          return null;
-        },
-      ),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar.large(
+          // FIXME: l10n
+          title: Text(
+            'Inventory',
+            style: const TextStyle().copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.symmetric(
+            horizontal: $style.insets.screenH,
+          ),
+          sliver: const _StorageSection().asSliver,
+        ),
+        SliverPadding(
+          padding: EdgeInsets.only(
+            right: $style.insets.screenH,
+            left: $style.insets.screenH,
+            bottom: 70,
+          ),
+          sliver: const ItemsSection(),
+        ),
+      ],
     );
-    // return const PageScaffold(
-    //   title: 'Inventory',
-    //   fab: PantryFAB(),
-    // );
   }
 }
 
@@ -147,9 +136,9 @@ class _StorageSection extends StatelessWidget {
     return BlocBuilder<StoragesCubit, StoragesState>(
       builder: (context, state) {
         if (state.status.isFailure) {
-          // TODO: show error
+          // TODO(marco): show error
           return const Center(
-            // FIXME: [text]
+            // FIXME: l10n
             child: Text('Error'),
           );
         }
@@ -169,7 +158,7 @@ class _StorageSection extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // FIXME: [text]
+                      // FIXME: l10n
                       const Text('Edit'),
                       HSpan($style.insets.xs),
                       const Icon(
@@ -236,109 +225,6 @@ class _StorageItem extends StatelessWidget {
           style: context.tt.labelLarge,
         ),
       ],
-    );
-  }
-}
-
-enum ItemStatus {
-  ok,
-  warning,
-  alert,
-}
-
-class _ItemTile extends StatelessWidget {
-  const _ItemTile({
-    required this.category,
-    required this.storageName,
-    required this.itemName,
-    required this.status,
-  });
-
-  final String category;
-  final String itemName;
-  final String storageName;
-
-  final ItemStatus status;
-
-  @override
-  Widget build(BuildContext context) {
-    return WCard(
-      child: Row(
-        children: [
-          Material(
-            borderRadius: BorderRadius.circular($style.corners.lg),
-            color: context.col.surface,
-            child: Container(
-              padding: EdgeInsets.all($style.insets.xxs),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: Text(
-                category,
-                style: const TextStyle().copyWith(fontSize: 30),
-              ),
-            ),
-          ),
-          HSpan($style.insets.sm),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  itemName,
-                  style: context.tt.labelLarge,
-                ),
-                VSpan($style.insets.xxs),
-                Text(
-                  storageName,
-                  style: context.tt.labelSmall,
-                ),
-              ],
-            ),
-          ),
-          switch (status) {
-            ItemStatus.ok => _ExpiryIndicator.ok('4 days'),
-            ItemStatus.warning => _ExpiryIndicator.warning('2 days'),
-            ItemStatus.alert => _ExpiryIndicator.alert('Expired'),
-          },
-        ],
-      ),
-    );
-  }
-}
-
-class _ExpiryIndicator extends StatelessWidget {
-  _ExpiryIndicator.ok(this.label) : backgroundColor = $style.sharedColors.ok;
-
-  _ExpiryIndicator.warning(this.label)
-      : backgroundColor = $style.sharedColors.warning;
-
-  _ExpiryIndicator.alert(this.label)
-      : backgroundColor = $style.sharedColors.alert;
-
-  final Color backgroundColor;
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: $style.insets.xxs,
-        horizontal: $style.insets.lg,
-      ),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular($style.corners.lg),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle().copyWith(
-          color: AppTheme.light().colors.textLight,
-        ),
-      ),
     );
   }
 }

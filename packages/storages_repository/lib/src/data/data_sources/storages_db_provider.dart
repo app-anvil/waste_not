@@ -57,7 +57,7 @@ class StoragesDbProvider implements StoragesProvider {
           await isar.storageDbModels.where().uuidEqualTo(id).findFirst();
 
       if (storage == null) {
-        throw AssertionError('Storage must be exist');
+        throw AssertionError('Storage must exist');
       }
 
       final updatedStorage = storage.copyWith(
@@ -77,14 +77,6 @@ class StoragesDbProvider implements StoragesProvider {
   Future<List<StorageModel>> fetch() async {
     final isar = await _dbService.db;
     return await isar.storageDbModels.where().sortByOrderingPriority().findAll()
-      ..map(
-        (e) => StorageModel(
-          uuid: e.uuid,
-          name: e.name,
-          storageType: e.storageType,
-          description: e.description,
-          orderingPriority: e.orderingPriority,
-        ),
-      );
+      ..map((e) => e.toModel());
   }
 }

@@ -13,9 +13,7 @@ abstract class StoragesRepository
     extends CrudRepository<StorageEntity, StoragesRepositoryState> {
   static StoragesRepository get I => GetIt.I.get<StoragesRepository>();
 
-  StorageEntity getStorageOrThrow(String id);
-
-  List<StorageEntity> get storages;
+  //List<StorageEntity> get storages;
 
   Future<void> add({
     required String name,
@@ -41,9 +39,13 @@ abstract class StoragesRepository
   Future<bool> delete(String id);
 }
 
-// TODO: move inside common component
+// TODO(calbi): move inside common component
 abstract class CrudRepository<O, State> with LoggerMixin, Observable<State> {
-  // TODO: we can add the crud operations;
+  // TODO(calbi): we can add the crud operations;
+
+  List<O> get items;
+
+  O getItemOrThrow(String id);
 }
 
 /// State class to be used with [Observable].

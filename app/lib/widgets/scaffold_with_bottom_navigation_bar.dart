@@ -45,7 +45,6 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
     final state = context.routerState;
 
     return PageScaffold(
-      sliverAppBar: _buildAppBar(context),
       fab: state.fullPath == AppRoute.inventory.rootPath
           ? const InventoryFAB()
           : null,
@@ -56,7 +55,7 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
           NavigationDestination(
             icon: Icon(Icons.home_rounded),
             //selectedIcon:  Icon(Icons.home_rounded),
-            // FIXME: [text]
+            // FIXME: l10n
             label: 'Pantry',
           ),
           // NavigationDestination(
@@ -67,7 +66,7 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
           NavigationDestination(
             icon: Icon(Icons.person_rounded),
             //selectedIcon:  Icon(Icons.shop_rounded),
-            // FIXME: [text]
+            // FIXME: l10n
             label: 'Account',
           ),
         ],

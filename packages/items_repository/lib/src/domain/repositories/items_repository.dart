@@ -1,16 +1,24 @@
+import 'package:get_it/get_it.dart';
+import 'package:products_repository/products_repository.dart';
+import 'package:storages_repository/storages_repository.dart';
+
 import '../../../items_repository.dart';
 
-abstract class ItemsRepository {
-  // get
-  // fetch
-  Future<ItemEntity> fetch();
-  // addOrUpdate
-  // TODO: add ItemInput as a parameter
-  Future<void> addOrUpdate();
+abstract class ItemsRepository
+    extends CrudRepository<ItemEntity, ItemsRepositoryState> {
+  static ItemsRepository get I => GetIt.I.get<ItemsRepository>();
 
-  // update-quantity (use)
+  Future<void> fetch();
+
+  Future<ItemEntity> upsert({
+    required ProductEntity product,
+    required DateTime expirationDate,
+    required Measure remainingMeasure,
+    required StorageEntity storage,
+    String? id,
+    int? shelf,
+  });
 
   // delete
-  // TODO: add ItemInput is as a parameter
-  Future<void> delete();
+  Future<bool> delete(String id);
 }

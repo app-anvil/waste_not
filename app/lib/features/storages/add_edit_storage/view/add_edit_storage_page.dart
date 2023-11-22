@@ -14,8 +14,7 @@ class AddEditStoragePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // get storage from repository.
     final repo = StoragesRepository.I;
-    final storage =
-        storageId == null ? null : repo.getStorageOrThrow(storageId!);
+    final storage = storageId == null ? null : repo.getItemOrThrow(storageId!);
     return BlocProvider(
       create: (context) => AddEditStorageCubit(
         repo: repo,
@@ -63,14 +62,18 @@ class AddEditStorageView extends StatelessWidget {
                                 if (curr.status.isFailure) {
                                   // Pop the loading screen
                                   ctx.navRoot.pop();
-                                  // TODO: show error message
+                                  Message.showMessage(
+                                    context,
+                                    message: curr.errorMessage!,
+                                    type: MessageType.error,
+                                  );
                                 }
                               },
                               trigger: cubit.onSave,
                             );
                           }
                         : null,
-                    // FIXME: [text]
+                    // FIXME: l10n
                     child: const Text('Done'),
                   );
                 },
@@ -104,6 +107,7 @@ class _NameSection extends StatelessWidget {
       onChanged: (value) =>
           context.read<AddEditStorageCubit>().onNameChanged(value),
       decoration: const InputDecoration().copyWith(
+        // FIXME: l10n
         labelText: 'Name of the storage',
       ),
     );
@@ -120,6 +124,7 @@ class _DescriptionSection extends StatelessWidget {
       onChanged: (value) =>
           context.read<AddEditStorageCubit>().onDescriptionChanged(value),
       decoration: const InputDecoration().copyWith(
+        // FIXME: l10n
         labelText: 'Description of the storage (optional)',
       ),
       maxLines: 3,
@@ -142,7 +147,7 @@ class _StorageTypeSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // FIXME: [text]
+            // FIXME: l10n
             Text(
               'Type of the storage',
               style: context.tt.titleSmall?.copyWith(
