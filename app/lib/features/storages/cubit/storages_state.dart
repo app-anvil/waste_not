@@ -1,7 +1,7 @@
 part of 'storages_cubit.dart';
 
 final class StoragesState extends SuperBlocState {
-  StoragesState._({
+  const StoragesState._({
     required this.storages,
     required super.status,
     super.errorMessage,
@@ -28,7 +28,7 @@ final class StoragesState extends SuperBlocState {
   StoragesState copyWithError(String errorMessage) {
     return StoragesState._(
       storages: storages,
-      status: status,
+      status: StateStatus.failure,
       errorMessage: errorMessage,
     );
   }

@@ -23,7 +23,7 @@ import '../../../storages_repository.dart';
 //   static final values = [freezer, fridge, pantry];
 // }
 
-abstract interface class StorageEntity extends Equatable {
+abstract interface class StorageEntity extends Equatable implements Selectable {
   abstract final String uuid;
   abstract final String name;
   abstract final String? description;

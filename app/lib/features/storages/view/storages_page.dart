@@ -24,20 +24,28 @@ class StoragesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageScaffold(
-      sliverAppBar: SliverAppBar.large(
-        // FIXME: [text]
-        title: Text(
-          'Storages',
-          style: const TextStyle().copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       fab: FloatingActionButton.small(
         child: const Icon(Icons.add_rounded),
         onPressed: () => context.router.goNamed(AppRoute.addStorage.name),
       ),
-      child: const _StoragesContent(),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            // FIXME: l10n
+            title: Text(
+              'Storages',
+              style: const TextStyle().copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          // TODO(marco): try this package: https://pub.dev/packages/reorderables
+          const SliverFillRemaining(
+            child: _StoragesContent(),
+          ),
+          //const _StoragesContent().toSliver(),
+        ],
+      ),
     );
   }
 }

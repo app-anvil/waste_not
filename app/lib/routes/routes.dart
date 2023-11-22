@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:products_repository/products_repository.dart';
 
-import '../features/add_product/add_product.dart';
 import '../features/features.dart';
 import '../widgets/scaffold_with_nested_navigation.dart';
 import 'app_route.dart';
@@ -20,11 +19,14 @@ final router = GoRouter(
   initialLocation: '/inventory',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
+  //extraCodec: const MyExtraCodec(),
   routes: [
     // initial routes with no app bar, e.g. login and sign up routes
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
-        return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
+        return ScaffoldWithNestedNavigation(
+          navigationShell: navigationShell,
+        );
       },
       branches: [
         StatefulShellBranch(
@@ -55,7 +57,7 @@ final router = GoRouter(
                       parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) {
                         final product = state.extra! as ProductEntity;
-                        return AddProductPage(product);
+                        return AddItemPage(product);
                       },
                     ),
                   ],
@@ -112,3 +114,42 @@ final router = GoRouter(
     ),
   ],
 );
+
+/// A codec that can serialize [ProductEntity].
+// class MyExtraCodec extends Codec<Object?, Object?> {
+//   /// Create a codec.
+//   const MyExtraCodec();
+//   @override
+//   Converter<Object?, Object?> get decoder => const _MyExtraDecoder();
+
+//   @override
+//   Converter<Object?, Object?> get encoder => const _MyExtraEncoder();
+// }
+
+// class _MyExtraDecoder extends Converter<Object?, Object?> {
+//   const _MyExtraDecoder();
+//   @override
+//   Object? convert(Object? input) {
+//     if (input == null) {
+//       return null;
+//     }
+//     final inputAsList = input as List<Object?>;
+//     throw FormatException('Unable tp parse input: $input');
+//   }
+// }
+
+// class _MyExtraEncoder extends Converter<Object?, Object?> {
+//   const _MyExtraEncoder();
+//   @override
+//   Object? convert(Object? input) {
+//     if (input == null) {
+//       return null;
+//     }
+//     switch (input.runtimeType) {
+//       case ProductEntity:
+//         return <Object?>['ProductEntity', (input as ProductEntity)];
+//       default:
+//         throw FormatException('Cannot encode type ${input.runtimeType}');
+//     }
+//   }
+// }

@@ -4,7 +4,7 @@ import '../../../items_repository.dart';
 
 class ShelfItemModel extends ItemModel implements ShelfItemEntity {
   ShelfItemModel({
-    required super.id,
+    required super.uuid,
     required super.product,
     required super.expirationDate,
     required super.createdAt,
@@ -25,7 +25,7 @@ class ShelfItemModel extends ItemModel implements ShelfItemEntity {
     int? shelf,
   }) {
     return ShelfItemModel(
-      id: id,
+      uuid: uuid,
       product: product,
       createdAt: createdAt,
       expirationDate: expirationDate ?? this.expirationDate,

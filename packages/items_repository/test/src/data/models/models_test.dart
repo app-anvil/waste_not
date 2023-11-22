@@ -27,7 +27,7 @@ void main() {
     orderingPriority: 3,
   );
   final pantryItem = PantryItemModel(
-    id: '0',
+    uuid: '0',
     product: product,
     expirationDate: DateTime(2023, 12, 12),
     createdAt: DateTime.now(),
@@ -39,7 +39,7 @@ void main() {
   );
 
   final fridgeItem = ShelfItemModel(
-    id: '1',
+    uuid: '1',
     product: product,
     expirationDate: DateTime(2023, 12, 12),
     createdAt: DateTime.now(),
@@ -51,7 +51,7 @@ void main() {
   );
 
   final freezerItem = ShelfItemModel(
-    id: '1',
+    uuid: '1',
     product: product,
     expirationDate: DateTime(2023, 12, 12),
     createdAt: DateTime.now(),

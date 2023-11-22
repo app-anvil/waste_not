@@ -25,11 +25,17 @@ class StorageTile extends StatelessWidget {
       title: Row(
         children: [
           Expanded(
-            child: Text(
-              storage.name,
-              style: context.tt.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  storage.name,
+                  style: context.tt.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (storage.description != null) Text(storage.description!),
+              ],
             ),
           ),
           WIconButton(
@@ -43,7 +49,6 @@ class StorageTile extends StatelessWidget {
           ),
         ],
       ),
-      subtitle: storage.description != null ? Text(storage.description!) : null,
       trailing: ReorderableDragStartListener(
         index: index,
         child: const Icon(Icons.drag_handle_rounded),

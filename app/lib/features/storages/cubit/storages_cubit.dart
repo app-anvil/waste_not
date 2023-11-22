@@ -11,7 +11,7 @@ class StoragesCubit extends Cubit<StoragesState> with LoggerMixin {
   StoragesCubit(this._repo) : super(StoragesState.initial()) {
     _storagesRepoSubscription = _repo.listen((_, state) {
       if (state is! StoragesRepositoryInitial) {
-        _update(_repo.storages);
+        _update(_repo.items);
       }
     });
 
@@ -52,7 +52,7 @@ class StoragesCubit extends Cubit<StoragesState> with LoggerMixin {
       emit(
         state.copyWith(
           status: StateStatus.success,
-          storages: _repo.storages,
+          storages: _repo.items,
         ),
       );
     } catch (e, s) {

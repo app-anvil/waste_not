@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aev_sdk/aev_sdk.dart';
+import 'package:items_repository/items_repository.dart';
 import 'package:path/path.dart' as path;
 import 'package:storages_repository/storages_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -22,18 +23,21 @@ class IsarServiceImpl implements IsarService {
           StorageDbModel(
             uuid: const Uuid().v4(),
             storageType: StorageType.fridge,
+            // FIXME: l10n
             name: 'Fridge',
             orderingPriority: 0,
           ),
           StorageDbModel(
             uuid: const Uuid().v4(),
             storageType: StorageType.pantry,
+            // FIXME: l10n
             name: 'Pantry',
             orderingPriority: 100,
           ),
           StorageDbModel(
             uuid: const Uuid().v4(),
             storageType: StorageType.freezer,
+            // FIXME: l10n
             name: 'Freezer',
             orderingPriority: 200,
           ),
@@ -53,7 +57,7 @@ class IsarServiceImpl implements IsarService {
           !File(path.join(dir.path, '$dbName$ext')).existsSync();
 
       final isar = await Isar.open(
-        [StorageDbModelSchema],
+        [StorageDbModelSchema, ItemIsarModelSchema],
         name: 'db',
         directory: dir.path,
       );

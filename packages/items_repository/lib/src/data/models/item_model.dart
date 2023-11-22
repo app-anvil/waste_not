@@ -5,7 +5,7 @@ import '../../../items_repository.dart';
 
 abstract class ItemModel implements ItemEntity {
   const ItemModel({
-    required this.id,
+    required this.uuid,
     required this.product,
     required this.expirationDate,
     required this.createdAt,
@@ -14,7 +14,7 @@ abstract class ItemModel implements ItemEntity {
   });
 
   @override
-  final String id;
+  final String uuid;
 
   @override
   final ProductEntity product;
@@ -39,7 +39,7 @@ abstract class ItemModel implements ItemEntity {
 
   @override
   List<Object?> get props => [
-        id,
+        uuid,
         product,
         storage,
         expirationDate,
@@ -48,5 +48,5 @@ abstract class ItemModel implements ItemEntity {
       ];
 
   @override
-  bool? get stringify => true;
+  bool? get stringify => false;
 }

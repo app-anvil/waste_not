@@ -1,3 +1,4 @@
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 
 class AccountAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -6,7 +7,7 @@ class AccountAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar.large(
-      // FIXME: [text]
+      // FIXME: l10n
       title: Text(
         'Account',
         style: const TextStyle().copyWith(
@@ -34,6 +35,19 @@ class AccountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar.large(
+          // FIXME: l10n
+          title: Text(
+            'Account',
+            style: context.tt.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const Placeholder().asSliver,
+      ],
+    );
   }
 }

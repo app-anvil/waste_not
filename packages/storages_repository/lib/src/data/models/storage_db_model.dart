@@ -65,6 +65,16 @@ class StorageDbModel extends StorageModel {
     );
   }
 
+  StorageModel toModel() {
+    return StorageModel(
+      uuid: uuid,
+      name: name,
+      storageType: storageType,
+      description: description,
+      orderingPriority: orderingPriority,
+    );
+  }
+
   @override
   @ignore
   List<Object?> get props => super.props;

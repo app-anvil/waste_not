@@ -4,7 +4,7 @@ import '../../../items_repository.dart';
 
 class PantryItemModel extends ItemModel {
   const PantryItemModel({
-    required super.id,
+    required super.uuid,
     required super.product,
     required super.expirationDate,
     required super.createdAt,
@@ -19,7 +19,7 @@ class PantryItemModel extends ItemModel {
     StorageEntity? storage,
   }) {
     return PantryItemModel(
-      id: id,
+      uuid: uuid,
       product: product,
       expirationDate: expirationDate ?? this.expirationDate,
       createdAt: createdAt,

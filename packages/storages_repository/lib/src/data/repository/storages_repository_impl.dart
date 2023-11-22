@@ -13,7 +13,6 @@ class StoragesRepositoryImpl extends StoragesRepository {
   /// Internal map of storages.
   ///
   /// Keys are the storages' uuids.
-  // Map<String, StorageModel> _storagesMap = {};
 
   /// Internal list of storages.
   List<StorageModel> _storages = <StorageModel>[];
@@ -22,18 +21,18 @@ class StoragesRepositoryImpl extends StoragesRepository {
   ///
   /// The list is not sorted.
   @override
-  List<StorageModel> get storages => [..._storages]; //[..._storagesMap.values];
+  List<StorageModel> get items => [..._storages];
 
   /// Gets a moment in the repository by [id] if currently loaded in the
   /// repository.
   ///
-  /// If the moment is not present in the repository (regardless if it exists
+  /// If the storage is not present in the repository (regardless if it exists
   /// or not) null is returned instead.
   StorageModel? getStorage(String id) =>
       _storages.firstWhereOrNull((s) => s.uuid == id);
 
   @override
-  StorageModel getStorageOrThrow(String id) =>
+  StorageModel getItemOrThrow(String id) =>
       getStorage(id) ??
       (throw StateError(
         '$StorageModel $id not found in the repository',
@@ -47,7 +46,7 @@ class StoragesRepositoryImpl extends StoragesRepository {
   }) async {
     logger.v('Creating new storage...');
     final orderingPriority =
-        storages.last.orderingPriority + orderingPriorityFactor;
+        _storages.last.orderingPriority + orderingPriorityFactor;
     final storage = await _provider.add(
       name: name,
       type: type,
@@ -57,18 +56,18 @@ class StoragesRepositoryImpl extends StoragesRepository {
     //_storagesMap[storage.uuid] = storage;
     _storages.add(storage);
     logger.v('$storage created successfully in the repository...');
-    emit(StoragesRepositoryStorageAddSuccess(storage));
+    emit(StoragesRepositoryStorageAddedSuccess(storage));
   }
 
   @override
-  Future<bool> delete(String id) {
+  Future<bool> delete(String id) async {
     logger.v('Deleting storage with id=$id...');
-    final storage = getStorageOrThrow(id);
-    final deleted = _provider.delete(id);
+    final storage = getItemOrThrow(id);
+    final deleted = await _provider.delete(id);
     //_storagesMap.remove(id);
     _storages.remove(storage);
     logger.d('$storage deleted successfully');
-    emit(StoragesRepositoryStorageDeleteSuccess());
+    emit(StoragesRepositoryStorageDeletedSuccess());
     return deleted;
   }
 
@@ -81,7 +80,7 @@ class StoragesRepositoryImpl extends StoragesRepository {
     String? description,
   }) async {
     logger.v('Updating storage with id: $id...');
-    final storage = getStorageOrThrow(id);
+    final storage = getItemOrThrow(id);
     final updatedObject = await _provider.update(
       id: id,
       name: name,
@@ -93,7 +92,7 @@ class StoragesRepositoryImpl extends StoragesRepository {
     _storages[_storages.indexWhere((element) => element.uuid == id)] =
         updatedObject;
     logger.d('Storage updated successfully');
-    emit(StoragesRepositoryStorageUpdateSuccess(storage, updatedObject));
+    emit(StoragesRepositoryStorageUpdatedSuccess(storage, updatedObject));
     return updatedObject;
   }
 
@@ -111,7 +110,7 @@ class StoragesRepositoryImpl extends StoragesRepository {
     // It is necessary to cast the list otherwise with a direct assignment,
     // the runtype of _storages becomes CastList<StorageBdModel>.
     _storages = [...storages];
-    emit(StoragesRepositoryUpdateSuccess(_storages));
+    emit(StoragesRepositoryUpdatedSuccess(_storages));
   }
 
   /// Gets the orderingPriority for a storage given the value of the
@@ -151,7 +150,7 @@ class StoragesRepositoryImpl extends StoragesRepository {
     } else {
       _storages.add(updatedStorage);
     }
-    emit(StoragesRepositoryUpdateSuccess(storages));
+    emit(StoragesRepositoryUpdatedSuccess(items));
   }
 
   @override

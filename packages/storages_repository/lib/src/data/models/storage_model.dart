@@ -1,5 +1,6 @@
 import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import '../../../storages_repository.dart';
 
 class StorageModel with ModelToStringMixin implements StorageEntity {
@@ -66,4 +67,10 @@ class StorageModel with ModelToStringMixin implements StorageEntity {
 
   @override
   bool? get stringify => true;
+
+  @override
+  Widget? get icon => null;
+
+  @override
+  String get value => name;
 }
