@@ -9,7 +9,7 @@ class ScannerState extends SuperBlocState {
     super.errorMessage,
   });
 
-  const ScannerState.initial()
+  ScannerState.initial()
       : barcode = null,
         product = null,
         super.initial();

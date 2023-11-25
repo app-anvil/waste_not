@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
+import '../logger.dart';
 
 /// Mixin to provide a [Logger] instance to a class.
 ///

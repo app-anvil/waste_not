@@ -1,5 +1,5 @@
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:products_repository/products_repository.dart';
+import '../../../products_repository.dart';
 
 /// {@template product_model}
 /// The implementation of a [ProductEntity].

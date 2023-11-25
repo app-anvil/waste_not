@@ -1,13 +1,14 @@
-import 'package:app/core/core.dart';
-import 'package:app/features/storages/cubit/storages_cubit.dart';
-import 'package:app/routes/app_route.dart';
-import 'package:app/styles/styles.dart';
-import 'package:app/theme/theme.dart';
-import 'package:app/widgets/widgets.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:storages_repository/storages_repository.dart';
+
+import '../../../routes/app_route.dart';
+import '../../../styles/app_colors.dart';
+import '../../../theme/theme.dart';
+import '../../../widgets/w_card.dart';
+import '../../storages/cubit/storages_cubit.dart';
 
 class InventorySliverAppBar extends StatelessWidget {
   const InventorySliverAppBar({super.key});
@@ -107,7 +108,7 @@ class _StorageSection extends StatelessWidget {
 
   Widget _buildShimmer() {
     return Padding(
-      padding: EdgeInsets.only(bottom: $styles.insets.sm),
+      padding: EdgeInsets.only(bottom: $style.insets.sm),
       child: Stack(
         children: [
           const IgnorePointer(
@@ -126,11 +127,10 @@ class _StorageSection extends StatelessWidget {
               baseColor: Colors.grey.shade300,
               highlightColor: Colors.grey.shade100,
               period: const Duration(milliseconds: 1000),
-              enabled: true,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
-                    $styles.corners.cardCorner,
+                    $style.corners.card,
                   ),
                   color: Colors.grey[300],
                 ),
@@ -155,7 +155,7 @@ class _StorageSection extends StatelessWidget {
         }
         if (state.status.isSuccess) {
           return Padding(
-            padding: EdgeInsets.only(bottom: $styles.insets.sm),
+            padding: EdgeInsets.only(bottom: $style.insets.sm),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -171,7 +171,7 @@ class _StorageSection extends StatelessWidget {
                     children: [
                       // FIXME: [text]
                       const Text('Edit'),
-                      HSpan($styles.insets.xs),
+                      HSpan($style.insets.xs),
                       const Icon(
                         Icons.edit_rounded,
                         size: 18,
@@ -195,7 +195,7 @@ class _StorageSection extends StatelessWidget {
                         );
                       },
                       separatorBuilder: (context, index) =>
-                          HSpan($styles.insets.md),
+                          HSpan($style.insets.md),
                       itemCount: state.storages.length,
                     ),
                   ),
@@ -230,7 +230,7 @@ class _StorageItem extends StatelessWidget {
           iconData,
           color: iconColor,
         ),
-        VSpan($styles.insets.xs),
+        VSpan($style.insets.xs),
         Text(
           label,
           style: context.tt.labelLarge,
@@ -266,10 +266,10 @@ class _ItemTile extends StatelessWidget {
       child: Row(
         children: [
           Material(
-            borderRadius: BorderRadius.circular($styles.corners.lg),
+            borderRadius: BorderRadius.circular($style.corners.lg),
             color: context.col.surface,
             child: Container(
-              padding: EdgeInsets.all($styles.insets.xxs),
+              padding: EdgeInsets.all($style.insets.xxs),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
@@ -279,7 +279,7 @@ class _ItemTile extends StatelessWidget {
               ),
             ),
           ),
-          HSpan($styles.insets.sm),
+          HSpan($style.insets.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +290,7 @@ class _ItemTile extends StatelessWidget {
                   itemName,
                   style: context.tt.labelLarge,
                 ),
-                VSpan($styles.insets.xxs),
+                VSpan($style.insets.xxs),
                 Text(
                   storageName,
                   style: context.tt.labelSmall,
@@ -310,13 +310,13 @@ class _ItemTile extends StatelessWidget {
 }
 
 class _ExpiryIndicator extends StatelessWidget {
-  _ExpiryIndicator.ok(this.label) : backgroundColor = $styles.shareColors.ok;
+  _ExpiryIndicator.ok(this.label) : backgroundColor = $style.sharedColors.ok;
 
   _ExpiryIndicator.warning(this.label)
-      : backgroundColor = $styles.shareColors.warning;
+      : backgroundColor = $style.sharedColors.warning;
 
   _ExpiryIndicator.alert(this.label)
-      : backgroundColor = $styles.shareColors.alert;
+      : backgroundColor = $style.sharedColors.alert;
 
   final Color backgroundColor;
 
@@ -326,12 +326,12 @@ class _ExpiryIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: $styles.insets.xxs,
-        horizontal: $styles.insets.lg,
+        vertical: $style.insets.xxs,
+        horizontal: $style.insets.lg,
       ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular($styles.corners.lg),
+        borderRadius: BorderRadius.circular($style.corners.lg),
       ),
       child: Text(
         label,

@@ -1,11 +1,11 @@
-import 'package:app/core/extensions/extensions.dart';
-import 'package:app/features/features.dart';
-import 'package:app/routes/app_route.dart';
-import 'package:app/styles/styles.dart';
-import 'package:app/widgets/widgets.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storages_repository/storages_repository.dart';
+
+import '../../../routes/app_route.dart';
+import '../../../styles/app_colors.dart';
+import '../../features.dart';
 
 class StorageTile extends StatelessWidget {
   const StorageTile({
@@ -38,7 +38,7 @@ class StorageTile extends StatelessWidget {
             icon: Icon(
               Icons.delete_rounded,
               size: 18,
-              color: $styles.shareColors.alert,
+              color: $style.sharedColors.alert,
             ),
           ),
         ],

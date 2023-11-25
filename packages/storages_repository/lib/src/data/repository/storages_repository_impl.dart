@@ -1,6 +1,7 @@
 import 'dart:async';
+
 import 'package:collection/collection.dart';
-import 'package:storages_repository/storages_repository.dart';
+import '../../../storages_repository.dart';
 
 class StoragesRepositoryImpl extends StoragesRepository {
   StoragesRepositoryImpl(this._provider);
@@ -114,11 +115,9 @@ class StoragesRepositoryImpl extends StoragesRepository {
   }
 
   /// Gets the orderingPriority for a storage given the value of the
-  /// [newNoteIndex] that is the index where the caller wants to put a new
+  /// [newIndex] that is the index where the caller wants to put a new
   /// note.
-  double _getOrderingPriorityForIndex(
-    int newIndex,
-  ) {
+  double _getOrderingPriorityForIndex(int newIndex) {
     if (_storages.isEmpty) return 0;
     if (newIndex <= 0) {
       return _storages.first.orderingPriority - orderingPriorityFactor;

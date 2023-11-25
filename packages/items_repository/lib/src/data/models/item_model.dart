@@ -1,6 +1,7 @@
-import 'package:items_repository/items_repository.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
+
+import '../../../items_repository.dart';
 
 abstract class ItemModel implements ItemEntity {
   const ItemModel({

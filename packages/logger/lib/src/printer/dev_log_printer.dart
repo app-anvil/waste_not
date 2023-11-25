@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 
-import 'package:logger/logger.dart';
+import '../../logger.dart';
 
 class DevLogPrinter extends Printer {
   DevLogPrinter(this._formatter) : super(LoggerLevel.trace);

@@ -1,4 +1,4 @@
-import 'package:items_repository/items_repository.dart';
+import '../../../items_repository.dart';
 
 class ProductsRepositoryImpl extends ItemsRepository {
   ProductsRepositoryImpl(this._client);

@@ -1,5 +1,5 @@
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:products_repository/products_repository.dart';
+import '../../../products_repository.dart';
 
 /// {@template open_food_facts_api_client}
 /// A client for the Openfoodfacts API. It extends BaseProductApiClient.

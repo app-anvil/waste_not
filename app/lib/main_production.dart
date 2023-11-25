@@ -1,5 +1,5 @@
-import 'package:app/app/app.dart';
-import 'package:app/bootstrap.dart';
+import 'app/app.dart';
+import 'bootstrap.dart';
 
 void main() {
   bootstrap(() => const App());

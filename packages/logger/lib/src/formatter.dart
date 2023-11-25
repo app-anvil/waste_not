@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:ansicolor/ansicolor.dart';
 import 'package:intl/intl.dart';
 
-import 'package:logger/src/log_item.dart';
-import 'package:logger/src/logger_level.dart';
+import 'log_item.dart';
+import 'logger_level.dart';
 
 class Formatter {
   const Formatter({

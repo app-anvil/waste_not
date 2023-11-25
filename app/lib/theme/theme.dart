@@ -1,5 +1,7 @@
-import 'package:app/styles/styles.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
+
+import '../styles/app_colors.dart';
 
 class AppTheme {
   AppTheme.light()
@@ -36,7 +38,7 @@ class AppTheme {
         elevation: 1,
         shadowColor: const Color(0x42000000),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular($styles.corners.lg),
+          borderRadius: BorderRadius.circular($style.corners.lg),
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -46,9 +48,7 @@ class AppTheme {
         style: ButtonStyle(
           shape: MaterialStatePropertyAll(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                $styles.corners.cardCorner,
-              ),
+              borderRadius: $style.corners.card.asBorderRadius,
             ),
           ),
         ),

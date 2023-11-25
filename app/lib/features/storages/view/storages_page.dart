@@ -1,10 +1,10 @@
-import 'package:app/core/core.dart';
-import 'package:app/features/storages/storages.dart';
-import 'package:app/routes/app_route.dart';
-import 'package:app/widgets/widgets.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storages_repository/storages_repository.dart';
+
+import '../../../routes/app_route.dart';
+import '../storages.dart';
 
 class StoragesPage extends StatelessWidget {
   const StoragesPage({super.key});

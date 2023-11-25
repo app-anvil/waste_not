@@ -1,7 +1,7 @@
 part of 'storages_cubit.dart';
 
 final class StoragesState extends SuperBlocState {
-  const StoragesState._({
+  StoragesState._({
     required this.storages,
     required super.status,
     super.errorMessage,
@@ -34,5 +34,5 @@ final class StoragesState extends SuperBlocState {
   }
 
   @override
-  List<Object?> get props => [storages, status, errorMessage];
+  List<Object?> get props => [storages, ...super.props];
 }

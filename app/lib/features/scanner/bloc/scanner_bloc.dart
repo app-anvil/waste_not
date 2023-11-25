@@ -1,4 +1,4 @@
-import 'package:app/core/core.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
@@ -8,7 +8,7 @@ part 'scanner_event.dart';
 part 'scanner_state.dart';
 
 class ScannerBloc extends Bloc<ScannerEvent, ScannerState> with LoggerMixin {
-  ScannerBloc(this._repo) : super(const ScannerState.initial()) {
+  ScannerBloc(this._repo) : super(ScannerState.initial()) {
     on<ScannerOnBarcodeChanged>(_handleOnBarcodeChanged);
     on<ScannerOnBarcodeReset>(_handleReset);
     on<_ScannerProductFetched>(_handleOnProductFetched);

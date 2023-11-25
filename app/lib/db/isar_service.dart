@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:common_components/common_components.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:path/path.dart' as path;
 import 'package:storages_repository/storages_repository.dart';
 import 'package:uuid/uuid.dart';

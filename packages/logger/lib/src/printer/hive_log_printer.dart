@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
-import 'package:logger/logger.dart';
+import '../../logger.dart';
 
 class HiveLogPrinter extends Printer {
   HiveLogPrinter(

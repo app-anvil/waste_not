@@ -1,4 +1,4 @@
-import 'package:storages_repository/storages_repository.dart';
+import '../../../storages_repository.dart';
 
 abstract interface class StoragesProvider {
   Future<StorageModel> add({

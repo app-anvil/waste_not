@@ -1,5 +1,5 @@
-import 'package:common_components/common_components.dart';
-import 'package:storages_repository/storages_repository.dart';
+import 'package:aev_sdk/aev_sdk.dart';
+import '../../../storages_repository.dart';
 
 sealed class StoragesRepositoryState extends Equatable {
   const StoragesRepositoryState();
