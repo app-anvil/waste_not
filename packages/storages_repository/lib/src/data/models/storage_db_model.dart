@@ -1,7 +1,6 @@
-// ignore_for_file: must_be_immutable, overridden_fields
+import 'package:aev_sdk/aev_sdk.dart';
 
-import 'package:common_components/common_components.dart';
-import 'package:storages_repository/storages_repository.dart';
+import '../../../storages_repository.dart';
 
 part 'storage_db_model.g.dart';
 

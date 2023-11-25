@@ -4,9 +4,9 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:logger/src/formatter.dart';
-import 'package:logger/src/logger_level.dart';
-import 'package:logger/src/printer/printer.dart';
+import '../formatter.dart';
+import '../logger_level.dart';
+import 'printer.dart';
 
 class DefaultPrinter extends Printer {
   DefaultPrinter(this._formatter) : super(LoggerLevel.trace);

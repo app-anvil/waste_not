@@ -1,9 +1,10 @@
-import 'package:app/features/scanner/bloc/scanner_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+
+import '../bloc/scanner_bloc.dart';
 
 class ScannerContent extends StatefulWidget {
   const ScannerContent({super.key});

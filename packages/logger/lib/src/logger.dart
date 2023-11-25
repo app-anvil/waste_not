@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
+import '../logger.dart';
 
 export 'formatter.dart';
 export 'log_item.dart';

@@ -1,7 +1,8 @@
-import 'package:app/l10n/l10n.dart';
-import 'package:app/routes/routes.dart';
-import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../l10n/l10n.dart';
+import '../../routes/routes.dart';
+import '../../theme/theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

@@ -1,10 +1,9 @@
-import 'package:app/core/core.dart';
-import 'package:app/features/storages/add_edit_storage/add_edit_storage.dart';
-import 'package:app/styles/styles.dart';
-import 'package:app/widgets/widgets.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storages_repository/storages_repository.dart';
+
+import '../add_edit_storage.dart';
 
 class AddEditStoragePage extends StatelessWidget {
   const AddEditStoragePage({this.storageId, super.key});
@@ -43,7 +42,7 @@ class AddEditStorageView extends StatelessWidget {
         title: Text(_title),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: $styles.insets.screenHMargin),
+            padding: $style.insets.screenH.asPaddingRight,
             child: UnconstrainedBox(
               child: BlocBuilder<AddEditStorageCubit, AddEditStorageState>(
                 builder: (_, state) {
@@ -51,8 +50,8 @@ class AddEditStorageView extends StatelessWidget {
                     onPressed: state.isValid
                         ? () {
                             final cubit = context.read<AddEditStorageCubit>();
-                            context.navRoot.pushLoading<AddEditStorageCubit,
-                                AddEditStorageState>(
+                            context.navRoot.pushBlocListenerBarrier<
+                                AddEditStorageCubit, AddEditStorageState>(
                               bloc: cubit,
                               listener: (ctx, curr) {
                                 if (curr.status.isSuccess) {
@@ -64,7 +63,7 @@ class AddEditStorageView extends StatelessWidget {
                                 if (curr.status.isFailure) {
                                   // Pop the loading screen
                                   ctx.navRoot.pop();
-                                  // show error message
+                                  // TODO: show error message
                                 }
                               },
                               trigger: cubit.onSave,
@@ -83,11 +82,11 @@ class AddEditStorageView extends StatelessWidget {
       body: PageContent(
         child: CustomScrollView(
           slivers: [
-            const _NameSection().toSliver(),
-            VSpan($styles.insets.sm).toSliver(),
-            const _StorageTypeSection().toSliver(),
-            VSpan($styles.insets.sm).toSliver(),
-            const _DescriptionSection().toSliver(),
+            const _NameSection().asSliver,
+            VSpan($style.insets.sm).asSliver,
+            const _StorageTypeSection().asSliver,
+            VSpan($style.insets.sm).asSliver,
+            const _DescriptionSection().asSliver,
           ],
         ),
       ),

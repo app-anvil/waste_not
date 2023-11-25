@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
+import '../../logger.dart';
 
 export 'default_printer.dart';
 export 'dev_log_printer.dart';

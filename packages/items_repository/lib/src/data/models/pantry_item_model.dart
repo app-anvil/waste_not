@@ -1,5 +1,6 @@
-import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
+
+import '../../../items_repository.dart';
 
 class PantryItemModel extends ItemModel {
   const PantryItemModel({

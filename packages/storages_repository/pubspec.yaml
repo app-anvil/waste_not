@@ -4,17 +4,15 @@ version: 0.1.0+1
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.10.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
-  common_components:
-    path: ../common_components
-  flutter:
-    sdk: flutter
+  aev_sdk: { path: ../aev_sdk }
+  collection: ^1.18.0
+  flutter: { sdk: flutter }
   get_it: ^7.6.4
-  logger:
-    path: ../logger
+  logger: { path: ../logger }
   path: ^1.8.3
   rxdart: ^0.27.7
   uuid: ^4.2.1

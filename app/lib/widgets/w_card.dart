@@ -1,4 +1,4 @@
-import 'package:app/styles/styles.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 
 class WCard extends StatelessWidget {
@@ -10,7 +10,7 @@ class WCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all($styles.insets.cardPadding),
+        padding: $style.insets.card.asPadding,
         child: child,
       ),
     );

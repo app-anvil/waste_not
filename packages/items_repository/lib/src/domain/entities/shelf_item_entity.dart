@@ -1,4 +1,4 @@
-import 'package:items_repository/items_repository.dart';
+import '../../../items_repository.dart';
 
 /// An [ItemEntity] with an optional [shelf].
 abstract interface class ShelfItemEntity implements ItemEntity {

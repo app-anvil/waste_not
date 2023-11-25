@@ -5,13 +5,30 @@
       "path": "."
     },
     {
-      "name": "/app",
+      "name": "📱 app",
       "path": "app"
     },
     {
-      "name": "/packages",
-      "path": "packages",
+      "name": "📦 aev_sdk",
+      "path": "packages/aev_sdk",
     },
+    {
+      "name": "📦 items_repository",
+      "path": "packages/items_repository",
+    },
+    {
+      "name": "📦 logger",
+      "path": "packages/logger",
+    },
+    {
+      "name": "📦 products_repository",
+      "path": "packages/products_repository",
+    },
+    {
+      "name": "📦 storages_repository",
+      "path": "packages/storages_repository",
+    },
+
   ],
   "settings": {
     "todo-tree.tree.showCountsInTree": false,

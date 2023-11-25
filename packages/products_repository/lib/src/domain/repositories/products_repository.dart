@@ -1,4 +1,4 @@
-import 'package:products_repository/products_repository.dart';
+import '../../../products_repository.dart';
 
 /// {@template base_products_repository}
 /// The [ProductsRepository] allows to fetch a [ProductEntity] by a

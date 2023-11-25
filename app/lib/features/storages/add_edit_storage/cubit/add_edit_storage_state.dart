@@ -1,7 +1,7 @@
 part of 'add_edit_storage_cubit.dart';
 
 final class AddEditStorageState extends SuperBlocState {
-  const AddEditStorageState._({
+  AddEditStorageState._({
     required super.status,
     required this.storageType,
     required this.name,

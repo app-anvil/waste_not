@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/core/core.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:storages_repository/storages_repository.dart';

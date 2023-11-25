@@ -1,6 +1,6 @@
-import 'package:common_components/common_components.dart';
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/foundation.dart';
-import 'package:storages_repository/storages_repository.dart';
+import '../../../storages_repository.dart';
 
 class StorageModel with ModelToStringMixin implements StorageEntity {
   StorageModel({

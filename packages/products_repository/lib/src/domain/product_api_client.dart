@@ -1,4 +1,4 @@
-import 'package:products_repository/products_repository.dart';
+import '../../products_repository.dart';
 
 // ignore: one_member_abstracts
 abstract interface class ProductsApiClient {
