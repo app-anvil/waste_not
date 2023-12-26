@@ -3,6 +3,58 @@ import 'package:flutter/material.dart';
 
 import '../styles/app_colors.dart';
 
+ThemeData _buildTheme({
+  required Brightness brightness,
+  required Color seedColor,
+}) {
+  final theme = ThemeData.from(
+    useMaterial3: true,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: brightness,
+    ),
+  );
+  const style = AppStyle();
+  final col = theme.colorScheme;
+
+  final inputDecorationTheme = theme.inputDecorationTheme.copyWith(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(
+        style.corners.sm,
+      ),
+      borderSide: BorderSide(
+        color: col.onPrimary,
+        width: 1,
+      ),
+    ),
+  );
+
+  final cardTheme = theme.cardTheme.copyWith(
+    margin: EdgeInsets.zero,
+    clipBehavior: Clip.hardEdge,
+  );
+
+  return theme.copyWith(
+    navigationRailTheme: const NavigationRailThemeData(),
+    inputDecorationTheme: inputDecorationTheme,
+    cardTheme: cardTheme,
+  );
+}
+
+final _kThemeDark = _buildTheme(
+  brightness: Brightness.dark,
+  seedColor: const Color(0xff3f9a8e),
+);
+
+final _kThemeLight = _buildTheme(
+  brightness: Brightness.light,
+  seedColor: const Color(0xff3f9a8e),
+);
+
+ThemeData getTheme(ThemeMode mode) {
+  return mode == ThemeMode.dark ? _kThemeDark : _kThemeLight;
+}
+
 class AppTheme {
   AppTheme.light()
       : _isLight = true,

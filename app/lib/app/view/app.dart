@@ -9,8 +9,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const isDark = false;
     return MaterialApp.router(
-      theme: AppTheme.dark().themeData,
+      theme: getTheme(
+        isDark ? ThemeMode.dark : ThemeMode.light,
+      ),
+      //theme: AppTheme.dark().themeData,
       // theme: ThemeData(
       //   appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
       //   colorScheme: ColorScheme.fromSwatch(

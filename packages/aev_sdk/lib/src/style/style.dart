@@ -71,7 +71,7 @@ class AppStyleInsets {
   //*****************
   //**** ALIASES ****
   //*****************
-  double get card => md;
+  double get card => sm;
 
   double get screenH => md;
 }

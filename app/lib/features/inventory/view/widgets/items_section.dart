@@ -6,37 +6,97 @@ import 'package:items_repository/items_repository.dart';
 
 import '../../../../theme/theme.dart';
 import '../../../../widgets/w_card.dart';
-import '../../../items/cubit/items_cubit.dart';
+import '../../inventory.dart';
 
 class ItemsSection extends StatelessWidget {
   const ItemsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ItemsCubit, ItemsState>(
-      buildWhen: (prev, current) => prev != current,
-      builder: (context, state) {
-        if (state.status.isFailure) {
-          // TODO(marco): show error
-          return const Center(
-            // FIXME: l10n
-            child: Text('Error'),
-          ).asSliver;
-        }
-        if (state.status.isSuccess) {
-          return SliverList.builder(
-            itemCount: state.items.length,
-            itemBuilder: (context, index) {
-              final item = state.items[index];
-              return _ItemTile(
-                item: item,
-                category: '',
-              );
-            },
-          );
-        }
-        return const Center(child: CupertinoActivityIndicator()).toSliver();
+    return BlocListener<FilterItemsCubit, FilterItemsState>(
+      listener: (context, state) {
+        context.read<InventoryCubit>().applyFilter(state.selectedStorage);
       },
+      child: BlocBuilder<InventoryCubit, InventoryState>(
+        buildWhen: (prev, current) => prev != current,
+        builder: (context, state) {
+          if (state.status.isFailure) {
+            // TODO(marco): show error
+            return const Center(
+              // FIXME: l10n
+              child: Text('Error'),
+            ).asSliver;
+          }
+          if (state.status.isSuccess) {
+            return SliverList.separated(
+              separatorBuilder: (context, index) => VSpan(
+                const AppStyle().insets.xs,
+              ),
+              itemCount: state.groupItems.length,
+              itemBuilder: (context, index) {
+                final obj = state.groupItems[index];
+                if (obj is DateTime) {
+                  return _HeaderTile(obj);
+                }
+                assert(obj is ItemEntity, 'Unexpected object type');
+                final item = obj as ItemEntity;
+                return _ItemTile(
+                  item: item,
+                  category: '',
+                );
+              },
+            );
+          }
+          return const Center(child: CupertinoActivityIndicator()).asSliver;
+        },
+      ),
+    );
+  }
+}
+
+class _HeaderTile extends StatelessWidget {
+  const _HeaderTile(this.dt);
+
+  final DateTime dt;
+
+  Widget _buildIndicator(Color color) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+      ),
+      padding: const EdgeInsets.all(4),
+    );
+  }
+
+  // n days left
+
+  @override
+  Widget build(BuildContext context) {
+    final Color color;
+    final String text;
+    if (dt.toDate().isBefore(DateTime.now().toDate())) {
+      text = 'Expired';
+      color = const Color(0xffec5c54);
+    } else {
+      final remainingDays =
+          dt.toDate().difference(DateTime.now().toDate()).inDays;
+      if (remainingDays > 2) {
+        color = const Color(0xff3f9a8e);
+      } else {
+        color = const Color(0xfffd8d35);
+      }
+      text = '$remainingDays days left';
+    }
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: const AppStyle().insets.xs),
+      child: Row(
+        children: [
+          _buildIndicator(color),
+          HSpan(const AppStyle().insets.xs),
+          Text(text),
+        ],
+      ),
     );
   }
 }
@@ -123,7 +183,7 @@ class _ItemTile extends StatelessWidget {
               ],
             ),
           ),
-          _buildIndicator(),
+          //_buildIndicator(),
         ],
       ),
     );
