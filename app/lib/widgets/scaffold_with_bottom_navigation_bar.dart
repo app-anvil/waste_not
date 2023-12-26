@@ -2,6 +2,7 @@ import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 
 import '../features/features.dart';
+import '../l10n/l10n.dart';
 import '../routes/app_route.dart';
 
 class ScaffoldWithBottomNavigationBar extends StatelessWidget {
@@ -15,18 +16,18 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onDestinationSelected;
 
-  Widget _buildAppBar(BuildContext context) {
-    // I try using matchedLocation, but with material page the location doesn't
-    // change. (Go to scanner page from pantry).
-    // or use context.router.location()
-    final uri = context.routerState.uri.toString();
-    if (uri.contains(AppRoute.inventory.rootPath)) {
-      return const InventorySliverAppBar();
-    } else if (uri.contains(AppRoute.account.rootPath)) {
-      return const AccountAppBar();
-    }
-    throw ArgumentError('Invalid uri root path: $uri');
-  }
+  // Widget _buildAppBar(BuildContext context) {
+  //   // I try using matchedLocation, but with material page the location doesn't
+  //   // change. (Go to scanner page from pantry).
+  //   // or use context.router.location()
+  //   final uri = context.routerState.uri.toString();
+  //   if (uri.contains(AppRoute.inventory.rootPath)) {
+  //     return const InventorySliverAppBar();
+  //   } else if (uri.contains(AppRoute.account.rootPath)) {
+  //     return const AccountAppBar();
+  //   }
+  //   throw ArgumentError('Invalid uri root path: $uri');
+  // }
 
   // String _buildAppBarTitle(BuildContext context) {
   //   // I try using matchedLocation, but with material page the location doesn't
@@ -50,13 +51,12 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
           : null,
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
-        destinations: const [
+        destinations: [
           // products
           NavigationDestination(
-            icon: Icon(Icons.home_rounded),
+            icon: const Icon(Icons.home_rounded),
             //selectedIcon:  Icon(Icons.home_rounded),
-            // FIXME: l10n
-            label: 'Pantry',
+            label: context.l10n.pantryBottomBarItemLabel,
           ),
           // NavigationDestination(
           //   icon:  Icon(Icons.scanner_rounded),
@@ -64,10 +64,9 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
           //   label: 'Scanner',
           // ),
           NavigationDestination(
-            icon: Icon(Icons.person_rounded),
+            icon: const Icon(Icons.person_rounded),
             //selectedIcon:  Icon(Icons.shop_rounded),
-            // FIXME: l10n
-            label: 'Account',
+            label: context.l10n.accountBottomBarItemLabel,
           ),
         ],
         onDestinationSelected: onDestinationSelected,
