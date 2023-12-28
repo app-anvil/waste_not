@@ -1,14 +1,14 @@
 {
-    "@@locale": "en",
-    "inventoryAppBarTitle": "Inventory",
+    "@@locale": "it",
+    "inventoryAppBarTitle": "Inventatio",
     "@inventoryAppBarTitle": {
         "description": "Text shown in the AppBar of the Inventory Page"
     },
-    "accountAppBarTitle": "Account",
+    "accountAppBarTitle": "Profilo",
     "@accountAppBarTitle": {
         "description": "Text shown in the AppBar of the Account Page"
     },
-    "pantryBottomBarItemLabel": "Pantry",
-    "accountBottomBarItemLabel": "Account",
-    "editAction": "Edit"
+    "pantryBottomBarItemLabel": "Dispensa",
+    "accountBottomBarItemLabel": "Profilo",
+    "editAction": "Modifica"
 }

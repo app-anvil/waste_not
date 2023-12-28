@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'package:aev_sdk/aev_sdk.dart';
 
 import '../../../storages_repository.dart';

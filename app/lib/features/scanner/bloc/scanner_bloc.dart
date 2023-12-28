@@ -8,7 +8,7 @@ part 'scanner_event.dart';
 part 'scanner_state.dart';
 
 class ScannerBloc extends Bloc<ScannerEvent, ScannerState> with LoggerMixin {
-  ScannerBloc(this._repo) : super(ScannerState.initial()) {
+  ScannerBloc(this._repo) : super(const ScannerState.initial()) {
     on<ScannerOnBarcodeChanged>(_handleOnBarcodeChanged);
     on<ScannerOnBarcodeReset>(_handleReset);
     on<_ScannerProductFetched>(_handleOnProductFetched);
