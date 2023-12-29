@@ -17,6 +17,7 @@ abstract interface class ItemsProvider {
     required DateTime expirationDate,
     required Measure remainingMeasure,
     required StorageEntity storage,
+    required DateTime? openedAt,
     int? shelf,
   });
 

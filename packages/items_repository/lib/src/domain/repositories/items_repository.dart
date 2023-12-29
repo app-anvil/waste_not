@@ -15,8 +15,14 @@ abstract class ItemsRepository
     required DateTime expirationDate,
     required Measure remainingMeasure,
     required StorageEntity storage,
+    required DateTime? openedAt,
     String? id,
     int? shelf,
+  });
+
+  Future<void> consume({
+    required String id,
+    required double quantity,
   });
 
   // delete

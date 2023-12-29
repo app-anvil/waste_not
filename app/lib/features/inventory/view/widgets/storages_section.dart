@@ -21,7 +21,7 @@ class StorageSection extends StatelessWidget {
           const IgnorePointer(
             child: Opacity(
               opacity: 0,
-              child: WCard(
+              child: A2Card(
                 child: _PrototypeStorageItem(),
               ),
             ),
@@ -82,7 +82,7 @@ class StorageSection extends StatelessWidget {
                     ],
                   ),
                 ),
-                WCard(
+                A2Card(
                   child: PrototypeHeight(
                     prototype: _StorageItem(
                       storage: state.storages.first,
