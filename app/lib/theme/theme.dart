@@ -1,5 +1,6 @@
 import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../styles/app_colors.dart';
 
@@ -7,11 +8,20 @@ ThemeData _buildTheme({
   required Brightness brightness,
   required Color seedColor,
 }) {
+  // see https://github.com/flutter/flutter/issues/41067
   final theme = ThemeData.from(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
       seedColor: seedColor,
+      // color for the textTheme is black if the theme is constructed with
+      // Brightness.light
       brightness: brightness,
+    ),
+  ).copyWith(
+    appBarTheme: AppBarTheme(
+      systemOverlayStyle: brightness == Brightness.light
+          ? SystemUiOverlayStyle.dark
+          : SystemUiOverlayStyle.light,
     ),
   );
   const style = AppStyle();

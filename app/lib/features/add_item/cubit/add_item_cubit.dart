@@ -8,16 +8,26 @@ import 'package:storages_repository/storages_repository.dart';
 
 part 'add_item_state.dart';
 
-class AddItemCubit extends Cubit<AddItemState> with LoggerMixin {
-  AddItemCubit({
+class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
+  AddEditItemCubit.add({
     required ProductEntity product,
     required ItemsRepository itemsRepo,
   })  : _itemsRepo = itemsRepo,
+        _item = null,
         super(
-          AddItemState.initial(product),
+          AddEditItemState.initial(product),
         );
 
+  AddEditItemCubit.edit({
+    required ItemsRepository itemsRepo,
+    required ItemEntity item,
+  })  : _itemsRepo = itemsRepo,
+        _item = item,
+        super(AddEditItemState.initial(item.product, item: item));
+
   final ItemsRepository _itemsRepo;
+
+  final ItemEntity? _item;
 
   void onExpirationDateChanged(DateTime value) {
     emit(state.copyWith(expirationDate: value));
@@ -35,7 +45,7 @@ class AddItemCubit extends Cubit<AddItemState> with LoggerMixin {
     emit(state.copyWith(unitOfMeasure: value));
   }
 
-  Future<void> onAdd() async {
+  Future<void> onSave() async {
     if (!state.isValid) {
       // FIXME:l10n
       state.copyWithError('Insert all required fields');
@@ -51,6 +61,8 @@ class AddItemCubit extends Cubit<AddItemState> with LoggerMixin {
           unitOfMeasure: state.unitOfMeasure,
         ),
         storage: state.storage!,
+        openedAt: null,
+        id: _item?.uuid,
       );
       emit(state.copyWith(status: StateStatus.success));
     } catch (e, s) {

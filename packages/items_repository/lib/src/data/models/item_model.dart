@@ -11,6 +11,7 @@ abstract class ItemModel implements ItemEntity {
     required this.createdAt,
     required this.remainingMeasure,
     required this.storage,
+    this.openedAt,
   });
 
   @override
@@ -24,6 +25,9 @@ abstract class ItemModel implements ItemEntity {
 
   @override
   final DateTime createdAt;
+
+  @override
+  final DateTime? openedAt;
 
   @override
   final StorageEntity storage;
@@ -43,6 +47,7 @@ abstract class ItemModel implements ItemEntity {
         product,
         storage,
         expirationDate,
+        openedAt,
         remainingMeasure,
         createdAt,
       ];

@@ -51,8 +51,6 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> with LoggerMixin {
     ScannerOnBarcodeReset event,
     Emitter<ScannerState> emit,
   ) {
-    emit(
-      state.copyWith(barcode: const Optional(null)),
-    );
+    emit(const ScannerState.initial());
   }
 }

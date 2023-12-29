@@ -21,6 +21,9 @@ abstract interface class ItemEntity extends Equatable {
   /// The created date of the item.
   abstract final DateTime createdAt;
 
+  /// The date when the item was opened.
+  abstract final DateTime? openedAt;
+
   /// The location where the product will be positioned.
   abstract final StorageEntity storage;
 

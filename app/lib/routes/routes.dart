@@ -57,10 +57,19 @@ final router = GoRouter(
                       parentNavigatorKey: _rootNavigatorKey,
                       builder: (context, state) {
                         final product = state.extra! as ProductEntity;
-                        return AddItemPage(product);
+                        return AddEditItemPage.add(product);
                       },
                     ),
                   ],
+                ),
+                GoRoute(
+                  path: '${AppRoute.editItem.path}/:id',
+                  name: AppRoute.editItem.name,
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    return AddEditItemPage.edit(itemId: id);
+                  },
                 ),
                 GoRoute(
                   path: AppRoute.storages.path,

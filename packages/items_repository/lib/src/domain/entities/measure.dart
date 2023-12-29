@@ -1,6 +1,8 @@
+import 'package:aev_sdk/aev_sdk.dart';
+
 import '../../../items_repository.dart';
 
-class Measure {
+class Measure extends Equatable with ModelToStringMixin {
   Measure({
     required this.quantity,
     required this.unitOfMeasure,
@@ -9,4 +11,15 @@ class Measure {
   final double quantity;
 
   final UnitOfMeasure unitOfMeasure;
+
+  @override
+  Map<String, dynamic> $toMap() {
+    return {
+      'quantity': quantity,
+      'unitOfMeasure': unitOfMeasure.value,
+    };
+  }
+
+  @override
+  List<Object?> get props => [quantity, unitOfMeasure];
 }

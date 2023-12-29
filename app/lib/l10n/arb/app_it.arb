@@ -1,6 +1,6 @@
 {
     "@@locale": "it",
-    "inventoryAppBarTitle": "Inventatio",
+    "inventoryAppBarTitle": "Dispensa",
     "@inventoryAppBarTitle": {
         "description": "Text shown in the AppBar of the Inventory Page"
     },
@@ -8,7 +8,45 @@
     "@accountAppBarTitle": {
         "description": "Text shown in the AppBar of the Account Page"
     },
+    "snackBarNotImplemented": "Questa funzionalità non è ancora disponibile. Stiamo lavorando duramente per rilasciarla il prima possibile!",
     "pantryBottomBarItemLabel": "Dispensa",
     "accountBottomBarItemLabel": "Profilo",
-    "editAction": "Modifica"
+    "editAction": "Modifica",
+    "openAction": "Apri",
+    "undoOpenAction": "Richiudi",
+    "deleteAction": "Rimuovi",
+    "consumeAction": "Consuma",
+    "fullConsumeAction": "Consumato completamente",
+    "undoAction": "Annulla",
+    "inventoryPageItemDeletedSnackbarText": "Item \"{itemTitle}\" rimosso.",
+    "@inventoryPageItemDeletedSnackbarText": {
+        "description": "Snackbar text shown when a todo is deleted from the Inventory Page",
+        "placeholders": {
+            "itemTitle": {
+                "description": "The name of the item's product that was deleted"
+            }
+        }
+    },
+    "inventoryPageItemFullConsumedSnackbarText": "Item \"{itemTitle}\" completamente consumato.",
+    "@inventoryPageItemFullConsumedSnackbarText": {
+        "description": "Snackbar text shown when a todo is full consumed from the Inventory Page",
+        "placeholders": {
+            "itemTitle": {
+                "description": "The name of the item's product that was full consumed"
+            }
+        }
+    },
+    "inventoryPageItemHeaderExpired": "Scaduto",
+    "inventoryPageItemHeaderExpiredInDays": "{count, plural, =0{Scade oggi} =1{Scade tra 1 giorno} other{Scade tra {count} giorni}}",
+    "@expiredInDays": {
+    "description": "",
+        "placeholders": {
+            "count": {
+            "type": "num",
+            "format": "compact"
+            }
+        }
+    },
+    "inventoryPageNoItems": "Non ci sono prodotti nella tua dispensa",
+    "inventoryPageSelectedFilterNoItems": "Non ci sono prodotti per il filtro selezionato"
 }

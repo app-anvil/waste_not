@@ -15,7 +15,8 @@ class SelectionPicker<T extends Selectable> {
       enableDrag: true,
       isScrollControlled: true,
       useRootNavigator: true,
-      backgroundColor: Colors.transparent,
+      showDragHandle: true,
+      backgroundColor: context.col.surfaceVariant,
       builder: (ctx) {
         return _SelectionMbs(options: options);
       },

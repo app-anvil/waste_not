@@ -3,6 +3,9 @@ import '../../../items_repository.dart';
 
 sealed class ItemsRepositoryState extends Equatable {
   const ItemsRepositoryState();
+
+  @override
+  bool? get stringify => false;
 }
 
 class ItemsRepositoryInitial extends ItemsRepositoryState {
@@ -32,9 +35,18 @@ class ItemsRepositoryItemUpdatedSuccess extends ItemsRepositoryState {
   List<Object?> get props => [prevItem, item];
 }
 
-class ItemsRepositoryItemDeletedSuccess extends ItemsRepositoryState {
+class ItemsRepositoryItemFullConsumedSuccess extends ItemsRepositoryState {
+  const ItemsRepositoryItemFullConsumedSuccess(this.item);
+  final ItemEntity item;
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [item];
+}
+
+class ItemsRepositoryItemDeletedSuccess extends ItemsRepositoryState {
+  const ItemsRepositoryItemDeletedSuccess(this.item);
+  final ItemEntity item;
+  @override
+  List<Object?> get props => [item];
 }
 
 class ItemsRepositoryUpdatedSuccess extends ItemsRepositoryState {

@@ -3,6 +3,9 @@ import '../../../storages_repository.dart';
 
 sealed class StoragesRepositoryState extends Equatable {
   const StoragesRepositoryState();
+
+  @override
+  bool? get stringify => false;
 }
 
 class StoragesRepositoryInitial extends StoragesRepositoryState {

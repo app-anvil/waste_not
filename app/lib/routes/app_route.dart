@@ -9,6 +9,8 @@ enum AppRoute {
   storages,
   addStorage,
   editStorage,
+
+  editItem,
 }
 
 extension AppRoutePathExt on AppRoute {
@@ -20,6 +22,7 @@ extension AppRoutePathExt on AppRoute {
         AppRoute.account => 'account',
         AppRoute.addStorage => 'add-storage',
         AppRoute.editStorage => 'edit-storage',
+        AppRoute.editItem => 'edit-item',
       };
 
   String get rootPath => '/$path';
