@@ -26,10 +26,13 @@ class ItemIsarModel {
   ///
   late int? shelf;
 
+  late DateTime? openedAt;
+
   ItemIsarModel copyWith({
     DateTime? expirationDate,
     MeasureIsar? remainingMeasure,
     StorageDbModel? storage,
+    Optional<DateTime?> openedAt = const Optional.absent(),
     int? shelf,
   }) {
     return ItemIsarModel()
@@ -40,7 +43,8 @@ class ItemIsarModel {
       ..shelf = shelf ?? this.shelf
       ..storage.value = storage ?? this.storage.value
       ..expirationDate = expirationDate ?? this.expirationDate
-      ..remainingMeasure = remainingMeasure ?? this.remainingMeasure;
+      ..remainingMeasure = remainingMeasure ?? this.remainingMeasure
+      ..openedAt = openedAt.present ? openedAt.value : this.openedAt;
   }
 
   ItemModel toModel() {
@@ -63,6 +67,7 @@ class ItemIsarModel {
           quantity: remainingMeasure.quantity,
           unitOfMeasure: remainingMeasure.unitOfMeasure,
         ),
+        openedAt: openedAt,
         storage: storage.value!,
         product: productModel,
       );
@@ -75,6 +80,7 @@ class ItemIsarModel {
         quantity: remainingMeasure.quantity,
         unitOfMeasure: remainingMeasure.unitOfMeasure,
       ),
+      openedAt: openedAt,
       storage: storage.value!,
       product: productModel,
       // check value of null on isar

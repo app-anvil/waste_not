@@ -1,3 +1,4 @@
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,11 +35,20 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
   Widget build(BuildContext context) {
     // bloc builder scanner cubit, with listener, when code is not null
     // performs a fetch.
-    return BlocBuilder<ScannerBloc, ScannerState>(
-      builder: (context, state) {
-        if (state.status.isProgress) {
-          return const Center(child: CupertinoActivityIndicator());
+    return BlocConsumer<ScannerBloc, ScannerState>(
+      listener: (context, state) {
+        if (state.status.isFailure) {
+          Message.showMessage(
+            context,
+            message: state.errorMessage!,
+            type: MessageType.error,
+          );
         }
+      },
+      // Before an indicator appeared if state status was n progress, but
+      // if mobile scanner is not in the tree, the controller cannot be able to
+      // detect a new barcode, so we use a stack.
+      builder: (context, state) {
         return Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -57,11 +67,13 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
                 );
               },
               onDetect: (capture) {
-                logger.d('${capture.barcodes.first.rawValue}');
-                if (capture.barcodes.first.rawValue != null) {
+                logger.d('${capture.barcodes.last.rawValue}');
+                _controller.barcodes.last
+                    .then((value) => logger.d('${value.raw}'));
+                if (capture.barcodes.last.rawValue != null) {
                   context.read<ScannerBloc>().add(
                         ScannerOnBarcodeChanged(
-                          capture.barcodes.first.rawValue!,
+                          capture.barcodes.last.rawValue!,
                         ),
                       );
                 }
@@ -107,6 +119,9 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
                 ),
               ),
             ),
+            if (state.status.isProgress) ...[
+              const Center(child: CupertinoActivityIndicator()),
+            ],
           ],
         );
       },

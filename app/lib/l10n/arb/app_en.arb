@@ -8,7 +8,45 @@
     "@accountAppBarTitle": {
         "description": "Text shown in the AppBar of the Account Page"
     },
+    "snackBarNotImplemented": "This feature is not yet available. We are working hard to release it as soon as possible!",
     "pantryBottomBarItemLabel": "Pantry",
     "accountBottomBarItemLabel": "Account",
-    "editAction": "Edit"
+    "editAction": "Edit",
+    "openAction": "Open",
+    "undoOpenAction": "Undo open",
+    "deleteAction": "Delete",
+    "consumeAction": "Partially consumed",
+    "fullConsumeAction": "Fully consumed",
+    "undoAction": "Undo",
+    "inventoryPageItemDeletedSnackbarText": "Item \"{itemTitle}\" deleted.",
+    "@inventoryPageItemDeletedSnackbarText": {
+        "description": "Snackbar text shown when a todo is deleted from the Inventory Page",
+        "placeholders": {
+            "itemTitle": {
+                "description": "The name of the item's product that was deleted"
+            }
+        }
+    },
+    "inventoryPageItemFullConsumedSnackbarText": "Item \"{itemTitle}\" full consumed.",
+    "@inventoryPageItemFullConsumedSnackbarText": {
+        "description": "Snackbar text shown when a todo is full consumed from the Inventory Page",
+        "placeholders": {
+            "itemTitle": {
+                "description": "The name of the item's product that was full consumed"
+            }
+        }
+    },
+    "inventoryPageItemHeaderExpired": "Expired",
+    "inventoryPageItemHeaderExpiredInDays": "{count, plural, =0{Expired today} =1{1 day left} other{{count} days left}}",
+    "@expiredInDays": {
+    "description": "",
+        "placeholders": {
+            "count": {
+            "type": "num",
+            "format": "compact"
+            }
+        }
+    },
+    "inventoryPageNoItems": "There are no products in your pantry",
+    "inventoryPageSelectedFilterNoItems": "There are no products for the selected filter"
 }

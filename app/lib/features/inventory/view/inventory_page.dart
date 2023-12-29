@@ -8,22 +8,6 @@ import '../../../l10n/l10n.dart';
 import '../../../routes/app_route.dart';
 import '../../features.dart';
 
-// class InventorySliverAppBar extends StatelessWidget {
-//   const InventorySliverAppBar({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SliverAppBar.large(
-//       title: Text(
-//         context.l10n.inventoryAppBarTitle,
-//         style: const TextStyle().copyWith(
-//           fontWeight: FontWeight.bold,
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class InventoryFAB extends StatelessWidget {
   const InventoryFAB({super.key});
 
@@ -47,6 +31,9 @@ class InventoryPage extends StatelessWidget {
           create: (context) => StoragesCubit(StoragesRepository.I)..onFetch(),
         ),
         BlocProvider(
+          create: (context) => OpenedItemsCubit(ItemsRepository.I),
+        ),
+        BlocProvider(
           create: (context) => InventoryCubit(ItemsRepository.I)..onFetch(),
         ),
         BlocProvider(create: (context) => FilterItemsCubit()),
@@ -61,31 +48,84 @@ class InventoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar.large(
-          title: Text(
-            context.l10n.inventoryAppBarTitle,
-            style: const TextStyle().copyWith(
-              fontWeight: FontWeight.bold,
+    final l10n = context.l10n;
+    return BlocListener<InventoryCubit, InventoryState>(
+      listenWhen: (previous, current) =>
+          (previous.lastItemDeleted != current.lastItemDeleted &&
+              current.lastItemDeleted != null) ||
+          (previous.lastItemFullConsumed != current.lastItemFullConsumed &&
+              current.lastItemFullConsumed != null),
+      listener: (context, state) {
+        if (state.lastItemDeleted != null) {
+          final deletedItem = state.lastItemDeleted!;
+          Message.showMessage(
+            context,
+            message: l10n.inventoryPageItemDeletedSnackbarText(
+              deletedItem.product.name!,
+            ),
+            type: MessageType.info,
+            action: SnackBarAction(
+              label: l10n.undoAction,
+              onPressed: () {
+                Message.hideSnackBar(context);
+                context.read<InventoryCubit>().onUndoDeletionItemRequested();
+              },
+            ),
+          );
+        }
+        if (state.lastItemFullConsumed != null) {
+          final consumedItem = state.lastItemFullConsumed!;
+          Message.showMessage(
+            context,
+            message: l10n.inventoryPageItemFullConsumedSnackbarText(
+              consumedItem.product.name!,
+            ),
+            type: MessageType.info,
+            action: SnackBarAction(
+              label: l10n.undoAction,
+              onPressed: () {
+                Message.hideSnackBar(context);
+                context
+                    .read<InventoryCubit>()
+                    .onUndoFullConsumptionItemRequested();
+              },
+            ),
+          );
+        }
+      },
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            title: Text(
+              context.l10n.inventoryAppBarTitle,
+              style: const TextStyle().copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.symmetric(
-            horizontal: $style.insets.screenH,
+          SliverPadding(
+            padding: EdgeInsets.symmetric(
+              horizontal: $style.insets.screenH,
+            ),
+            sliver: const StorageSection().asSliver,
           ),
-          sliver: const StorageSection().asSliver,
-        ),
-        SliverPadding(
-          padding: EdgeInsets.only(
-            right: $style.insets.screenH,
-            left: $style.insets.screenH,
-            bottom: 70,
+          SliverPadding(
+            padding: EdgeInsets.only(
+              right: $style.insets.screenH,
+              left: $style.insets.screenH,
+            ),
+            sliver: const OpenedItemsSection(),
           ),
-          sliver: const ItemsSection(),
-        ),
-      ],
+          SliverPadding(
+            padding: EdgeInsets.only(
+              right: $style.insets.screenH,
+              left: $style.insets.screenH,
+              bottom: 70,
+            ),
+            sliver: const ItemsSection(),
+          ),
+        ],
+      ),
     );
   }
 }

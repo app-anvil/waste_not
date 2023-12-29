@@ -9,7 +9,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const isDark = false;
+    const isDark = true;
     return MaterialApp.router(
       theme: getTheme(
         isDark ? ThemeMode.dark : ThemeMode.light,
