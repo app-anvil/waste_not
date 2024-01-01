@@ -27,25 +27,30 @@ const ItemIsarModelSchema = CollectionSchema(
       name: r'expirationDate',
       type: IsarType.dateTime,
     ),
-    r'product': PropertySchema(
+    r'openedAt': PropertySchema(
       id: 2,
+      name: r'openedAt',
+      type: IsarType.dateTime,
+    ),
+    r'product': PropertySchema(
+      id: 3,
       name: r'product',
       type: IsarType.object,
       target: r'ProductIsar',
     ),
     r'remainingMeasure': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'remainingMeasure',
       type: IsarType.object,
       target: r'MeasureIsar',
     ),
     r'shelf': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'shelf',
       type: IsarType.long,
     ),
     r'uuid': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'uuid',
       type: IsarType.string,
     )
@@ -112,20 +117,21 @@ void _itemIsarModelSerialize(
 ) {
   writer.writeDateTime(offsets[0], object.createdAt);
   writer.writeDateTime(offsets[1], object.expirationDate);
+  writer.writeDateTime(offsets[2], object.openedAt);
   writer.writeObject<ProductIsar>(
-    offsets[2],
+    offsets[3],
     allOffsets,
     ProductIsarSchema.serialize,
     object.product,
   );
   writer.writeObject<MeasureIsar>(
-    offsets[3],
+    offsets[4],
     allOffsets,
     MeasureIsarSchema.serialize,
     object.remainingMeasure,
   );
-  writer.writeLong(offsets[4], object.shelf);
-  writer.writeString(offsets[5], object.uuid);
+  writer.writeLong(offsets[5], object.shelf);
+  writer.writeString(offsets[6], object.uuid);
 }
 
 ItemIsarModel _itemIsarModelDeserialize(
@@ -138,20 +144,21 @@ ItemIsarModel _itemIsarModelDeserialize(
   object.createdAt = reader.readDateTime(offsets[0]);
   object.expirationDate = reader.readDateTime(offsets[1]);
   object.id = id;
+  object.openedAt = reader.readDateTimeOrNull(offsets[2]);
   object.product = reader.readObjectOrNull<ProductIsar>(
-        offsets[2],
+        offsets[3],
         ProductIsarSchema.deserialize,
         allOffsets,
       ) ??
       ProductIsar();
   object.remainingMeasure = reader.readObjectOrNull<MeasureIsar>(
-        offsets[3],
+        offsets[4],
         MeasureIsarSchema.deserialize,
         allOffsets,
       ) ??
       MeasureIsar();
-  object.shelf = reader.readLongOrNull(offsets[4]);
-  object.uuid = reader.readString(offsets[5]);
+  object.shelf = reader.readLongOrNull(offsets[5]);
+  object.uuid = reader.readString(offsets[6]);
   return object;
 }
 
@@ -167,22 +174,24 @@ P _itemIsarModelDeserializeProp<P>(
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 3:
       return (reader.readObjectOrNull<ProductIsar>(
             offset,
             ProductIsarSchema.deserialize,
             allOffsets,
           ) ??
           ProductIsar()) as P;
-    case 3:
+    case 4:
       return (reader.readObjectOrNull<MeasureIsar>(
             offset,
             MeasureIsarSchema.deserialize,
             allOffsets,
           ) ??
           MeasureIsar()) as P;
-    case 4:
-      return (reader.readLongOrNull(offset)) as P;
     case 5:
+      return (reader.readLongOrNull(offset)) as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -499,6 +508,80 @@ extension ItemIsarModelQueryFilter
   }
 
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      openedAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'openedAt',
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      openedAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'openedAt',
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      openedAtEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'openedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      openedAtGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'openedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      openedAtLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'openedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      openedAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'openedAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
       shelfIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -771,6 +854,19 @@ extension ItemIsarModelQuerySortBy
     });
   }
 
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> sortByOpenedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'openedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      sortByOpenedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'openedAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> sortByShelf() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'shelf', Sort.asc);
@@ -837,6 +933,19 @@ extension ItemIsarModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenByOpenedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'openedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      thenByOpenedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'openedAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenByShelf() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'shelf', Sort.asc);
@@ -877,6 +986,12 @@ extension ItemIsarModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct> distinctByOpenedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'openedAt');
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct> distinctByShelf() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'shelf');
@@ -909,6 +1024,12 @@ extension ItemIsarModelQueryProperty
       expirationDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'expirationDate');
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, DateTime?, QQueryOperations> openedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'openedAt');
     });
   }
 

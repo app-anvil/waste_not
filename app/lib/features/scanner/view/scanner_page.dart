@@ -42,6 +42,8 @@ class ScannerView extends StatelessWidget {
             extra: state.product,
           );
         }
+        // We reset all the state of the bloc to avoid same possible errors.
+        context.read<ScannerBloc>().add(const ScannerOnBarcodeReset());
       },
       child: Scaffold(
         appBar: AppBar(

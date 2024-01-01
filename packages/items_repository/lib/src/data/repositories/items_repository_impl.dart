@@ -35,6 +35,7 @@ class ItemsRepositoryImpl extends ItemsRepository {
     final items = await _provider.fetch();
     for (final item in items) {
       tempMap[item.uuid] = item;
+      // TODO: ask, is it useful? Is ItemsRepositoryItemsLoadedSuccess enough?
       emit(ItemsRepositoryItemLoadedSuccess(item));
     }
     logger.d('${items.length} $ItemEntity(s) fetched');
@@ -47,6 +48,7 @@ class ItemsRepositoryImpl extends ItemsRepository {
     required DateTime expirationDate,
     required Measure remainingMeasure,
     required StorageEntity storage,
+    required DateTime? openedAt,
     String? id,
     int? shelf,
   }) async {
@@ -68,6 +70,7 @@ class ItemsRepositoryImpl extends ItemsRepository {
           expirationDate: expirationDate,
           remainingMeasure: remainingMeasure,
           storage: storage,
+          openedAt: openedAt,
           shelf: shelf,
         );
       } else {
@@ -79,11 +82,12 @@ class ItemsRepositoryImpl extends ItemsRepository {
           expirationDate: expirationDate,
           remainingMeasure: remainingMeasure,
           storage: storage,
+          openedAt: openedAt,
           shelf: shelf,
         );
       }
       _itemsMap[updatedItem.uuid] = updatedItem;
-      logger.d('Item updated successfully');
+      logger.d('Item updated successfully: $prevItem, $updatedItem');
       emit(ItemsRepositoryItemUpdatedSuccess(prevItem, updatedItem));
       return updatedItem;
     } else {
@@ -109,7 +113,7 @@ class ItemsRepositoryImpl extends ItemsRepository {
     final deleted = await _provider.delete(id);
     _itemsMap.remove(id);
     logger.d('$item deleted successfully');
-    emit(ItemsRepositoryItemDeletedSuccess());
+    emit(ItemsRepositoryItemDeletedSuccess(item));
     return deleted;
   }
 
@@ -118,4 +122,36 @@ class ItemsRepositoryImpl extends ItemsRepository {
 
   @override
   List<ItemModel> get items => [..._itemsMap.values];
+
+  @override
+  Future<void> consume({
+    required String id,
+    required double quantity,
+  }) async {
+    final prevItem = getItemOrThrow(id);
+    if (prevItem.remainingMeasure.quantity == quantity) {
+      // full consume
+      await _provider.delete(id);
+      _itemsMap.remove(id);
+      logger.d('$prevItem full consumed successfully');
+      emit(ItemsRepositoryItemFullConsumedSuccess(prevItem));
+    } else {
+      final updatedItem = await _provider.update(
+        id: id,
+        expirationDate: prevItem.expirationDate,
+        remainingMeasure: Measure(
+          quantity: quantity,
+          unitOfMeasure: UnitOfMeasure.unit,
+        ),
+        storage: prevItem.storage,
+        openedAt: prevItem.openedAt,
+        shelf: prevItem is ShelfItemEntity
+            ? (prevItem as ShelfItemEntity).shelf
+            : null,
+      );
+      _itemsMap[updatedItem.uuid] = updatedItem;
+      logger.d('Item partially consumed successfully: $prevItem, $updatedItem');
+      emit(ItemsRepositoryItemUpdatedSuccess(prevItem, updatedItem));
+    }
+  }
 }
