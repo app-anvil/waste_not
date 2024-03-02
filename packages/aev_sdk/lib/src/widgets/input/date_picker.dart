@@ -41,9 +41,11 @@ class DatePicker {
                   child: CupertinoDatePicker(
                     onDateTimeChanged: onChanged,
                     mode: CupertinoDatePickerMode.date,
-                    minimumDate: DateTime.now()
-                        .subtract(const Duration(days: 1))
-                        .toDate(),
+                    minimumDate: initialDateTime != null
+                        ? null
+                        : DateTime.now()
+                            .subtract(const Duration(days: 1))
+                            .toDate(),
                     initialDateTime: initialDateTime ?? DateTime.now(),
                     // backgroundColor: context.col.surfaceVariant,
                   ),

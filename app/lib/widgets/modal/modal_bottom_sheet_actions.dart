@@ -47,8 +47,8 @@ class ModalBottomSheetAction {
   final TextStyle? subtitleStyle;
 
   /// Indicates if the actions is dangerous (e.g. delete item).
-  /// 
-  /// Dangerous action have red text color. 
+  ///
+  /// Dangerous action have red text color.
   final bool isDangerous;
 
   ModalBottomSheetAction copyWith({

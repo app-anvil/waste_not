@@ -9,10 +9,9 @@ import 'package:storages_repository/storages_repository.dart';
 part 'add_item_state.dart';
 
 class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
-  
-  /// Create a new add or edit cubit. 
-  /// 
-  /// If itemId is not null, it creates a [AddEditItemCubit.edit] cubit, 
+  /// Create a new add or edit cubit.
+  ///
+  /// If itemId is not null, it creates a [AddEditItemCubit.edit] cubit,
   /// otherwise [product] must be not null.
   factory AddEditItemCubit({
     required ItemsRepository itemsRepo,
