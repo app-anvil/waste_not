@@ -108,7 +108,30 @@ class InventoryView extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: $style.insets.screenH,
             ),
+            sliver: const OverviewCards(),
+          ),
+          VSpan($style.insets.sm).asSliver,
+          SliverPadding(
+            padding: EdgeInsets.symmetric(
+              horizontal: $style.insets.screenH,
+            ),
             sliver: const StorageSection().asSliver,
+          ),
+          BlocBuilder<FilterItemsCubit, FilterItemsState>(
+            builder: (context, state) {
+              if (state.selectedStorage != null) {
+                return SliverPadding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: $style.insets.screenH,
+                  ),
+                  sliver: Text(
+                    state.selectedStorage!.name,
+                    style: context.tt.titleLarge,
+                  ).asSliver,
+                );
+              }
+              return const SizedBox.shrink().asSliver;
+            },
           ),
           SliverPadding(
             padding: EdgeInsets.only(

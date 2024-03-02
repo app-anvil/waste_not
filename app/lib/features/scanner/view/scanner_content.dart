@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../../l10n/l10n.dart';
 import '../bloc/scanner_bloc.dart';
 
 class ScannerContent extends StatefulWidget {
@@ -101,10 +102,9 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
                           controller: TextEditingController(
                             text: '8076809580748',
                           ),
-                          decoration: const InputDecoration(
-                            // FIXME: l10n
-                            hintText: 'Inserisci codice a barre',
-                            prefixIcon: Icon(Icons.search_rounded),
+                          decoration: InputDecoration(
+                            hintText: context.l10n.insertBarcodeHintText,
+                            prefixIcon: const Icon(Icons.search_rounded),
                           ),
                           onSubmitted: (value) {
                             if (value.isNotEmpty) {

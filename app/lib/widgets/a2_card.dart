@@ -6,6 +6,7 @@ class A2Card extends StatelessWidget {
     required this.child,
     this.onTap,
     this.onLongPress,
+    this.color,
     super.key,
   });
 
@@ -13,9 +14,12 @@ class A2Card extends StatelessWidget {
   final void Function()? onTap;
   final void Function()? onLongPress;
 
+  final Color? color;
+
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: color,
       child: InkWell(
         onTap: onTap,
         onLongPress: onLongPress,

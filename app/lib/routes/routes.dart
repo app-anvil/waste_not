@@ -3,7 +3,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:items_repository/items_repository.dart';
 import 'package:products_repository/products_repository.dart';
 
 import '../features/features.dart';
@@ -42,6 +44,21 @@ final router = GoRouter(
               ),
               // all children routes
               routes: [
+                GoRoute(
+                  path: AppRoute.inventoryFilteredBy.path,
+                  name: AppRoute.inventoryFilteredBy.name,
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state) {
+                    final filter = ItemsStatus.fromValue(
+                      state.uri.queryParameters['filter']!,
+                    );
+                    final cubit = state.extra! as InventoryCubit;
+                    return BlocProvider.value(
+                      value: cubit,
+                      child: InventoryByStatusPage(filter: filter),
+                    );
+                  },
+                ),
                 GoRoute(
                   path: AppRoute.scanner.path,
                   name: AppRoute.scanner.name,

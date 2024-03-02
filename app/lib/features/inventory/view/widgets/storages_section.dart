@@ -63,40 +63,51 @@ class StorageSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  onPressed: () => context.router.goNamed(
-                    AppRoute.storages.name,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(context.l10n.editAction),
-                      HSpan($style.insets.xs),
-                      const Icon(
-                        Icons.edit_rounded,
-                        size: 18,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        // FIXME: l10n
+                        'My storages',
+                        style: context.tt.titleLarge,
                       ),
-                    ],
-                  ),
+                    ),
+                    HSpan($style.insets.xs),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () => context.router.goNamed(
+                        AppRoute.storages.name,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(context.l10n.editAction),
+                          HSpan($style.insets.xs),
+                          const Icon(
+                            Icons.edit_rounded,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                A2Card(
-                  child: PrototypeHeight(
-                    prototype: _StorageItem(
-                      storage: state.storages.first,
-                    ),
-                    listView: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final storage = state.storages[index];
-                        return _StorageItem(storage: storage);
-                      },
-                      separatorBuilder: (context, index) =>
-                          HSpan($style.insets.md),
-                      itemCount: state.storages.length,
-                    ),
+                VSpan($style.insets.xs),
+                PrototypeHeight(
+                  prototype: _StorageItem(
+                    storage: state.storages.first,
+                  ),
+                  listView: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final storage = state.storages[index];
+                      return _StorageItem(storage: storage);
+                    },
+                    separatorBuilder: (context, index) =>
+                        HSpan($style.insets.sm),
+                    itemCount: state.storages.length,
                   ),
                 ),
               ],
@@ -116,43 +127,36 @@ class _StorageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => context.read<FilterItemsCubit>().onToggled(storage),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          BlocBuilder<FilterItemsCubit, FilterItemsState>(
-            builder: (context, state) {
-              final icon = Icon(
+    return BlocBuilder<FilterItemsCubit, FilterItemsState>(
+      builder: (context, state) {
+        return A2Card(
+          onTap: () => context.read<FilterItemsCubit>().onToggled(storage),
+          color: storage == state.selectedStorage
+              ? context.col.primary
+              : context.col.background,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
                 storage.storageType.icon,
-                // the size of the icon must be the equal to 28 - padding.
-                size: storage == state.selectedStorage ? 16 : 28,
                 color: storage == state.selectedStorage
-                    ? context.col.background
+                    ? context.col.onPrimary
                     : context.col.primary,
-              );
-              if (state.selectedStorage == null ||
-                  storage.uuid != state.selectedStorage!.uuid) {
-                return icon;
-              }
-              return Container(
-                decoration: BoxDecoration(
-                  color: context.col.primary,
-                  shape: BoxShape.circle,
+                size: 28,
+              ),
+              VSpan($style.insets.xs),
+              Text(
+                storage.name,
+                style: context.tt.labelLarge?.copyWith(
+                  color: storage == state.selectedStorage
+                      ? context.col.onPrimary
+                      : context.col.onBackground,
                 ),
-                // icon size + padding must be equal to 28 (16 + 12)
-                padding: const EdgeInsets.all(6),
-                child: icon,
-              );
-            },
+              ),
+            ],
           ),
-          VSpan($style.insets.xs),
-          Text(
-            storage.name,
-            style: context.tt.labelLarge,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

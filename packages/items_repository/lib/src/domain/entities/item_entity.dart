@@ -6,6 +6,35 @@ import 'package:storages_repository/storages_repository.dart';
 
 import '../../../items_repository.dart';
 
+/// Indicates the status of an item.
+///
+/// Can be one of the following values:
+///
+/// - expired
+///
+/// - opned
+///
+/// - toBeEaten
+enum ItemsStatus {
+  expired,
+  opened,
+  toBeEaten;
+
+  bool get isExpired => this == expired;
+  bool get isOpened => this == opened;
+  bool get isToBeEaten => this == toBeEaten;
+
+  static ItemsStatus fromValue(String value) {
+    if (value == 'expired') {
+      return ItemsStatus.expired;
+    } else if (value == 'opened') {
+      return ItemsStatus.opened;
+    } else {
+      return ItemsStatus.toBeEaten;
+    }
+  }
+}
+
 abstract interface class ItemEntity extends Equatable {
   /// The identifier of the product.
   ///

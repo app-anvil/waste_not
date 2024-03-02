@@ -14,6 +14,24 @@ class AppStyle {
   AppStyleShadows get shadows => const AppStyleShadows();
 
   /// Padding and margin values
+  ///
+  /// x3s => 2;
+  ///
+  /// xxs => 4;
+  ///
+  /// xs => 8;
+  ///
+  /// sm => 16;
+  ///
+  /// md => 24;
+  ///
+  /// lg => 32;
+  ///
+  /// xl => 48;
+  ///
+  /// xxl => 56;
+  ///
+  /// offset => 80;
   AppStyleInsets get insets => const AppStyleInsets();
 
   /// Animation Durations

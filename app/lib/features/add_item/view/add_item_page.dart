@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:products_repository/products_repository.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../features.dart';
 
 class AddEditItemPage extends StatelessWidget {
@@ -41,10 +42,10 @@ class AddEditItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
-        // FIXME: l10n
-        title: Text(isEditing ? 'Edit item' : 'Add item'),
+        title: Text(isEditing ? l10n.editItem : l10n.addItem),
       ),
       body: Padding(
         padding: const EdgeInsets.only(

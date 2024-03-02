@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
+import '../../../../l10n/l10n.dart';
 import '../../../features.dart';
 
 class AddEditItemForm extends StatelessWidget {
@@ -170,13 +171,13 @@ class _AddBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Row(
       children: [
         Expanded(
           child: ElevatedButton(
             onPressed: () => _onSave(context),
-            // FIXME: l10n
-            child: Text(isEditing ? 'Edit' : 'Add'),
+            child: Text(isEditing ? l10n.editAction : l10n.addAction),
           ),
         ),
       ],
