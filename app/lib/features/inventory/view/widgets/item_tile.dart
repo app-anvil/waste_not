@@ -154,10 +154,16 @@ class ItemTileState extends State<ItemTile> {
     return ModalBottomSheet.of(context).showActions(
       actions: [
         ModalBottomSheetActions.edit(context).copyWith(onTap: _edit),
-        ModalBottomSheetActions.open(context).copyWith(),
-        ModalBottomSheetActions.consume(context).copyWith(
-          onTap: _consume,
+        ModalBottomSheetActions.open(context).copyWith(
+          onTap: _open,
+          title: widget.item.openedAt == null
+              ? context.l10n.openAction
+              : context.l10n.undoOpenAction,
         ),
+        if (widget.item.remainingMeasure.unitOfMeasure == UnitOfMeasure.unit)
+          ModalBottomSheetActions.consume(context).copyWith(
+            onTap: _consume,
+          ),
         ModalBottomSheetActions.consume(context).copyWith(
           title: context.l10n.fullConsumeAction,
           onTap: _onFullConsume,
