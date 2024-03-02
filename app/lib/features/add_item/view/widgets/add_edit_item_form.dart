@@ -156,7 +156,7 @@ class _AddBtn extends StatelessWidget {
           if (curr.status.isFailure) {
             // Pop the loading screen
             ctx.navRoot.pop();
-            Message.showMessage(
+            GetIt.I.get<MessageHelper>().showMessage(
               context,
               message: curr.errorMessage!,
               type: MessageType.error,

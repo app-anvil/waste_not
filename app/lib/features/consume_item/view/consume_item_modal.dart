@@ -1,6 +1,7 @@
 import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:items_repository/items_repository.dart';
 
 import '../cubit/consume_item_cubit.dart';
@@ -32,7 +33,7 @@ class ConsumeItemModal extends StatelessWidget {
         if (curr.status.isFailure) {
           // Pop the loading screen
           ctx.navRoot.pop();
-          Message.showMessage(
+          GetIt.I.get<MessageHelper>().showMessage(
             context,
             message: curr.errorMessage!,
             type: MessageType.error,

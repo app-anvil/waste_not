@@ -7,6 +7,7 @@ import 'package:storages_repository/storages_repository.dart';
 import 'db/isar_service.dart';
 
 void initializeDependencies() {
+  GetIt.I.registerSingleton<MessageHelper>(MessageHelper());
   GetIt.I.registerSingleton<IsarService>(IsarServiceImpl());
   GetIt.I.registerSingleton<ProductsApiClient>(OpenFoodFactsApiClient());
   GetIt.I.registerSingleton<StoragesRepository>(
