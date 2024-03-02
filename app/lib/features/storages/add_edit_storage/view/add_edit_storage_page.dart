@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:storages_repository/storages_repository.dart';
 
+import '../../../../l10n/l10n.dart';
 import '../add_edit_storage.dart';
 
 class AddEditStoragePage extends StatelessWidget {
@@ -37,6 +38,7 @@ class AddEditStorageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
         title: Text(_title),
@@ -74,8 +76,7 @@ class AddEditStorageView extends StatelessWidget {
                             );
                           }
                         : null,
-                    // FIXME: l10n
-                    child: const Text('Done'),
+                    child: Text(l10n.doneAction),
                   );
                 },
               ),

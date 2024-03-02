@@ -11,6 +11,7 @@
     "snackBarNotImplemented": "Questa funzionalità non è ancora disponibile. Stiamo lavorando duramente per rilasciarla il prima possibile!",
     "pantryBottomBarItemLabel": "Dispensa",
     "accountBottomBarItemLabel": "Profilo",
+    "addAction": "Aggiungi",
     "editAction": "Modifica",
     "openAction": "Apri",
     "undoOpenAction": "Richiudi",
@@ -18,6 +19,7 @@
     "consumeAction": "Consuma",
     "fullConsumeAction": "Consumato completamente",
     "undoAction": "Annulla",
+    "doneAction": "Fatto",
     "inventoryPageItemDeletedSnackbarText": "Item \"{itemTitle}\" rimosso.",
     "@inventoryPageItemDeletedSnackbarText": {
         "description": "Snackbar text shown when a todo is deleted from the Inventory Page",
@@ -47,6 +49,52 @@
             }
         }
     },
-    "inventoryPageNoItems": "Non ci sono prodotti nella tua dispensa",
-    "inventoryPageSelectedFilterNoItems": "Non ci sono prodotti per il filtro selezionato"
+    "inventoryPageNoItems": "Non ci sono items nella tua dispensa",
+    "inventoryPageSelectedFilterNoItems": "Non ci sono items per il filtro selezionato",
+    "openedItemsHeader": "Aperti",
+    "editItem": "Modifica item",
+    "addItem": "Aggiungi item",
+    "inventoryByStatusPageNoExpiredItems": "Non ci sono items scaduti",
+    "inventoryByStatusPageNoOpenedItems": "Non ci sono items aperti",
+    "inventoryByStatusPageNoToBeEatenItems": "Non ci sono items da consumare al più presto",
+    "expiredItems": "Items scaduti",
+    "openedItems": "Items aperti",
+    "toBeEatenItems": "Items da consumare presto",
+    "expired": "Scaduti",
+    "opened": "Aperti",
+    "toBeEaten": "Da mangiare al più presto",
+    "insertBarcodeHintText": "Inserisci codice a barre",
+    "openTodayItemHeader": "Aperto oggi",
+    "expiresTodayItemHeader": "Scade oggi",
+    "toBeEatenTodayItemHeader": "Da consumare entro oggi",
+    "openedItemForDaysHeader": "{count, plural, =0{Aperto oggi} =1{Aperto da 1 giorno} other{Aperto da {count} giorni}}",
+    "@openedItemForDaysHeader": {
+    "description": "",
+        "placeholders": {
+            "count": {
+            "type": "num",
+            "format": "compact"
+            }
+        }
+    },
+    "expiredItemForDaysHeader": "{count, plural, =0{Scade oggi} =1{Scaduto da 1 giorno} other{Scaduto da {count} giorni}}",
+    "@expiredItemForDaysHeader": {
+    "description": "",
+        "placeholders": {
+            "count": {
+            "type": "num",
+            "format": "compact"
+            }
+        }
+    },
+    "toBeEatenItemForDaysHeader": "{count, plural, =0{Da consumare oggi} =1{Da consumare entro 1 giorno} other{Da consumare entro {count} giorni}}",
+    "@toBeEatenItemForDaysHeader": {
+    "description": "",
+        "placeholders": {
+            "count": {
+            "type": "num",
+            "format": "compact"
+            }
+        }
+    }
 }

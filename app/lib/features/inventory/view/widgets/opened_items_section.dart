@@ -79,8 +79,6 @@ class _HeaderTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const color = Colors.blue;
-    // FIXME: l10n
-    const text = 'Opened';
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: const AppStyle().insets.xs),
@@ -88,7 +86,7 @@ class _HeaderTile extends StatelessWidget {
         children: [
           _buildIndicator(color),
           HSpan(const AppStyle().insets.xs),
-          const Text(text),
+          Text(context.l10n.openedItemsHeader),
         ],
       ),
     );

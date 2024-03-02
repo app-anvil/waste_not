@@ -17,12 +17,22 @@ final class InventoryState extends SuperBlocState {
         lastItemFullConsumed = null,
         super.initial();
 
+  /// List of items
   final List<ItemEntity> items;
 
+  /// List of items and items's expired date time.
+  ///
+  /// These is used when is necessary to group items by date.
   final List<Object> groupItems;
 
+  /// The last deleted item.
+  ///
+  /// It allows to undo the deletion of the last item.
   final ItemEntity? lastItemDeleted;
 
+  /// The last full consumed item.
+  ///
+  /// It allows to undo the full consumed of the last item.
   final ItemEntity? lastItemFullConsumed;
 
   @override

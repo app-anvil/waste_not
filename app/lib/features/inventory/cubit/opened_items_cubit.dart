@@ -12,7 +12,10 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
     _itemsRepoSubscription = _repo.listen((_, state) {
       final openedOrClosedItem = state is ItemsRepositoryItemUpdatedSuccess &&
           state.prevItem.openedAt != state.item.openedAt;
-      if (state is ItemsRepositoryItemLoadedSuccess || openedOrClosedItem) {
+      if (state is ItemsRepositoryItemLoadedSuccess ||
+          openedOrClosedItem ||
+          state is ItemsRepositoryItemDeletedSuccess ||
+          state is ItemsRepositoryItemFullConsumedSuccess) {
         // final sortItems = state is ItemsRepositoryItemAddedSuccess ||
         //     state is ItemsRepositoryItemDeletedSuccess ||
         //     updatedItemDateTime;

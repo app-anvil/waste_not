@@ -99,7 +99,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     for (final dt in container.keys) {
       // Adds the exp date first and then the items related to the date.
       // The exp date is added only if the exp date is not before today or
-      // if no exp date before tpday is already in the list.
+      // if no exp date before today is already in the list.
       if (!(dt.toDate().isBefore(DateTime.now().toDate()) && containsExpDt)) {
         flattenItems.add(dt);
       }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 enum AppRoute {
   inventory,
+  inventoryFilteredBy,
   scanner,
   addProduct,
   account,
@@ -16,6 +17,7 @@ enum AppRoute {
 extension AppRoutePathExt on AppRoute {
   String get path => switch (this) {
         AppRoute.inventory => 'inventory',
+        AppRoute.inventoryFilteredBy => 'filtered-by',
         AppRoute.scanner => 'scanner',
         AppRoute.addProduct => 'add-product',
         AppRoute.storages => 'storages',

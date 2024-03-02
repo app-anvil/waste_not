@@ -9,9 +9,8 @@ class AccountAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar.large(
-      // FIXME: l10n
       title: Text(
-        'Account',
+        context.l10n.accountAppBarTitle,
         style: const TextStyle().copyWith(
           fontWeight: FontWeight.bold,
         ),
