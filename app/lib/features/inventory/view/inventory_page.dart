@@ -1,6 +1,7 @@
 import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
@@ -58,7 +59,7 @@ class InventoryView extends StatelessWidget {
       listener: (context, state) {
         if (state.lastItemDeleted != null) {
           final deletedItem = state.lastItemDeleted!;
-          Message.showMessage(
+          GetIt.I.get<MessageHelper>().showMessage(
             context,
             message: l10n.inventoryPageItemDeletedSnackbarText(
               deletedItem.product.name!,
@@ -67,7 +68,7 @@ class InventoryView extends StatelessWidget {
             action: SnackBarAction(
               label: l10n.undoAction,
               onPressed: () {
-                Message.hideSnackBar(context);
+                GetIt.I.get<MessageHelper>().hideSnackBar(context);
                 context.read<InventoryCubit>().onUndoDeletionItemRequested();
               },
             ),
@@ -75,7 +76,7 @@ class InventoryView extends StatelessWidget {
         }
         if (state.lastItemFullConsumed != null) {
           final consumedItem = state.lastItemFullConsumed!;
-          Message.showMessage(
+          GetIt.I.get<MessageHelper>().showMessage(
             context,
             message: l10n.inventoryPageItemFullConsumedSnackbarText(
               consumedItem.product.name!,
@@ -84,7 +85,7 @@ class InventoryView extends StatelessWidget {
             action: SnackBarAction(
               label: l10n.undoAction,
               onPressed: () {
-                Message.hideSnackBar(context);
+                GetIt.I.get<MessageHelper>().hideSnackBar(context);
                 context
                     .read<InventoryCubit>()
                     .onUndoFullConsumptionItemRequested();

@@ -1,5 +1,6 @@
 import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../l10n/l10n.dart';
 
@@ -83,7 +84,7 @@ abstract class ModalBottomSheetActions {
       title: context.l10n.deleteAction,
       iconData: Icons.delete_forever_rounded,
       isDangerous: true,
-      onTap: (context) => Message.showMessage(
+      onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
         context,
         message: context.l10n.snackBarNotImplemented,
         type: MessageType.info,
@@ -96,7 +97,7 @@ abstract class ModalBottomSheetActions {
       title: context.l10n.consumeAction,
       iconData: Icons.local_dining_rounded,
       titleStyle: context.tt.bodyMedium,
-      onTap: (context) => Message.showMessage(
+      onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
         context,
         message: context.l10n.snackBarNotImplemented,
         type: MessageType.info,
@@ -109,7 +110,7 @@ abstract class ModalBottomSheetActions {
       title: context.l10n.editAction,
       iconData: Icons.edit_rounded,
       titleStyle: context.tt.bodyMedium,
-      onTap: (context) => Message.showMessage(
+      onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
         context,
         message: context.l10n.snackBarNotImplemented,
         type: MessageType.info,
@@ -122,7 +123,7 @@ abstract class ModalBottomSheetActions {
       title: context.l10n.openAction,
       iconData: Icons.timelapse_rounded,
       titleStyle: context.tt.bodyMedium,
-      onTap: (context) => Message.showMessage(
+      onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
         context,
         message: context.l10n.snackBarNotImplemented,
         type: MessageType.info,

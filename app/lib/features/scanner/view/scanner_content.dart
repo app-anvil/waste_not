@@ -2,6 +2,7 @@ import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -38,7 +39,7 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
     return BlocConsumer<ScannerBloc, ScannerState>(
       listener: (context, state) {
         if (state.status.isFailure) {
-          Message.showMessage(
+          GetIt.I.get<MessageHelper>().showMessage(
             context,
             message: state.errorMessage!,
             type: MessageType.error,
