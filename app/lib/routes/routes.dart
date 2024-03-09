@@ -1,5 +1,7 @@
 // We start wth only one navigator key, because the bottom navigation bar
 // should be present only in the root pages.
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:products_repository/products_repository.dart';
@@ -19,7 +21,7 @@ final router = GoRouter(
   initialLocation: '/inventory',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
-  //extraCodec: const MyExtraCodec(),
+  extraCodec: const MyExtraCodec(),
   routes: [
     // initial routes with no app bar, e.g. login and sign up routes
     StatefulShellRoute.indexedStack(
@@ -125,40 +127,41 @@ final router = GoRouter(
 );
 
 /// A codec that can serialize [ProductEntity].
-// class MyExtraCodec extends Codec<Object?, Object?> {
-//   /// Create a codec.
-//   const MyExtraCodec();
-//   @override
-//   Converter<Object?, Object?> get decoder => const _MyExtraDecoder();
+class MyExtraCodec extends Codec<Object?, Object?> {
+  /// Create a codec.
+  const MyExtraCodec();
+  @override
+  Converter<Object?, Object?> get decoder => const _MyExtraDecoder();
 
-//   @override
-//   Converter<Object?, Object?> get encoder => const _MyExtraEncoder();
-// }
+  @override
+  Converter<Object?, Object?> get encoder => const _MyExtraEncoder();
+}
 
-// class _MyExtraDecoder extends Converter<Object?, Object?> {
-//   const _MyExtraDecoder();
-//   @override
-//   Object? convert(Object? input) {
-//     if (input == null) {
-//       return null;
-//     }
-//     final inputAsList = input as List<Object?>;
-//     throw FormatException('Unable tp parse input: $input');
-//   }
-// }
+class _MyExtraDecoder extends Converter<Object?, Object?> {
+  const _MyExtraDecoder();
+  @override
+  Object? convert(Object? input) {
+    if (input == null) {
+      return null;
+    }
+    final inputAsList = input as List<Object?>;
+    if (inputAsList.first == 'ProductEntity') {
+      return inputAsList.last! as ProductEntity;
+    }
+    throw FormatException('Unable tp parse input: $input');
+  }
+}
 
-// class _MyExtraEncoder extends Converter<Object?, Object?> {
-//   const _MyExtraEncoder();
-//   @override
-//   Object? convert(Object? input) {
-//     if (input == null) {
-//       return null;
-//     }
-//     switch (input.runtimeType) {
-//       case ProductEntity:
-//         return <Object?>['ProductEntity', (input as ProductEntity)];
-//       default:
-//         throw FormatException('Cannot encode type ${input.runtimeType}');
-//     }
-//   }
-// }
+class _MyExtraEncoder extends Converter<Object?, Object?> {
+  const _MyExtraEncoder();
+  @override
+  Object? convert(Object? input) {
+    if (input == null) {
+      return null;
+    }
+    if (input is ProductEntity) {
+      return <Object?>['ProductEntity', input];
+    }
+    throw FormatException('Cannot encode type ${input.runtimeType}');
+  }
+}
