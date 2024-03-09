@@ -31,4 +31,14 @@ abstract interface class ProductEntity extends Equatable {
   ///
   /// Cannot be changed.
   abstract final String? imageFrontSmallUrl;
+
+  // These two methods are required to enable the conversion from
+  // [ProductEntity]
+  // object to an encodable object.
+  // These methods are used in the Go Router Extra Codec.
+
+  // ignore: avoid_unused_constructor_parameters
+  const ProductEntity.fromJson(Map<String, dynamic> json);
+
+  Map<String, dynamic> toJson();
 }

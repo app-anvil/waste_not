@@ -56,4 +56,23 @@ class ProductModel implements ProductEntity {
 
   @override
   bool? get stringify => true;
+  
+  @override
+  ProductModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as String?,
+        barcode = json['barcode'] as String?,
+        name = json['name'] as String?,
+        brand = json['brand'] as String?,
+        imageFrontUrl = json['imageFrontUrl'] as String?,
+        imageFrontSmallUrl = json['imageFrontSmallUrl'] as String?;
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'barcode': barcode,
+        'name': name,
+        'brand': brand,
+        'imageFromUrl': imageFrontUrl,
+        'imageFrontSmallUrl': imageFrontSmallUrl,
+      };
 }
