@@ -18,6 +18,7 @@ class InventoryByStatusPage extends StatelessWidget {
       ItemStatus.expired => l10n.expiredItems,
       ItemStatus.opened => l10n.openedItems,
       ItemStatus.toBeEaten => l10n.toBeEatenItems,
+      ItemStatus.normal => '',
     };
   }
 
