@@ -12,7 +12,7 @@ class ItemStatusDaysHeaderTile extends StatelessWidget {
   });
 
   final DateTime date;
-  final ItemsStatus status;
+  final ItemStatus status;
 
   Widget _buildIndicator(Color color) {
     return Container(

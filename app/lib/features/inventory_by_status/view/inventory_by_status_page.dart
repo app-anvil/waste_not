@@ -10,14 +10,14 @@ import '../../features.dart';
 class InventoryByStatusPage extends StatelessWidget {
   const InventoryByStatusPage({required this.filter, super.key});
 
-  final ItemsStatus filter;
+  final ItemStatus filter;
 
   String _getTitle(BuildContext context) {
     final l10n = context.l10n;
     return switch (filter) {
-      ItemsStatus.expired => l10n.expiredItems,
-      ItemsStatus.opened => l10n.openedItems,
-      ItemsStatus.toBeEaten => l10n.toBeEatenItems,
+      ItemStatus.expired => l10n.expiredItems,
+      ItemStatus.opened => l10n.openedItems,
+      ItemStatus.toBeEaten => l10n.toBeEatenItems,
     };
   }
 

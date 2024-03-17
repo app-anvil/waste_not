@@ -15,20 +15,15 @@ class ExpiredItemsCard extends StatelessWidget {
     return OverviewCard(
       indicatorColor: const Color(0xffec5c54),
       label: context.l10n.expired,
-      // TODO: use element.isExpired
       count: context
           .watch<InventoryCubit>()
           .state
           .items
-          .where(
-            (element) => element.expirationDate
-                .toDate()
-                .isBefore(DateTime.now().toDate()),
-          )
+          .where((element) => element.status.isExpired)
           .length,
       onTap: () {
         final routeName = AppRoute.inventoryFilteredBy.name;
-        final filter = ItemsStatus.expired.name;
+        final filter = ItemStatus.expired.name;
         context.router.goNamed(
           routeName,
           queryParameters: {'filter': filter},

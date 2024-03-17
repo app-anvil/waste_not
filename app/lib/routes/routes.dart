@@ -49,7 +49,7 @@ final router = GoRouter(
                   name: AppRoute.inventoryFilteredBy.name,
                   parentNavigatorKey: _rootNavigatorKey,
                   builder: (context, state) {
-                    final filter = ItemsStatus.fromValue(
+                    final filter = ItemStatus.fromValue(
                       state.uri.queryParameters['filter']!,
                     );
                     final cubit = state.extra! as InventoryCubit;

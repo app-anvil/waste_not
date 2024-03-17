@@ -1,5 +1,6 @@
 import 'package:aev_sdk/aev_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:items_repository/items_repository.dart';
 
 import '../../l10n/l10n.dart';
 
@@ -34,7 +35,7 @@ class ItemDaysLeftHeaderTile extends StatelessWidget {
           expiredAt.toDate().difference(DateTime.now().toDate()).inDays;
       if (remainingDays == 0) {
         color = const Color(0xfffd8d35);
-      } else if (remainingDays < 2) {
+      } else if (remainingDays <= ItemEntity.shouldBeItemBeforeDays) {
         color = const Color(0xfffd8d35);
       } else {
         color = const Color(0xff3f9a8e);

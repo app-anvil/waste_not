@@ -18,7 +18,7 @@ class OpenedItemsCards extends StatelessWidget {
       count: context.watch<OpenedItemsCubit>().state.items.length,
       onTap: () {
         final routeName = AppRoute.inventoryFilteredBy.name;
-        final filter = ItemsStatus.opened.name;
+        final filter = ItemStatus.opened.name;
         context.router.goNamed(
           routeName,
           queryParameters: {'filter': filter},

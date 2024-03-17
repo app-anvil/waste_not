@@ -10,7 +10,7 @@ part 'inventory_by_status_state.dart';
 class InventoryByStatusCubit extends Cubit<InventoryByStatusState> {
   InventoryByStatusCubit(
     this._repo, {
-    required ItemsStatus filter,
+    required ItemStatus filter,
   }) : super(InventoryByStatusState.initial(filter)) {
     _update(
       _repo.items,
@@ -45,23 +45,14 @@ class InventoryByStatusCubit extends Cubit<InventoryByStatusState> {
       _itemsRepoSubscription;
 
   bool _filter(ItemEntity item) {
-    if (state.filter == ItemsStatus.opened) {
-      // TODO: use item.isOpened
-      return item.openedAt != null &&
-          !item.expirationDate.toDate().isBefore(
-                DateTime.now().toDate(),
-              );
-    } else if (state.filter == ItemsStatus.expired) {
-      // TODO: use item.isExpired
-      return item.expirationDate.toDate().isBefore(
-            DateTime.now().toDate(),
-          );
+    if (state.filter == ItemStatus.opened) {
+      return item.status.isOpened;
+    } else if (state.filter == ItemStatus.expired) {
+      return item.status.isExpired;
+    } else if (state.filter == ItemStatus.toBeEaten) {
+      return item.status.isToBeEaten;
     }
-    final remainingDays =
-        item.expirationDate.toDate().difference(DateTime.now().toDate()).inDays;
-    // TODO: defines a const variable inside item entity. When an item should be
-    // eaten soon? Max in 2 days?
-    return remainingDays >= 0 && remainingDays < 3;
+    return false;
   }
 
   void _update(
