@@ -1,3 +1,4 @@
+import 'package:aev_sdk/aev_sdk.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
@@ -40,6 +41,22 @@ abstract class ItemModel implements ItemEntity {
     Measure? remainingMeasure,
     StorageEntity? storage,
   });
+
+  @override
+  ItemStatus get status {
+    if (expirationDate.toDate().isBefore(DateTime.now().toDate())) {
+      return ItemStatus.expired;
+    } else if (openedAt != null) {
+      return ItemStatus.opened;
+    }
+    final remainingDays =
+        expirationDate.toDate().difference(DateTime.now().toDate()).inDays;
+    if (remainingDays >= 0 &&
+        remainingDays <= ItemEntity.shouldBeItemBeforeDays) {
+      return ItemStatus.toBeEaten;
+    }
+    return ItemStatus.normal;
+  }
 
   @override
   List<Object?> get props => [

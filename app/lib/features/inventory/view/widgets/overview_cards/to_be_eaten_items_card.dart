@@ -15,19 +15,15 @@ class ToBeEatenItemsCard extends StatelessWidget {
     return OverviewCard(
       indicatorColor: const Color(0xfffd8d35),
       label: context.l10n.toBeEaten,
-      count: context.watch<InventoryCubit>().state.items.where(
-        (element) {
-          // TODO: use element.isToBeEaten
-          final remainingDays = element.expirationDate
-              .toDate()
-              .difference(DateTime.now().toDate())
-              .inDays;
-          return remainingDays == 1 || remainingDays == 2;
-        },
-      ).length,
+      count: context
+          .watch<InventoryCubit>()
+          .state
+          .items
+          .where((element) => element.status.isToBeEaten)
+          .length,
       onTap: () {
         final routeName = AppRoute.inventoryFilteredBy.name;
-        final filter = ItemsStatus.toBeEaten.name;
+        final filter = ItemStatus.toBeEaten.name;
         context.router.goNamed(
           routeName,
           queryParameters: {'filter': filter},

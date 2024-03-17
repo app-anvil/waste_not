@@ -12,7 +12,7 @@ final class InventoryByStatusState extends Equatable {
         groupItems = const [];
 
   InventoryByStatusState copyWith({
-    ItemsStatus? filter,
+    ItemStatus? filter,
     List<ItemEntity>? items,
     List<Object>? groupItems,
   }) {
@@ -23,7 +23,7 @@ final class InventoryByStatusState extends Equatable {
     );
   }
 
-  final ItemsStatus filter;
+  final ItemStatus filter;
 
   /// List of items
   final List<ItemEntity> items;

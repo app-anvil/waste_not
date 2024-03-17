@@ -15,22 +15,26 @@ import '../../../items_repository.dart';
 /// - opned
 ///
 /// - toBeEaten
-enum ItemsStatus {
+enum ItemStatus {
+  normal,
   expired,
   opened,
   toBeEaten;
 
+  bool get isNormal => this == normal;
   bool get isExpired => this == expired;
   bool get isOpened => this == opened;
   bool get isToBeEaten => this == toBeEaten;
 
-  static ItemsStatus fromValue(String value) {
+  static ItemStatus fromValue(String value) {
     if (value == 'expired') {
-      return ItemsStatus.expired;
+      return ItemStatus.expired;
     } else if (value == 'opened') {
-      return ItemsStatus.opened;
+      return ItemStatus.opened;
+    } else if (value == 'normal') {
+      return ItemStatus.normal;
     } else {
-      return ItemsStatus.toBeEaten;
+      return ItemStatus.toBeEaten;
     }
   }
 }
@@ -58,4 +62,12 @@ abstract interface class ItemEntity extends Equatable {
 
   /// The remaining measure of the item.
   abstract final Measure remainingMeasure;
+
+  /// The status of the itme.
+  ///
+  /// This getter depends on [expirationDate] and [openedAt] properties.
+  ItemStatus get status;
+
+  /// Indicates the number of days the user shoulb be consume an item.
+  static const shouldBeItemBeforeDays = 2;
 }

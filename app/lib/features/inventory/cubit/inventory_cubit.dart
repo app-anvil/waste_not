@@ -48,10 +48,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
 
   /// Item is not opened or it is expired.
   bool _filter(ItemEntity item) {
-    return item.openedAt == null ||
-        item.expirationDate.toDate().isBefore(
-              DateTime.now().toDate(),
-            );
+    return !item.status.isOpened || item.status.isExpired;
   }
 
   /// Emit only not opened items.
