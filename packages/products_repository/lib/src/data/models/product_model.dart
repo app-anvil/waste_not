@@ -56,7 +56,7 @@ class ProductModel implements ProductEntity {
 
   @override
   bool? get stringify => true;
-  
+
   @override
   ProductModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as String?,

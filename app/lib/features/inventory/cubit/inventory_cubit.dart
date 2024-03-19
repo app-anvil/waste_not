@@ -24,19 +24,23 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
         final sortItems = state is ItemsRepositoryItemAddedSuccess ||
             state is ItemsRepositoryItemDeletedSuccess ||
             updatedItemDateTime;
-        if (state is! ItemsRepositoryItemUpdatedSuccess ||
+        // it does not monitor the updating of items's remainingMeasure and
+        // storage because each item's tile has already rebuilding by its cubit
+        // if any of these changes happened.
+        final updatesUI = state is! ItemsRepositoryItemUpdatedSuccess ||
             updatedItemDateTime ||
-            openedOrClosedItem) {
-          _update(
-            _repo.items,
-            deletedItem:
-                state is ItemsRepositoryItemDeletedSuccess ? state.item : null,
-            fullConsumedItem: state is ItemsRepositoryItemFullConsumedSuccess
-                ? state.item
-                : null,
-            sortItems: sortItems,
-          );
-        }
+            openedOrClosedItem;
+
+        _update(
+          _repo.items,
+          deletedItem:
+              state is ItemsRepositoryItemDeletedSuccess ? state.item : null,
+          fullConsumedItem: state is ItemsRepositoryItemFullConsumedSuccess
+              ? state.item
+              : null,
+          sortItems: sortItems,
+          updatesUI: updatesUI,
+        );
       }
     });
   }
@@ -57,6 +61,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     required ItemEntity? deletedItem,
     required ItemEntity? fullConsumedItem,
     required bool sortItems,
+    required bool updatesUI,
   }) {
     late final List<ItemEntity> sortedItems;
     if (sortItems) {
@@ -73,6 +78,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
         lastItemDeleted: Optional(deletedItem),
         lastItemFullConsumed: Optional(fullConsumedItem),
         status: StateStatus.success,
+        updatesUI: updatesUI,
       ),
     );
   }

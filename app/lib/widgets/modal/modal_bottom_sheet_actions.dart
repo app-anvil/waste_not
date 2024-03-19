@@ -85,10 +85,10 @@ abstract class ModalBottomSheetActions {
       iconData: Icons.delete_forever_rounded,
       isDangerous: true,
       onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
-        context,
-        message: context.l10n.snackBarNotImplemented,
-        type: MessageType.info,
-      ),
+            context,
+            message: context.l10n.snackBarNotImplemented,
+            type: MessageType.info,
+          ),
     );
   }
 
@@ -98,10 +98,10 @@ abstract class ModalBottomSheetActions {
       iconData: Icons.local_dining_rounded,
       titleStyle: context.tt.bodyMedium,
       onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
-        context,
-        message: context.l10n.snackBarNotImplemented,
-        type: MessageType.info,
-      ),
+            context,
+            message: context.l10n.snackBarNotImplemented,
+            type: MessageType.info,
+          ),
     );
   }
 
@@ -111,10 +111,10 @@ abstract class ModalBottomSheetActions {
       iconData: Icons.edit_rounded,
       titleStyle: context.tt.bodyMedium,
       onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
-        context,
-        message: context.l10n.snackBarNotImplemented,
-        type: MessageType.info,
-      ),
+            context,
+            message: context.l10n.snackBarNotImplemented,
+            type: MessageType.info,
+          ),
     );
   }
 
@@ -124,10 +124,10 @@ abstract class ModalBottomSheetActions {
       iconData: Icons.timelapse_rounded,
       titleStyle: context.tt.bodyMedium,
       onTap: (context) => GetIt.I.get<MessageHelper>().showMessage(
-        context,
-        message: context.l10n.snackBarNotImplemented,
-        type: MessageType.info,
-      ),
+            context,
+            message: context.l10n.snackBarNotImplemented,
+            type: MessageType.info,
+          ),
     );
   }
 }

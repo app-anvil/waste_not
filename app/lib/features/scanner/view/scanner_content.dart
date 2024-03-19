@@ -41,10 +41,10 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
       listener: (context, state) {
         if (state.status.isFailure) {
           GetIt.I.get<MessageHelper>().showMessage(
-            context,
-            message: state.errorMessage!,
-            type: MessageType.error,
-          );
+                context,
+                message: state.errorMessage!,
+                type: MessageType.error,
+              );
         }
       },
       // Before an indicator appeared if state status was n progress, but
