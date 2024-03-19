@@ -37,7 +37,7 @@ class InventoryPage extends StatelessWidget {
         BlocProvider(
           create: (context) => InventoryCubit(ItemsRepository.I)..onFetch(),
         ),
-        BlocProvider(create: (context) => FilterItemsCubit()),
+        BlocProvider(create: (context) => FilterItemsCubit(ItemsRepository.I)),
       ],
       child: const InventoryView(),
     );
