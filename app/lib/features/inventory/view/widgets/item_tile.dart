@@ -154,12 +154,13 @@ class ItemTileState extends State<ItemTile> {
     return ModalBottomSheet.of(context).showActions(
       actions: [
         ModalBottomSheetActions.edit(context).copyWith(onTap: _edit),
-        ModalBottomSheetActions.open(context).copyWith(
-          onTap: _open,
-          title: widget.item.openedAt == null
-              ? context.l10n.openAction
-              : context.l10n.undoOpenAction,
-        ),
+        if (!widget.item.status.isExpired)
+          ModalBottomSheetActions.open(context).copyWith(
+            onTap: _open,
+            title: widget.item.openedAt == null
+                ? context.l10n.openAction
+                : context.l10n.undoOpenAction,
+          ),
         if (widget.item.remainingMeasure.unitOfMeasure == UnitOfMeasure.unit)
           ModalBottomSheetActions.consume(context).copyWith(
             onTap: _consume,
@@ -219,7 +220,10 @@ class ItemTileState extends State<ItemTile> {
         }
       },
       onDismissed: (direction) {},
-      direction: DismissDirection.horizontal,
+      // disable left action (open/close item)
+      direction: !widget.item.status.isExpired
+          ? DismissDirection.horizontal
+          : DismissDirection.endToStart,
       background: slideLeftBackground(context),
       secondaryBackground: slideRightBackground(context),
       child: A2Card(
