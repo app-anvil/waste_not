@@ -250,6 +250,7 @@ class ItemTileState extends State<ItemTile> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // The name cannot be changed, so no builder is required.
                   Text(
                     widget.item.product.name ?? '',
                     style: context.tt.labelLarge,
@@ -257,14 +258,13 @@ class ItemTileState extends State<ItemTile> {
                   VSpan($style.insets.xxs),
                   Row(
                     children: [
-                      BlocSelector<ItemCubit, ItemState, double>(
+                      BlocSelector<ItemCubit, ItemState, Measure>(
                         selector: (state) {
-                          return state.item.remainingMeasure.quantity;
+                          return state.item.remainingMeasure;
                         },
-                        builder: (context, quantity) {
-                          final remainingMeasure = widget.item.remainingMeasure;
+                        builder: (context, measure) {
                           final remaininigMeasureText =
-                              ' ${remainingMeasure.unitOfMeasure.name}';
+                              ' ${measure.unitOfMeasure.name}';
                           return RichText(
                             text: TextSpan(
                               style: context.tt.labelSmall,
@@ -276,7 +276,7 @@ class ItemTileState extends State<ItemTile> {
                                   text: ' - ',
                                 ),
                                 TextSpan(
-                                  text: quantity.toString(),
+                                  text: measure.quantity.toString(),
                                 ),
                                 TextSpan(text: remaininigMeasureText),
                               ],

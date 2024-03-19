@@ -60,38 +60,40 @@ class InventoryView extends StatelessWidget {
         if (state.lastItemDeleted != null) {
           final deletedItem = state.lastItemDeleted!;
           GetIt.I.get<MessageHelper>().showMessage(
-            context,
-            message: l10n.inventoryPageItemDeletedSnackbarText(
-              deletedItem.product.name!,
-            ),
-            type: MessageType.info,
-            action: SnackBarAction(
-              label: l10n.undoAction,
-              onPressed: () {
-                GetIt.I.get<MessageHelper>().hideSnackBar(context);
-                context.read<InventoryCubit>().onUndoDeletionItemRequested();
-              },
-            ),
-          );
+                context,
+                message: l10n.inventoryPageItemDeletedSnackbarText(
+                  deletedItem.product.name!,
+                ),
+                type: MessageType.info,
+                action: SnackBarAction(
+                  label: l10n.undoAction,
+                  onPressed: () {
+                    GetIt.I.get<MessageHelper>().hideSnackBar(context);
+                    context
+                        .read<InventoryCubit>()
+                        .onUndoDeletionItemRequested();
+                  },
+                ),
+              );
         }
         if (state.lastItemFullConsumed != null) {
           final consumedItem = state.lastItemFullConsumed!;
           GetIt.I.get<MessageHelper>().showMessage(
-            context,
-            message: l10n.inventoryPageItemFullConsumedSnackbarText(
-              consumedItem.product.name!,
-            ),
-            type: MessageType.info,
-            action: SnackBarAction(
-              label: l10n.undoAction,
-              onPressed: () {
-                GetIt.I.get<MessageHelper>().hideSnackBar(context);
-                context
-                    .read<InventoryCubit>()
-                    .onUndoFullConsumptionItemRequested();
-              },
-            ),
-          );
+                context,
+                message: l10n.inventoryPageItemFullConsumedSnackbarText(
+                  consumedItem.product.name!,
+                ),
+                type: MessageType.info,
+                action: SnackBarAction(
+                  label: l10n.undoAction,
+                  onPressed: () {
+                    GetIt.I.get<MessageHelper>().hideSnackBar(context);
+                    context
+                        .read<InventoryCubit>()
+                        .onUndoFullConsumptionItemRequested();
+                  },
+                ),
+              );
         }
       },
       child: CustomScrollView(

@@ -66,10 +66,10 @@ class AddEditStorageView extends StatelessWidget {
                                   // Pop the loading screen
                                   ctx.navRoot.pop();
                                   GetIt.I.get<MessageHelper>().showMessage(
-                                    context,
-                                    message: curr.errorMessage!,
-                                    type: MessageType.error,
-                                  );
+                                        context,
+                                        message: curr.errorMessage!,
+                                        type: MessageType.error,
+                                      );
                                 }
                               },
                               trigger: cubit.onSave,

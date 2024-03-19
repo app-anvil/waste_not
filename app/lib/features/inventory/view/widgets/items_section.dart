@@ -7,6 +7,16 @@ import '../../../../l10n/l10n.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../features.dart';
 
+/// The list of items.
+///
+/// It is rebuilt only if the order of the list changes:
+///
+/// - item expiration date is changed
+///
+/// - item is opened / closed.
+///
+/// If item's remainingMeasure is changed the list is not updated, only the
+/// item tile is updated, but the state of InventoryCubit is always updated.
 class ItemsSection extends StatelessWidget {
   const ItemsSection({super.key});
 
@@ -18,7 +28,7 @@ class ItemsSection extends StatelessWidget {
         context.read<InventoryCubit>().applyFilter(state.selectedStorage);
       },
       child: BlocBuilder<InventoryCubit, InventoryState>(
-        buildWhen: (prev, current) => prev != current,
+        buildWhen: (prev, current) => prev != current && current.updatesUI,
         builder: (context, state) {
           if (state.status.isFailure) {
             // TODO(marco): show error
@@ -61,10 +71,12 @@ class ItemsSection extends StatelessWidget {
                   ),
                   child: Builder(
                     builder: (context) {
-                      // the item from the list is not updated.
-                      // So we get the value of item from its cubit with watch.
+                      // The item from the list is always updated, but the list
+                      // is rebuilt only if state.updatesUI is true.
+                      // Only a single tile is updated if an item is edited.
                       return ItemTile(
-                        item: context.watch<ItemCubit>().state.item,
+                        key: ValueKey(item.uuid),
+                        item: item,
                         category: '',
                       );
                     },
