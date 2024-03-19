@@ -16,6 +16,7 @@ class ItemsDbProvider implements ItemsProvider {
     required DateTime expirationDate,
     required Measure remainingMeasure,
     required StorageEntity storage,
+    required DateTime? openedAt,
     int? shelf,
   }) async {
     final isar = await _dbService.db;
@@ -35,7 +36,7 @@ class ItemsDbProvider implements ItemsProvider {
       ..remainingMeasure = MeasureIsar.fromEntity(remainingMeasure)
       ..product = ProductIsar.fromEntity(product)
       ..storage.value = storageDb
-      ..openedAt = null
+      ..openedAt = openedAt
       ..uuid = uuid;
 
     await isar.writeTxn(() async {

@@ -97,6 +97,7 @@ class ItemsRepositoryImpl extends ItemsRepository {
         expirationDate: expirationDate,
         remainingMeasure: remainingMeasure,
         storage: storage,
+        openedAt: openedAt,
         shelf: shelf,
       );
       _itemsMap[item.uuid] = item;
