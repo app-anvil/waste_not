@@ -7,11 +7,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
 
   @override
   Future<ProductEntity> fetchProduct(String barcode) async {
-    try {
-      final product = await _client.fetchProduct(barcode);
-      return product;
-    } catch (e) {
-      rethrow;
-    }
+    final product = await _client.fetchProduct(barcode);
+    return product;
   }
 }
