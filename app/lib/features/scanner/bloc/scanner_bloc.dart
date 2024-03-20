@@ -40,6 +40,16 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> with LoggerMixin {
           product: Optional(product),
         ),
       );
+    } on ProductNotFound catch (e, s) {
+      logger.e(e.toString(), e, s);
+      // FIXME: l10n
+      emit(
+        state.copyWithError(
+          'Product not found',
+          showMessageAsError: false,
+        ),
+      );
+      return;
     } catch (e, s) {
       logger.e(e.toString(), e, s);
       emit(state.copyWithError('Impossible to retrieve the product.'));

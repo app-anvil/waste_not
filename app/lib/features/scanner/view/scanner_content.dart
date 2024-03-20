@@ -24,7 +24,9 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
   @override
   void initState() {
     super.initState();
-    _controller = MobileScannerController();
+    _controller = MobileScannerController(
+      detectionSpeed: DetectionSpeed.noDuplicates,
+    );
   }
 
   @override
@@ -40,10 +42,13 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
     return BlocConsumer<ScannerBloc, ScannerState>(
       listener: (context, state) {
         if (state.status.isFailure) {
+          AppHaptics.vibrate();
           GetIt.I.get<MessageHelper>().showMessage(
                 context,
                 message: state.errorMessage!,
-                type: MessageType.error,
+                type: state.showMessageAsError
+                    ? MessageType.error
+                    : MessageType.info,
               );
         }
       },
@@ -72,7 +77,8 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
                 logger.d('${capture.barcodes.last.rawValue}');
                 _controller.barcodes.last
                     .then((value) => logger.d('${value.raw}'));
-                if (capture.barcodes.last.rawValue != null) {
+                if (capture.barcodes.last.rawValue != null ||
+                    context.watch<ScannerBloc>().state.barcode == null) {
                   context.read<ScannerBloc>().add(
                         ScannerOnBarcodeChanged(
                           capture.barcodes.last.rawValue!,
@@ -304,7 +310,7 @@ class ScannerErrorWidget extends StatelessWidget {
 
       // ignore: no_default_cases
       default:
-        errorMessage = 'Generic Error';
+        errorMessage = 'Ops. Something went wrong.\nRetry to open the scanner.';
     }
 
     return ColoredBox(
@@ -320,10 +326,7 @@ class ScannerErrorWidget extends StatelessWidget {
             Text(
               errorMessage,
               style: const TextStyle(color: Colors.white),
-            ),
-            Text(
-              error.errorDetails?.message ?? '',
-              style: const TextStyle(color: Colors.white),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

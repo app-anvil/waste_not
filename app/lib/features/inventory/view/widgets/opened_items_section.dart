@@ -12,7 +12,6 @@ class OpenedItemsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocListener<FilterItemsCubit, FilterItemsState>(
       listener: (context, state) {
         context.read<OpenedItemsCubit>().applyFilter(state.selectedStorage);

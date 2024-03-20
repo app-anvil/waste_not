@@ -13,7 +13,7 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
       final openedOrClosedItem = state is ItemsRepositoryItemUpdatedSuccess &&
           state.prevItem.openedAt != state.item.openedAt;
       // when an opened item is restored (undo action) a new item with same
-      // values is added.    
+      // values is added.
       final openedItemRestored = state is ItemsRepositoryItemAddedSuccess &&
           state.item.status.isOpened;
       if (state is ItemsRepositoryItemLoadedSuccess ||

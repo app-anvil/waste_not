@@ -1,3 +1,4 @@
+import 'package:flext/flext.dart';
 import 'package:flutter/material.dart';
 
 enum MessageType {
@@ -32,8 +33,14 @@ class MessageHelper {
     if (_messagesQueue.contains(message)) return;
     _addText(message);
     final snackBar = SnackBar(
-      content: Text(message),
-      backgroundColor: type.isError ? Colors.red : null,
+      content: Text(
+        message,
+        style: context.tt.bodyMedium?.copyWith(
+          color: type.isError ? Colors.white : context.col.onPrimary,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      backgroundColor: type.isError ? Colors.red : context.col.primary,
       action: action,
     );
 
