@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Simple class wrapping HapticFeedback to make testing a bit simpler.
+// TODO(gianmarcocalbi): move inside sdk
 class AppHaptics {
   // note: system sounds are pretty buggy on Android: https://github.com/flutter/flutter/issues/57531
   static bool debugSound = kDebugMode;
