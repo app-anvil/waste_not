@@ -9,6 +9,12 @@ abstract interface class ItemsProvider {
     required DateTime expirationDate,
     required Measure remainingMeasure,
     required StorageEntity storage,
+    /// Most of the time an item is added with openedAt equal to null.
+    /// 
+    /// It can be set when an opened item is deleted from the db and the the 
+    /// user wants to undo the operation. So a new item is created and this 
+    /// field should be set.
+    required DateTime? openedAt,
     int? shelf,
   });
 

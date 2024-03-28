@@ -12,13 +12,15 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
     _itemsRepoSubscription = _repo.listen((_, state) {
       final openedOrClosedItem = state is ItemsRepositoryItemUpdatedSuccess &&
           state.prevItem.openedAt != state.item.openedAt;
+      // when an opened item is restored (undo action) a new item with same
+      // values is added.    
+      final openedItemRestored = state is ItemsRepositoryItemAddedSuccess &&
+          state.item.status.isOpened;
       if (state is ItemsRepositoryItemLoadedSuccess ||
           openedOrClosedItem ||
           state is ItemsRepositoryItemDeletedSuccess ||
-          state is ItemsRepositoryItemFullConsumedSuccess) {
-        // final sortItems = state is ItemsRepositoryItemAddedSuccess ||
-        //     state is ItemsRepositoryItemDeletedSuccess ||
-        //     updatedItemDateTime;
+          state is ItemsRepositoryItemFullConsumedSuccess ||
+          openedItemRestored) {
         _update(
           _repo.items,
           sortItems: false,
@@ -53,7 +55,6 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
     emit(
       state.copyWith(
         items: sortedItems,
-        //groupItems: _groupItems(sortedItems),
       ),
     );
   }
@@ -67,7 +68,6 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
       emit(
         state.copyWith(
           items: openedItems,
-          //groupItems: _groupItems(openedItems),
         ),
       );
     } else {
@@ -79,7 +79,6 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
       emit(
         state.copyWith(
           items: filteredItems,
-          //groupItems: _groupItems(filteredItems),
         ),
       );
     }
