@@ -74,10 +74,18 @@ class ItemsSection extends StatelessWidget {
                       // The item from the list is always updated, but the list
                       // is rebuilt only if state.updatesUI is true.
                       // Only a single tile is updated if an item is edited.
-                      return ItemTile(
-                        key: ValueKey(item.uuid),
-                        item: item,
-                        category: '',
+                      // The whole tile is rebuilt if the state changes.
+                      return BlocSelector<ItemCubit, ItemState, ItemEntity>(
+                        selector: (state) {
+                          return state.item;
+                        },
+                        builder: (context, item) {
+                          return ItemTile(
+                            key: ValueKey(item.uuid),
+                            item: item,
+                            category: '',
+                          );
+                        },
                       );
                     },
                   ),

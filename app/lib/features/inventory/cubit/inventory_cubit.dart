@@ -211,7 +211,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
       openedAt: item.openedAt,
       // create a new item, with different uuid.
       //id: item.uuid,
-      shelf: null,
+      shelf: item is ShelfItemEntity ? item.shelf : null,
     );
   }
 
