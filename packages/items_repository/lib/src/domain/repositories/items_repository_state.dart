@@ -1,4 +1,4 @@
-import 'package:aev_sdk/aev_sdk.dart';
+import 'package:a2f_sdk/a2f_sdk.dart';
 import '../../../items_repository.dart';
 
 sealed class ItemsRepositoryState extends Equatable {

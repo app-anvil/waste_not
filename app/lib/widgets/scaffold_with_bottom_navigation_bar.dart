@@ -1,4 +1,4 @@
-import 'package:aev_sdk/aev_sdk.dart';
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 
 import '../features/features.dart';
@@ -45,8 +45,8 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.routerState;
 
-    return PageScaffold(
-      fab: state.fullPath == AppRoute.inventory.rootPath
+    return Scaffold(
+      floatingActionButton: state.fullPath == AppRoute.inventory.rootPath
           ? const InventoryFAB()
           : null,
       bottomNavigationBar: NavigationBar(
@@ -71,7 +71,7 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
         ],
         onDestinationSelected: onDestinationSelected,
       ),
-      child: body,
+      body: body,
     );
   }
 }

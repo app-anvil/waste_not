@@ -1,9 +1,8 @@
-import 'package:aev_sdk/aev_sdk.dart';
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logger/logger.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../l10n/l10n.dart';

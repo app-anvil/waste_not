@@ -1,4 +1,4 @@
-import 'package:aev_sdk/aev_sdk.dart';
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -60,7 +60,7 @@ class AddEditItemForm extends StatelessWidget {
             validator: (value) => value == null ? 'Required field' : null,
           ),
           VSpan($style.insets.sm),
-          SelectionInput<StorageEntity>(
+          SimpleSelectionInput<StorageEntity>(
             initialValue: cubit.state.storage,
             // FIXME: l10n
             hintText: 'Select a storage',
@@ -98,9 +98,7 @@ class _QuantityAndUnitMeasureSection extends StatelessWidget {
               decimal: context.watch<AddEditItemCubit>().state.unitOfMeasure !=
                   UnitOfMeasure.unit,
             ),
-            inputFormatters: [
-              ReplaceCommaFormatter(),
-            ],
+            inputFormatters: [ReplaceCommaFormatter('.')],
             decoration: const InputDecoration().copyWith(
               // FIXME: l10n
               labelText: 'Quantity',
@@ -116,7 +114,7 @@ class _QuantityAndUnitMeasureSection extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: SelectionInput<UnitOfMeasure>(
+          child: SimpleSelectionInput<UnitOfMeasure>(
             // FIXME: l10n
             hintText: 'Select unit of measure',
             initialValue: cubit.state.unitOfMeasure,

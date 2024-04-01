@@ -1,4 +1,4 @@
-import 'package:aev_sdk/aev_sdk.dart';
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storages_repository/storages_repository.dart';
@@ -23,12 +23,12 @@ class StoragesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageScaffold(
-      fab: FloatingActionButton.small(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton.small(
         child: const Icon(Icons.add_rounded),
         onPressed: () => context.router.goNamed(AppRoute.addStorage.name),
       ),
-      child: CustomScrollView(
+      body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
             // FIXME: l10n

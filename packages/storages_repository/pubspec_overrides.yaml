@@ -1,6 +1,4 @@
-# melos_managed_dependency_overrides: logger,aev_sdk
+# melos_managed_dependency_overrides: a2f_sdk
 dependency_overrides:
-  aev_sdk:
-    path: ../aev_sdk
-  logger:
-    path: ../logger
+  a2f_sdk:
+    path: ../a2f_sdk

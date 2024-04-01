@@ -9,16 +9,12 @@
       "path": "app"
     },
     {
-      "name": "📦 aev_sdk",
-      "path": "packages/aev_sdk",
+      "name": "🛠️ a2f_sdk",
+      "path": "packages/a2f_sdk",
     },
     {
       "name": "📦 items_repository",
       "path": "packages/items_repository",
-    },
-    {
-      "name": "📦 logger",
-      "path": "packages/logger",
     },
     {
       "name": "📦 products_repository",

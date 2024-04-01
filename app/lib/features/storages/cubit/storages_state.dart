@@ -7,8 +7,8 @@ final class StoragesState extends SuperBlocState {
     super.errorMessage,
   });
 
-  StoragesState.initial()
-      : storages = [],
+  const StoragesState.initial()
+      : storages = const [],
         super.initial();
 
   final List<StorageEntity> storages;
