@@ -52,40 +52,22 @@ class ItemsRepositoryImpl extends ItemsRepository {
     String? id,
     int? shelf,
   }) async {
-    // check if an item exists or exist an item with some, product (barcode),
-    // same expiration date: in these case perform an update.
-    // else the item should be added.
-    var prevItem = items.firstWhereOrNull(
-      (element) =>
-          element.product.barcode == product.barcode &&
-          element.expirationDate == expirationDate,
-    );
-    if (id != null || prevItem != null) {
+    // check if an item exists
+    if (id != null) {
       late final ItemModel updatedItem;
-      if (id != null) {
-        logger.v('Updating item with id: $id...');
-        prevItem ??= getItemOrThrow(id);
-        updatedItem = await _provider.update(
-          id: id,
-          expirationDate: expirationDate,
-          remainingMeasure: remainingMeasure,
-          storage: storage,
-          openedAt: openedAt,
-          shelf: shelf,
-        );
-      } else {
-        logger.v(
-          'Updating item with product with barcode: ${product.barcode}...',
-        );
-        updatedItem = await _provider.update(
-          id: prevItem!.uuid,
-          expirationDate: expirationDate,
-          remainingMeasure: remainingMeasure,
-          storage: storage,
-          openedAt: openedAt,
-          shelf: shelf,
-        );
-      }
+      late final ItemModel prevItem;
+
+      logger.v('Updating item with id: $id...');
+      prevItem = getItemOrThrow(id);
+      updatedItem = await _provider.update(
+        id: id,
+        expirationDate: expirationDate,
+        remainingMeasure: remainingMeasure,
+        storage: storage,
+        openedAt: openedAt,
+        shelf: shelf,
+      );
+
       _itemsMap[updatedItem.uuid] = updatedItem;
       logger.d('Item updated successfully: $prevItem, $updatedItem');
       emit(ItemsRepositoryItemUpdatedSuccess(prevItem, updatedItem));

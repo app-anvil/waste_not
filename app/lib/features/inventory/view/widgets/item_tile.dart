@@ -177,8 +177,11 @@ class ItemTileState extends State<ItemTile> {
 
   @override
   Widget build(BuildContext context) {
+    final remaininigMeasureText =
+        ' ${widget.item.remainingMeasure.unitOfMeasure.name}';
+    final measure = widget.item.remainingMeasure;
     return A2Dismissible(
-      key: Key(widget.item.uuid),
+      key: widget.key ?? Key(widget.item.uuid),
       dismissThresholds: const {
         DismissDirection.startToEnd: 0.2,
         DismissDirection.endToStart: 0.2,
@@ -262,31 +265,22 @@ class ItemTileState extends State<ItemTile> {
                   VSpan($style.insets.xxs),
                   Row(
                     children: [
-                      BlocSelector<ItemCubit, ItemState, Measure>(
-                        selector: (state) {
-                          return state.item.remainingMeasure;
-                        },
-                        builder: (context, measure) {
-                          final remaininigMeasureText =
-                              ' ${measure.unitOfMeasure.name}';
-                          return RichText(
-                            text: TextSpan(
-                              style: context.tt.labelSmall,
-                              children: [
-                                TextSpan(
-                                  text: widget.item.storage.name,
-                                ),
-                                const TextSpan(
-                                  text: ' - ',
-                                ),
-                                TextSpan(
-                                  text: measure.quantity.toString(),
-                                ),
-                                TextSpan(text: remaininigMeasureText),
-                              ],
+                      RichText(
+                        text: TextSpan(
+                          style: context.tt.labelSmall,
+                          children: [
+                            TextSpan(
+                              text: widget.item.storage.name,
                             ),
-                          );
-                        },
+                            const TextSpan(
+                              text: ' - ',
+                            ),
+                            TextSpan(
+                              text: measure.quantity.toString(),
+                            ),
+                            TextSpan(text: remaininigMeasureText),
+                          ],
+                        ),
                       ),
                     ],
                   ),
