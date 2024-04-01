@@ -1,15 +1,12 @@
-import 'package:aev_sdk/aev_sdk.dart';
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:logger/logger.dart';
 
 part 'consume_item_state.dart';
 
 class ConsumeItemCubit extends Cubit<ConsumeItemState> with LoggerMixin {
   ConsumeItemCubit(this.item, this._repo)
-      : super(
-          const ConsumeItemState.initial(),
-        );
+      : super(const ConsumeItemState.initial());
 
   final ItemEntity item;
 

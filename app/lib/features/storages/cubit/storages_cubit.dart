@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:aev_sdk/aev_sdk.dart';
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 part 'storages_state.dart';
 
 class StoragesCubit extends Cubit<StoragesState> with LoggerMixin {
-  StoragesCubit(this._repo) : super(StoragesState.initial()) {
+  StoragesCubit(this._repo) : super(const StoragesState.initial()) {
     _storagesRepoSubscription = _repo.listen((_, state) {
       if (state is! StoragesRepositoryInitial) {
         _update(_repo.items);

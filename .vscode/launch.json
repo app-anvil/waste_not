@@ -5,49 +5,57 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "waste_not",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "app",
+      "name": "app (debug mode)",
       "cwd": "app",
       "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "app (profile mode)",
-      "cwd": "app",
-      "request": "launch",
+      "program": "lib/main_development.dart",
       "type": "dart",
-      "flutterMode": "profile"
+      "args": [
+        "--flavor",
+        "development",
+        "--target",
+        "lib/main_development.dart"
+      ]
     },
     {
-      "name": "app (release mode)",
+      "name": "app (profile)",
       "cwd": "app",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
-    },
+      "flutterMode": "profile",
+      "args": [
+        "--flavor",
+        "development",
+        "--target",
+        "lib/main_development.dart"
+      ]
+    },    
     {
-      "name": "common_components",
-      "cwd": "packages/common_components",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "common_components (profile mode)",
-      "cwd": "packages/common_components",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile"
-    },
-    {
-      "name": "common_components (release mode)",
-      "cwd": "packages/common_components",
+      "name": "app (staging)",
+      "cwd": "app",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
-    }
+      "program": "lib/main_staging.dart",
+      "args": [
+        "--flavor",
+        "staging",
+        "--target",
+        "lib/main_staging.dart"
+      ]
+    },
+    {
+      "name": "app (prod)",
+      "cwd": "app",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "production",
+        "--target",
+        "lib/main_production.dart"
+      ]
+    },
+    
   ]
 }

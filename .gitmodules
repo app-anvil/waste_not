@@ -1,0 +1,3 @@
+[submodule "packages/a2f_sdk"]
+	path = packages/a2f_sdk
+	url = https://github.com/app-anvil/a2f_sdk.git

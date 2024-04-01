@@ -1,9 +1,7 @@
-# melos_managed_dependency_overrides: products_repository,logger,storages_repository,aev_sdk
+# melos_managed_dependency_overrides: products_repository,storages_repository,a2f_sdk
 dependency_overrides:
-  aev_sdk:
-    path: ../aev_sdk
-  logger:
-    path: ../logger
+  a2f_sdk:
+    path: ../a2f_sdk
   products_repository:
     path: ../products_repository
   storages_repository:
