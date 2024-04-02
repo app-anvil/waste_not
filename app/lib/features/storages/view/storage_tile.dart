@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storages_repository/storages_repository.dart';
 
-import '../../../routes/app_route.dart';
+import '../../../router/app_route.dart';
 import '../../../styles/app_colors.dart';
 import '../../features.dart';
 

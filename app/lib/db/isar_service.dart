@@ -6,8 +6,9 @@ import 'package:path/path.dart' as path;
 import 'package:storages_repository/storages_repository.dart';
 import 'package:uuid/uuid.dart';
 
-// TODO: define the interface inside the common package. In this way, the class
-// is available also in the repo packages.
+/// Implementation of [IsarService].
+///
+/// The interface is defined in the `a2f_sdk` package.
 class IsarServiceImpl implements IsarService {
   IsarServiceImpl() {
     db = openDB();

@@ -6,21 +6,11 @@ import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../routes/app_route.dart';
 import '../../features.dart';
 
-class InventoryFAB extends StatelessWidget {
-  const InventoryFAB({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => context.router.goNamed(AppRoute.scanner.name),
-      child: const Icon(Icons.add_rounded),
-    );
-  }
-}
-
+/// The main page showing the inventory overview.
+///
+/// So far (2024-04-06) this is the page that is shown when the app is started.
 class InventoryPage extends StatelessWidget {
   const InventoryPage({super.key});
 
@@ -39,13 +29,13 @@ class InventoryPage extends StatelessWidget {
         ),
         BlocProvider(create: (context) => FilterItemsCubit(ItemsRepository.I)),
       ],
-      child: const InventoryView(),
+      child: const _InventoryPageView(),
     );
   }
 }
 
-class InventoryView extends StatelessWidget {
-  const InventoryView({super.key});
+class _InventoryPageView extends StatelessWidget {
+  const _InventoryPageView();
 
   @override
   Widget build(BuildContext context) {
@@ -123,9 +113,7 @@ class InventoryView extends StatelessWidget {
             builder: (context, state) {
               if (state.selectedStorage != null) {
                 return SliverPadding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: $style.insets.screenH,
-                  ),
+                  padding: $style.insets.screenH.asPaddingH,
                   sliver: Text(
                     state.selectedStorage!.name,
                     style: context.tt.titleLarge,
@@ -136,10 +124,7 @@ class InventoryView extends StatelessWidget {
             },
           ),
           SliverPadding(
-            padding: EdgeInsets.only(
-              right: $style.insets.screenH,
-              left: $style.insets.screenH,
-            ),
+            padding: $style.insets.screenH.asPaddingH,
             sliver: const OpenedItemsSection(),
           ),
           SliverPadding(

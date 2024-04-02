@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../features/features.dart';
 import '../l10n/l10n.dart';
-import '../routes/app_route.dart';
+import '../router/app_route.dart';
 
 class ScaffoldWithBottomNavigationBar extends StatelessWidget {
   const ScaffoldWithBottomNavigationBar({
@@ -47,7 +47,7 @@ class ScaffoldWithBottomNavigationBar extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: state.fullPath == AppRoute.inventory.rootPath
-          ? const InventoryFAB()
+          ? const InventoryPageFab()
           : null,
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,

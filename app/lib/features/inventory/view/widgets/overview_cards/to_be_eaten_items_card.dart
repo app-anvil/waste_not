@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routes/app_route.dart';
+import '../../../../../router/app_route.dart';
 import '../../../../features.dart';
 
 class ToBeEatenItemsCard extends StatelessWidget {

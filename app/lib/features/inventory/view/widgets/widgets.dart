@@ -1,3 +1,4 @@
+export 'inventory_page_fab.dart';
 export 'item_tile.dart';
 export 'items_section.dart';
 export 'opened_items_section.dart';

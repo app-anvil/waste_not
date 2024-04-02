@@ -113,9 +113,9 @@ class _ScannerContentState extends State<ScannerContent> with LoggerMixin {
                           ),
                           onSubmitted: (value) {
                             if (value.isNotEmpty) {
-                              context.read<ScannerBloc>().add(
-                                    ScannerOnBarcodeChanged(value),
-                                  );
+                              context
+                                  .read<ScannerBloc>()
+                                  .add(ScannerOnBarcodeChanged(value));
                             }
                           },
                         ),

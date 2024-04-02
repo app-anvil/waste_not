@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../routes/app_route.dart';
+import '../../../../router/app_route.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../features.dart';
 

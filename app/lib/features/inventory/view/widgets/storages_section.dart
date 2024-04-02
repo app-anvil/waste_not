@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../routes/app_route.dart';
+import '../../../../router/app_route.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../storages/storages.dart';
 import '../../cubit/cubit.dart';

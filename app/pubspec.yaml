@@ -1,5 +1,5 @@
-name: app
-description: Waste Not app
+name: waste_not
+description: Waste Not App
 version: 1.0.0+1
 publish_to: none
 
