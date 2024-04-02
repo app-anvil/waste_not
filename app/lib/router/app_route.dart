@@ -10,7 +10,6 @@ enum AppRoute {
   storages,
   addStorage,
   editStorage,
-
   editItem,
 }
 

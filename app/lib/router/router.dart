@@ -17,7 +17,7 @@ final _accountNavigatorKey = GlobalKey<NavigatorState>();
 
 // Because child of routes doesn't have a bottom navigation bar, they use
 // _rootNavigatorKey as a parentNavigationKey parameter.
-final router = GoRouter(
+final $router = GoRouter(
   // FIXME: use / with redirect.
   initialLocation: '/inventory',
   navigatorKey: _rootNavigatorKey,
@@ -132,8 +132,6 @@ final router = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: AccountPage(),
               ),
-              // all children routes
-              // routes: const [],
             ),
           ],
         ),

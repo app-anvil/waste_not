@@ -44,6 +44,7 @@ class StoragesCubit extends Cubit<StoragesState> with LoggerMixin {
     }
   }
 
+  /// Fetches the storages from the [StoragesRepository].
   Future<void> onFetch() async {
     emit(state.copyWith(status: StateStatus.progress));
     try {

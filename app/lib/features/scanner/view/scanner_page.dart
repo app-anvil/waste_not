@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:products_repository/products_repository.dart';
 
-import '../../../routes/app_route.dart';
+import '../../../router/app_route.dart';
 import '../bloc/scanner_bloc.dart';
 import 'scanner_content.dart';
 

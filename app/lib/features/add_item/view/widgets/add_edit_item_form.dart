@@ -78,7 +78,7 @@ class AddEditItemForm extends StatelessWidget {
           VSpan($style.insets.md),
           const _UnitsSection(),
           VSpan($style.insets.md),
-          isEditing ? const _AddBtn.edit() : const _AddBtn.add(),
+          if (isEditing) const _AddBtn.edit() else const _AddBtn.add(),
         ],
       ),
     );

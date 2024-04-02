@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../l10n/l10n.dart';
+import '../widgets.dart';
+import 'modal.dart';
+import 'modal_bottom_sheet.dart';
 
 /// Action to be placed into a [ModalBottomSheet].
 class ModalBottomSheetAction {

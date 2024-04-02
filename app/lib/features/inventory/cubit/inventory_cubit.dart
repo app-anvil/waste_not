@@ -10,6 +10,11 @@ import '../../features.dart';
 part 'inventory_state.dart';
 
 class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
+  final ItemsRepository _repo;
+
+  late final StreamSubscription<ObservableEvent<ItemsRepositoryState>>
+      _itemsRepoSubscription;
+
   InventoryCubit(this._repo) : super(const InventoryState.initial()) {
     _itemsRepoSubscription = _repo.listen((_, state) {
       if (state is ItemsRepositoryItemLoadedSuccess ||
@@ -46,12 +51,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     });
   }
 
-  final ItemsRepository _repo;
-
-  late final StreamSubscription<ObservableEvent<ItemsRepositoryState>>
-      _itemsRepoSubscription;
-
-  /// Item is not opened or it is expired.
+  /// Returns whether the item is not opened or it is expired.
   bool _filter(ItemEntity item) {
     return !ItemStatus.fromItem(item).isOpened ||
         ItemStatus.fromItem(item).isExpired;
@@ -118,6 +118,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     return flattenItems;
   }
 
+  /// Fetches the items from the [ItemsRepository].
   Future<void> onFetch() async {
     emit(state.copyWith(status: StateStatus.progress));
     try {

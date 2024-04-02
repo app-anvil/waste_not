@@ -6,5 +6,9 @@ publish_to: none
 environment:
   sdk: ">=3.0.0 <4.0.0"
 dev_dependencies:
+  # Temporary import for the SDK in order to use its analysis options.
+  a2f_sdk:
+    git:
+      url: git@github.com:app-anvil/a2f_sdk.git
   melos: ^3.1.1
   very_good_analysis: ^5.1.0

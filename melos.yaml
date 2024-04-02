@@ -16,3 +16,15 @@ scripts:
 
   format:
     exec: fvm dart fix ./lib --apply && fvm dart format ./lib
+
+  pull:
+    description: Pull latest changes from the remote repository
+    run: git pull --recurse-submodules
+  
+  submodules-pull-latest:
+    description: Pull latest changes from submodules. It resets the submodules to their latest commit.
+    run: git submodule update --recursive --remote
+  
+  submodules-init:
+    description: Initialize git submodules
+    run: git submodule update --init --recursive

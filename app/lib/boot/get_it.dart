@@ -4,7 +4,7 @@ import 'package:items_repository/items_repository.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
-import 'db/isar_service.dart';
+import '../db/isar_service.dart';
 
 void initializeDependencies() {
   GetIt.I.registerSingleton<MessageHelper>(MessageHelper());
