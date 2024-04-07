@@ -59,101 +59,169 @@ enum StorageType {
   PANTRY
 }
 
+enum ItemStatus {
+  NORMAL
+  EXPIRED
+  OPENED
+  TOBEEATEN
+}
+
+enum ItemCategory {
+  MEAT
+  FISH
+  EGG
+  FRUIT
+  VEGETABLE
+  LEGUMES
+  DAIRY
+  CEREALS
+}
+
 interface ItemEntity {
   {abstract} +String get id()
   {abstract} +String get productId()
-  {abstract} +Date get expirationDate()
+  {abstract} +Date get initialExpirationDate()
   {abstract} +DateTime get createdAt()
   {abstract} +String get storageId()
   {abstract} +Measure get remainingMeasure()
+  {abstract} +DateTime? get openedAt()
+  {abstract} +ItemCategory? get category()
+  {abstract} +int? get goodForDaysAfterOpening()
   ---
   {abstract} +ItemEntity copyWith()
+  +ItemStatus get status()
+  +Date get actualExpirationDate()
 }
+
+ItemEntity --> ItemStatus: status
+ItemEntity --> ItemCategory: category
 
 interface ShelfItemEntity {
   +int? get shelf()
 }
 
-abstract class FridgeItemEntity {
-  +int? shelf
-  +String id
-  +String productId
-  +Date expirationDate
-  +DateTime createdAt
-  +String storageId
-  +Measure remainingMeasure
+' abstract class FridgeItemEntity {
+'   +int? shelf
+'   +String id
+'   +String productId
+'   +Date initialExpirationDate
+'   +DateTime createdAt
+'   +String storageId
+'   +Measure remainingMeasure
   
-  {abstract} +FridgeItemEntity copyWith()
-}
+'   {abstract} +FridgeItemEntity copyWith()
+' }
 
-note right of FridgeItemEntity
-  checks in the constructor
-  that the storage is 
-  of type ""FRIDGE""
-end note
+' note right of FridgeItemEntity
+'   checks in the constructor
+'   that the storage is 
+'   of type ""FRIDGE""
+' end note
 
-ItemEntity <|-- ShelfItemEntity
+ItemEntity <|.. ShelfItemEntity
 
-ShelfItemEntity <|-- FridgeItemEntity
+' ShelfItemEntity <|-- FridgeItemEntity
 
-abstract class FreezerItemEntity {
-  +int? shelf
+' abstract class FreezerItemEntity {
+'   +int? shelf
+'   +String id
+'   +String productId
+'   +Date initialExpirationDate
+'   +DateTime createdAt
+'   +String storageId
+'   +Measure remainingMeasure
+
+'   {abstract} +FreezerItemEntity copyWith()
+' }
+' note right of FreezerItemEntity
+'   checks in the constructor
+'   that the storage is 
+'   of type ""FREEZER""
+' end note
+
+' ShelfItemEntity <|-- FreezerItemEntity
+
+
+abstract class ItemModel {
   +String id
   +String productId
-  +Date expirationDate
+  +Date initialExpirationDate
   +DateTime createdAt
   +String storageId
   +Measure remainingMeasure
+  +DateTime? openedAt
+  +ItemCategory? category
+  +int? goodForDaysAfterOpening
 
-  {abstract} +FreezerItemEntity copyWith()
+  +ItemEntity copyWith()
+  +ItemStatus get status()
+  +Date get actualExpirationDate()
 }
-note right of FreezerItemEntity
-  checks in the constructor
-  that the storage is 
-  of type ""FREEZER""
-end note
 
-ShelfItemEntity <|-- FreezerItemEntity
+ItemModel o-- Measure: remainingMeasure
+
+ItemEntity <|-- ItemModel
+
 
 Storage *-- ItemEntity: storageId
-PantryItemModel o-- Measure: remainingMeasure
 
 class PantryItemModel {
   +String id
   +String productId
-  +Date expirationDate
+  +Date initialExpirationDate
   +DateTime createdAt
   +String storageId
   +Measure remainingMeasure
+  +DateTime? openedAt
+  +ItemCategory? category
+  +int? goodForDaysAfterOpening
 
   +ItemEntity copyWith()
 }
 
-class FridgeItemModel {
-  ...
+class ShelfItemModel {
+  +String id
+  +int? shelf
+  +String productId
+  +Date initialExpirationDate
+  +DateTime createdAt
+  +String storageId
+  +Measure remainingMeasure
+  +DateTime? openedAt
+  +ItemCategory? category
+  +int? goodForDaysAfterOpening
+
+  +ItemEntity copyWith()
 }
 
-FridgeItemEntity <|-- FridgeItemModel
+' class FridgeItemModel {
+'   ...
+' }
 
-class FreezerItemModel {
-  ...
-}
+' FridgeItemEntity <|-- FridgeItemModel
 
-FreezerItemEntity <|-- FreezerItemModel
+' class FreezerItemModel {
+'   ...
+' }
+
+' FreezerItemEntity <|-- FreezerItemModel
 
 class Measure {
-  +double quantity
-  +UnitOfMeasure unitOfMeasure
+  +double? quantity
+  +UnitOfMeasure? unitOfMeasure
+  +int units
 }
 Measure *-- UnitOfMeasure: unitOfMeasure
 enum UnitOfMeasure {
   KILOGRAM
   LITER
-  UNIT
 }
 
 ProductEntity <|-- ProductModel
 ProductEntity <.. ItemEntity: references
-ItemEntity <|-- PantryItemModel
+ItemModel <|-- PantryItemModel
+
+ItemModel <|-- ShelfItemModel
+ShelfItemEntity <|.. ShelfItemModel
 
 @enduml
