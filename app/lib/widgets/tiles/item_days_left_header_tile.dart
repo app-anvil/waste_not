@@ -35,7 +35,7 @@ class ItemDaysLeftHeaderTile extends StatelessWidget {
           expiredAt.toDate().difference(DateTime.now().toDate()).inDays;
       if (remainingDays == 0) {
         color = const Color(0xfffd8d35);
-      } else if (remainingDays <= ItemEntity.shouldBeItemBeforeDays) {
+      } else if (remainingDays <= ItemEntity.shouldBeEatenBeforeDays) {
         color = const Color(0xfffd8d35);
       } else {
         color = const Color(0xff3f9a8e);

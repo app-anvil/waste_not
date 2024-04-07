@@ -3,40 +3,36 @@ import 'package:storages_repository/storages_repository.dart';
 
 import '../../../items_repository.dart';
 
-class PantryItemModel extends ItemModel with ModelToStringMixin {
+class PantryItemModel extends ItemModel {
   const PantryItemModel({
     required super.uuid,
     required super.product,
-    required super.expirationDate,
+    required super.initialExpiryDate,
     required super.createdAt,
-    required super.remainingMeasure,
     required super.storage,
+    required super.amount,
+    super.unsealedLifeTimeInDays,
     super.openedAt,
   });
 
   @override
   PantryItemModel copyWith({
-    DateTime? expirationDate,
-    Measure? remainingMeasure,
+    DateTime? initialExpiryDate,
     StorageEntity? storage,
     Optional<DateTime?> openedAt = const Optional.absent(),
+    int? amount,
+    int? unsealedLifeTimeInDays,
   }) {
     return PantryItemModel(
       uuid: uuid,
       product: product,
-      expirationDate: expirationDate ?? this.expirationDate,
+      initialExpiryDate: initialExpiryDate ?? this.initialExpiryDate,
       createdAt: createdAt,
-      remainingMeasure: remainingMeasure ?? this.remainingMeasure,
       storage: storage ?? this.storage,
       openedAt: openedAt.present ? openedAt.value : this.openedAt,
+      amount: amount ?? this.amount,
+      unsealedLifeTimeInDays:
+          unsealedLifeTimeInDays ?? this.unsealedLifeTimeInDays,
     );
-  }
-
-  @override
-  Map<String, dynamic> $toMap() {
-    return {
-      'uuid': uuid,
-      'remainingMeasure': remainingMeasure,
-    };
   }
 }

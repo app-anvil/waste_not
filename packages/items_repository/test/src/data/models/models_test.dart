@@ -29,37 +29,28 @@ void main() {
   final pantryItem = PantryItemModel(
     uuid: '0',
     product: product,
-    expirationDate: DateTime(2023, 12, 12),
+    initialExpiryDate: DateTime(2023, 12, 12),
     createdAt: DateTime.now(),
-    remainingMeasure: Measure(
-      quantity: 1,
-      unitOfMeasure: UnitOfMeasure.unit,
-    ),
     storage: pantry,
+    amount: 1,
   );
 
   final fridgeItem = ShelfItemModel(
     uuid: '1',
     product: product,
-    expirationDate: DateTime(2023, 12, 12),
+    initialExpiryDate: DateTime(2023, 12, 12),
     createdAt: DateTime.now(),
-    remainingMeasure: Measure(
-      quantity: 1,
-      unitOfMeasure: UnitOfMeasure.unit,
-    ),
     storage: fridge,
+    amount: 2,
   );
 
   final freezerItem = ShelfItemModel(
     uuid: '1',
     product: product,
-    expirationDate: DateTime(2023, 12, 12),
+    initialExpiryDate: DateTime(2023, 12, 12),
     createdAt: DateTime.now(),
-    remainingMeasure: Measure(
-      quantity: 1,
-      unitOfMeasure: UnitOfMeasure.unit,
-    ),
     storage: freezer,
+    amount: 1,
   );
 
   setUp(() {});

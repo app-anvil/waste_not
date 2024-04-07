@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 
 enum UnitOfMeasure implements Selectable {
   kilogram,
-  liter,
-  unit;
+  liter;
 
   @override
   List<Object?> get props => [name];

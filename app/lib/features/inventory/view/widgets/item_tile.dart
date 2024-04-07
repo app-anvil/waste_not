@@ -28,18 +28,12 @@ class ItemTile extends StatefulWidget {
 class ItemTileState extends State<ItemTile> {
   late bool _fullConsumeItemAction;
 
-  late final bool _forceFullConsumeItemAction;
-
   late bool _isActionEnabled;
 
   @override
   void initState() {
     super.initState();
-    // if unit of measure of item is not unit, the consume action is not
-    // allowed. Use open action instead.
-    _forceFullConsumeItemAction =
-        widget.item.remainingMeasure.unitOfMeasure != UnitOfMeasure.unit;
-    _fullConsumeItemAction = _forceFullConsumeItemAction;
+    _fullConsumeItemAction = false;
     _isActionEnabled = false;
   }
 
@@ -154,17 +148,16 @@ class ItemTileState extends State<ItemTile> {
     return ModalBottomSheet.of(context).showActions(
       actions: [
         ModalBottomSheetActions.edit(context).copyWith(onTap: _edit),
-        if (!widget.item.status.isExpired)
+        if (!ItemStatus.fromItem(widget.item).isExpired)
           ModalBottomSheetActions.open(context).copyWith(
             onTap: _open,
             title: widget.item.openedAt == null
                 ? context.l10n.openAction
                 : context.l10n.undoOpenAction,
           ),
-        if (widget.item.remainingMeasure.unitOfMeasure == UnitOfMeasure.unit)
-          ModalBottomSheetActions.consume(context).copyWith(
-            onTap: _consume,
-          ),
+        ModalBottomSheetActions.consume(context).copyWith(
+          onTap: _consume,
+        ),
         ModalBottomSheetActions.consume(context).copyWith(
           title: context.l10n.fullConsumeAction,
           onTap: _onFullConsume,
@@ -177,9 +170,10 @@ class ItemTileState extends State<ItemTile> {
 
   @override
   Widget build(BuildContext context) {
-    final remaininigMeasureText =
-        ' ${widget.item.remainingMeasure.unitOfMeasure.name}';
-    final measure = widget.item.remainingMeasure;
+    // TODO: to be obtained by the item product
+    // final remaininigMeasureText =
+    //     ' ${widget.item.remainingMeasure.unitOfMeasure?.name}';
+    // final measure = widget.item.remainingMeasure;
     return A2Dismissible(
       key: widget.key ?? Key(widget.item.uuid),
       dismissThresholds: const {
@@ -217,14 +211,13 @@ class ItemTileState extends State<ItemTile> {
           _toggleFullConsumeAction();
         } else if (details.direction == DismissDirection.endToStart &&
             details.dragProgress < .5 &&
-            _fullConsumeItemAction &&
-            !_forceFullConsumeItemAction) {
+            _fullConsumeItemAction) {
           _toggleFullConsumeAction();
         }
       },
       onDismissed: (direction) {},
       // disable left action (open/close item)
-      direction: !widget.item.status.isExpired
+      direction: !ItemStatus.fromItem(widget.item).isExpired
           ? DismissDirection.horizontal
           : DismissDirection.endToStart,
       background: slideLeftBackground(context),
@@ -275,10 +268,11 @@ class ItemTileState extends State<ItemTile> {
                             const TextSpan(
                               text: ' - ',
                             ),
-                            TextSpan(
-                              text: measure.quantity.toString(),
-                            ),
-                            TextSpan(text: remaininigMeasureText),
+                            // TODO: to be obtained by the item product
+                            // TextSpan(
+                            //   text: measure.quantity.toString(),
+                            // ),
+                            // TextSpan(text: remaininigMeasureText),
                           ],
                         ),
                       ),

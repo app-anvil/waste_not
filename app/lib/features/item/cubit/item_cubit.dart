@@ -18,8 +18,8 @@ class ItemCubit extends Cubit<ItemState> with LoggerMixin {
         // if the expiration date is not the same, the inventory bloc updates
         // the items list, so it is not necessary to update this cubit state.
         if (repoState.item.uuid == state.item.uuid &&
-            repoState.item.expirationDate ==
-                repoState.prevItem.expirationDate &&
+            repoState.item.initialExpiryDate ==
+                repoState.prevItem.initialExpiryDate &&
             repoState.item.openedAt == repoState.prevItem.openedAt) {
           _update(repoState.item);
         }
@@ -42,8 +42,8 @@ class ItemCubit extends Cubit<ItemState> with LoggerMixin {
       final item = state.item;
       await _repo.upsert(
         product: item.product,
-        expirationDate: item.expirationDate,
-        remainingMeasure: item.remainingMeasure,
+        initialExpiryDate: item.initialExpiryDate,
+        amount: item.amount,
         storage: item.storage,
         id: item.uuid,
         openedAt: state.item.openedAt == null ? DateTime.now() : null,

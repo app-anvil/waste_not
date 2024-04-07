@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
+import '../../features.dart';
+
 part 'opened_items_state.dart';
 
 class OpenedItemsCubit extends Cubit<OpenedItemsState> {
@@ -15,7 +17,7 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
       // when an opened item is restored (undo action) a new item with same
       // values is added.
       final openedItemRestored = state is ItemsRepositoryItemAddedSuccess &&
-          state.item.status.isOpened;
+          ItemStatus.fromItem(state.item).isOpened;
       if (state is ItemsRepositoryItemLoadedSuccess ||
           openedOrClosedItem ||
           state is ItemsRepositoryItemDeletedSuccess ||
@@ -36,7 +38,8 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
 
   /// Item is opened but it is not expired yet.
   bool _filter(ItemEntity item) {
-    return item.status.isOpened && !item.status.isExpired;
+    return ItemStatus.fromItem(item).isOpened &&
+        !ItemStatus.fromItem(item).isExpired;
   }
 
   /// Emit only opened items.

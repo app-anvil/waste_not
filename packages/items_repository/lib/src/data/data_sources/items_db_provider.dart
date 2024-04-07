@@ -13,11 +13,12 @@ class ItemsDbProvider implements ItemsProvider {
   @override
   Future<ItemModel> add({
     required ProductEntity product,
-    required DateTime expirationDate,
-    required Measure remainingMeasure,
+    required DateTime initialExpiryDate,
+    required int amount,
     required StorageEntity storage,
     required DateTime? openedAt,
     int? shelf,
+    int? unsealedLifeTimeInDays,
   }) async {
     final isar = await _dbService.db;
     final uuid = const Uuid().v4();
@@ -30,13 +31,14 @@ class ItemsDbProvider implements ItemsProvider {
         .findFirst();
 
     final item = ItemIsarModel()
-      ..expirationDate = expirationDate
+      ..initialExpiryDate = initialExpiryDate
       ..createdAt = createdAt
       ..shelf = shelf
-      ..remainingMeasure = MeasureIsar.fromEntity(remainingMeasure)
       ..product = ProductIsar.fromEntity(product)
       ..storage.value = storageDb
       ..openedAt = openedAt
+      ..amount = amount
+      ..unsealedLifeTimeInDays = unsealedLifeTimeInDays
       ..uuid = uuid;
 
     await isar.writeTxn(() async {
@@ -59,18 +61,19 @@ class ItemsDbProvider implements ItemsProvider {
   Future<List<ItemModel>> fetch() async {
     final isar = await _dbService.db;
     final items =
-        await isar.itemIsarModels.where().sortByExpirationDate().findAll();
+        await isar.itemIsarModels.where().sortByInitialExpiryDate().findAll();
     return items.map((e) => e.toModel()).toList();
   }
 
   @override
   Future<ItemModel> update({
     required String id,
-    required DateTime expirationDate,
-    required Measure remainingMeasure,
+    required DateTime initialExpiryDate,
+    required int amount,
     required StorageEntity storage,
     required DateTime? openedAt,
     int? shelf,
+    int? unsealedLifeTimeInDays,
   }) async {
     final isar = await _dbService.db;
 
@@ -88,11 +91,12 @@ class ItemsDbProvider implements ItemsProvider {
           .findFirst();
 
       final updatedItem = item.copyWith(
-        expirationDate: expirationDate,
+        initialExpiryDate: initialExpiryDate,
+        amount: amount,
         storage: storageDb,
         shelf: shelf,
-        remainingMeasure: MeasureIsar.fromEntity(remainingMeasure),
         openedAt: openedAt != null ? Optional(openedAt) : const Optional(null),
+        unsealedLifeTimeInDays: unsealedLifeTimeInDays,
       );
 
       await isar.itemIsarModels.put(updatedItem);

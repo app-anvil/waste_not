@@ -4,41 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
-import '../../../items_repository.dart';
-
-/// Indicates the status of an item.
-///
-/// Can be one of the following values:
-///
-/// - expired
-///
-/// - opned
-///
-/// - toBeEaten
-enum ItemStatus {
-  normal,
-  expired,
-  opened,
-  toBeEaten;
-
-  bool get isNormal => this == normal;
-  bool get isExpired => this == expired;
-  bool get isOpened => this == opened;
-  bool get isToBeEaten => this == toBeEaten;
-
-  static ItemStatus fromValue(String value) {
-    if (value == 'expired') {
-      return ItemStatus.expired;
-    } else if (value == 'opened') {
-      return ItemStatus.opened;
-    } else if (value == 'normal') {
-      return ItemStatus.normal;
-    } else {
-      return ItemStatus.toBeEaten;
-    }
-  }
-}
-
 abstract interface class ItemEntity extends Equatable {
   /// The identifier of the product.
   ///
@@ -48,8 +13,8 @@ abstract interface class ItemEntity extends Equatable {
   /// The product with base information such as name, brand, image.
   abstract final ProductEntity product;
 
-  /// The expiration date of the item.
-  abstract final DateTime expirationDate;
+  /// The initial expiration date of the item. It is the former expiration date.
+  abstract final DateTime initialExpiryDate;
 
   /// The created date of the item.
   abstract final DateTime createdAt;
@@ -60,14 +25,23 @@ abstract interface class ItemEntity extends Equatable {
   /// The location where the product will be positioned.
   abstract final StorageEntity storage;
 
-  /// The remaining measure of the item.
-  abstract final Measure remainingMeasure;
+  /// The number of days the item can last after it has been opened.
+  /// This property is initially copied from the [ProductEntity]'s property
+  /// unsealedLifeTimeInDays and can be changed by the user.
+  abstract final int? unsealedLifeTimeInDays;
 
-  /// The status of the itme.
+  /// The amount of items user wants to add to and the remaining items
+  /// his inventory.
   ///
-  /// This getter depends on [expirationDate] and [openedAt] properties.
-  ItemStatus get status;
+  /// The minimum amount of items is 1.
+  abstract final int amount;
 
-  /// Indicates the number of days the user shoulb be consume an item.
-  static const shouldBeItemBeforeDays = 2;
+  /// The actual expiry date of the item.
+  DateTime get actualExpiryDate;
+
+  /// Indicates the number of days the user should be consume an item before
+  /// [initialExpiryDate].
+  ///
+  /// This value is used only if [openedAt] is null.
+  static const shouldBeEatenBeforeDays = 2;
 }

@@ -56,6 +56,10 @@ class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
     emit(state.copyWith(quantity: value));
   }
 
+  void onAmountChanged(int value) {
+    emit(state.copyWith(amount: value));
+  }
+
   void onUnitOfMeasureChanged(UnitOfMeasure value) {
     emit(state.copyWith(unitOfMeasure: value));
   }
@@ -70,11 +74,8 @@ class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
     try {
       await _itemsRepo.upsert(
         product: state.product,
-        expirationDate: state.expirationDate!,
-        remainingMeasure: Measure(
-          quantity: state.quantity!,
-          unitOfMeasure: state.unitOfMeasure,
-        ),
+        initialExpiryDate: state.expirationDate!,
+        amount: state.amount,
         storage: state.storage!,
         openedAt: null,
         id: _item?.uuid,

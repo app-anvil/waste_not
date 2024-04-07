@@ -11,20 +11,22 @@ abstract interface class ItemsProvider {
   /// field should be set.
   Future<ItemModel> add({
     required ProductEntity product,
-    required DateTime expirationDate,
-    required Measure remainingMeasure,
+    required DateTime initialExpiryDate,
+    required int amount,
     required StorageEntity storage,
     required DateTime? openedAt,
     int? shelf,
+    int? unsealedLifeTimeInDays,
   });
 
   Future<ItemModel> update({
     required String id,
-    required DateTime expirationDate,
-    required Measure remainingMeasure,
+    required DateTime initialExpiryDate,
+    required int amount,
     required StorageEntity storage,
     required DateTime? openedAt,
     int? shelf,
+    int? unsealedLifeTimeInDays,
   });
 
   /// Fetchs the storages sorted by ordering priority in ascending order.

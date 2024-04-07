@@ -2,7 +2,7 @@ part of 'consume_item_cubit.dart';
 
 final class ConsumeItemState extends SuperBlocState {
   const ConsumeItemState._({
-    required this.consumedUnits,
+    required this.consumedAmount,
     required this.isDecreaseEnabled,
     required this.isIncreaseEnabled,
     required super.status,
@@ -10,12 +10,12 @@ final class ConsumeItemState extends SuperBlocState {
   });
 
   const ConsumeItemState.initial()
-      : consumedUnits = 1,
+      : consumedAmount = 1,
         isDecreaseEnabled = false,
         isIncreaseEnabled = true,
         super.initial();
 
-  final int consumedUnits;
+  final int consumedAmount;
 
   final bool isDecreaseEnabled;
   final bool isIncreaseEnabled;
@@ -23,12 +23,12 @@ final class ConsumeItemState extends SuperBlocState {
   @override
   ConsumeItemState copyWith({
     StateStatus? status,
-    int? consumedUnits,
+    int? consumedAmount,
     bool? isDecreaseEnabled,
     bool? isIncreaseEnabled,
   }) {
     return ConsumeItemState._(
-      consumedUnits: consumedUnits ?? this.consumedUnits,
+      consumedAmount: consumedAmount ?? this.consumedAmount,
       isIncreaseEnabled: isIncreaseEnabled ?? this.isIncreaseEnabled,
       isDecreaseEnabled: isDecreaseEnabled ?? this.isDecreaseEnabled,
       status: status ?? this.status,
@@ -38,7 +38,7 @@ final class ConsumeItemState extends SuperBlocState {
   @override
   ConsumeItemState copyWithError(String errorMessage) {
     return ConsumeItemState._(
-      consumedUnits: consumedUnits,
+      consumedAmount: consumedAmount,
       isDecreaseEnabled: isDecreaseEnabled,
       isIncreaseEnabled: isIncreaseEnabled,
       status: StateStatus.failure,
@@ -48,7 +48,7 @@ final class ConsumeItemState extends SuperBlocState {
 
   @override
   List<Object?> get props => [
-        consumedUnits,
+        consumedAmount,
         isIncreaseEnabled,
         isDecreaseEnabled,
         ...super.props,
