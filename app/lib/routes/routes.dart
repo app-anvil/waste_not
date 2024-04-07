@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:items_repository/items_repository.dart';
 import 'package:products_repository/products_repository.dart';
 
 import '../features/features.dart';

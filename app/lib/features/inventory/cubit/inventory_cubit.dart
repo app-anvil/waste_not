@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
+import '../../features.dart';
+
 part 'inventory_state.dart';
 
 class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
@@ -15,9 +17,9 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
           state is ItemsRepositoryItemDeletedSuccess ||
           state is ItemsRepositoryItemFullConsumedSuccess ||
           state is ItemsRepositoryItemUpdatedSuccess) {
-        final updatedItemDateTime =
-            state is ItemsRepositoryItemUpdatedSuccess &&
-                state.prevItem.expirationDate != state.item.expirationDate;
+        final updatedItemDateTime = state
+                is ItemsRepositoryItemUpdatedSuccess &&
+            state.prevItem.initialExpiryDate != state.item.initialExpiryDate;
         final openedOrClosedItem = state is ItemsRepositoryItemUpdatedSuccess &&
             state.prevItem.openedAt != state.item.openedAt;
         final sortItems = state is ItemsRepositoryItemAddedSuccess ||
@@ -51,7 +53,8 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
 
   /// Item is not opened or it is expired.
   bool _filter(ItemEntity item) {
-    return !item.status.isOpened || item.status.isExpired;
+    return !ItemStatus.fromItem(item).isOpened ||
+        ItemStatus.fromItem(item).isExpired;
   }
 
   /// Emit only not opened items.
@@ -65,7 +68,9 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     late final List<ItemEntity> sortedItems;
     if (sortItems) {
       sortedItems = [
-        ...items.where(_filter).sortedBy((element) => element.expirationDate),
+        ...items
+            .where(_filter)
+            .sortedBy((element) => element.initialExpiryDate),
       ];
     } else {
       sortedItems = [...items.where(_filter)];
@@ -85,7 +90,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
   List<Object> _groupItems(List<ItemEntity> items) {
     final container = <DateTime, List<ItemEntity>>{};
     for (final item in items) {
-      final itemExpDt = item.expirationDate;
+      final itemExpDt = item.initialExpiryDate;
       final dt = DateTime.utc(
         itemExpDt.year,
         itemExpDt.month,
@@ -168,7 +173,7 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     try {
       final item = _repo.getItemOrThrow(id);
       await _repo.consume(
-        quantity: item.remainingMeasure.quantity,
+        amount: item.amount,
         id: item.uuid,
       );
       // No need to emit state
@@ -205,8 +210,8 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     );
     await _repo.upsert(
       product: item.product,
-      expirationDate: item.expirationDate,
-      remainingMeasure: item.remainingMeasure,
+      initialExpiryDate: item.initialExpiryDate,
+      amount: item.amount,
       storage: item.storage,
       openedAt: item.openedAt,
       // create a new item, with different uuid.
@@ -230,8 +235,8 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
     );
     await _repo.upsert(
       product: item.product,
-      expirationDate: item.expirationDate,
-      remainingMeasure: item.remainingMeasure,
+      initialExpiryDate: item.initialExpiryDate,
+      amount: item.amount,
       storage: item.storage,
       openedAt: item.openedAt,
       // create a new item, with different uuid.

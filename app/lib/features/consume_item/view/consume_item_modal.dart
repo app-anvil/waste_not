@@ -86,7 +86,7 @@ class _Content extends StatelessWidget {
               isEnabled: state.isDecreaseEnabled,
             ),
             Text(
-              '${state.consumedUnits}',
+              '${state.consumedAmount}',
               style: context.tt.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),

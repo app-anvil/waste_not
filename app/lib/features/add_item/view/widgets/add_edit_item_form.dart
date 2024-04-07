@@ -74,7 +74,9 @@ class AddEditItemForm extends StatelessWidget {
             },
           ),
           VSpan($style.insets.sm),
-          const _QuantityAndUnitMeasureSection(),
+          const _QuantityAndMeasureSection(),
+          VSpan($style.insets.md),
+          const _UnitsSection(),
           VSpan($style.insets.md),
           isEditing ? const _AddBtn.edit() : const _AddBtn.add(),
         ],
@@ -83,8 +85,8 @@ class AddEditItemForm extends StatelessWidget {
   }
 }
 
-class _QuantityAndUnitMeasureSection extends StatelessWidget {
-  const _QuantityAndUnitMeasureSection();
+class _QuantityAndMeasureSection extends StatelessWidget {
+  const _QuantityAndMeasureSection();
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +96,8 @@ class _QuantityAndUnitMeasureSection extends StatelessWidget {
         Expanded(
           child: TextFormField(
             initialValue: cubit.state.quantity?.toString(),
-            keyboardType: TextInputType.numberWithOptions(
-              decimal: context.watch<AddEditItemCubit>().state.unitOfMeasure !=
-                  UnitOfMeasure.unit,
+            keyboardType: const TextInputType.numberWithOptions(
+              decimal: true,
             ),
             inputFormatters: [ReplaceCommaFormatter('.')],
             decoration: const InputDecoration().copyWith(
@@ -108,9 +109,6 @@ class _QuantityAndUnitMeasureSection extends StatelessWidget {
             onChanged: (value) => cubit.onQuantityChanged(
               value.isEmpty ? 1 : double.parse(value),
             ),
-            // FIXME: l10n
-            validator: (value) =>
-                value == null || value.isEmpty ? 'Required field' : null,
           ),
         ),
         Expanded(
@@ -127,6 +125,32 @@ class _QuantityAndUnitMeasureSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _UnitsSection extends StatelessWidget {
+  const _UnitsSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<AddEditItemCubit>();
+    return TextFormField(
+      initialValue: cubit.state.quantity?.toString(),
+      keyboardType: TextInputType.number,
+      inputFormatters: [ReplaceCommaFormatter('.')],
+      decoration: const InputDecoration().copyWith(
+        // FIXME: l10n
+        labelText: 'Units',
+        // FIXME: l10n
+        hintText: 'Enter a units of product you buyed',
+      ),
+      onChanged: (value) => cubit.onAmountChanged(
+        value.isEmpty ? 1 : int.parse(value),
+      ),
+      // FIXME: l10n
+      validator: (value) =>
+          value == null || value.isEmpty ? 'Required field' : null,
     );
   }
 }

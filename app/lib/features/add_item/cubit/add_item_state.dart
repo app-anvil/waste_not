@@ -8,6 +8,7 @@ final class AddEditItemState extends SuperBlocState {
     required this.quantity,
     required this.unitOfMeasure,
     required this.storage,
+    required this.amount,
     required super.status,
     super.errorMessage,
   });
@@ -15,11 +16,13 @@ final class AddEditItemState extends SuperBlocState {
   AddEditItemState.initial(
     this.product, {
     ItemEntity? item,
-  })  : expirationDate = item?.expirationDate,
+  })  : expirationDate = item?.initialExpiryDate,
         storage = item?.storage,
-        quantity = item?.remainingMeasure.quantity,
-        unitOfMeasure =
-            item?.remainingMeasure.unitOfMeasure ?? UnitOfMeasure.unit,
+        // quantity = product?.measure.quantity,
+        // unitOfMeasure = product?.measure.unitOfMeasure,
+        quantity = null,
+        unitOfMeasure = null,
+        amount = 1,
         super.initial();
 
   final DateTime? expirationDate;
@@ -27,7 +30,9 @@ final class AddEditItemState extends SuperBlocState {
   final ProductEntity product;
   final double? quantity;
 
-  final UnitOfMeasure unitOfMeasure;
+  final UnitOfMeasure? unitOfMeasure;
+
+  final int amount;
 
   bool get isValid {
     return expirationDate != null && storage != null && quantity != null;
@@ -38,6 +43,7 @@ final class AddEditItemState extends SuperBlocState {
     StateStatus? status,
     DateTime? expirationDate,
     StorageEntity? storage,
+    int? amount,
     double? quantity,
     UnitOfMeasure? unitOfMeasure,
   }) {
@@ -48,6 +54,7 @@ final class AddEditItemState extends SuperBlocState {
       quantity: quantity ?? this.quantity,
       unitOfMeasure: unitOfMeasure ?? this.unitOfMeasure,
       storage: storage ?? this.storage,
+      amount: amount ?? this.amount,
     );
   }
 
@@ -56,6 +63,7 @@ final class AddEditItemState extends SuperBlocState {
     return AddEditItemState._(
       expirationDate: expirationDate,
       storage: storage,
+      amount: amount,
       quantity: quantity,
       unitOfMeasure: unitOfMeasure,
       product: product,
@@ -68,6 +76,7 @@ final class AddEditItemState extends SuperBlocState {
   List<Object?> get props => [
         product,
         expirationDate,
+        amount,
         storage,
         quantity,
         unitOfMeasure,

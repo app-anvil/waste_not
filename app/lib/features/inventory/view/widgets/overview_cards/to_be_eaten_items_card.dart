@@ -1,7 +1,6 @@
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:items_repository/items_repository.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes/app_route.dart';
@@ -19,7 +18,7 @@ class ToBeEatenItemsCard extends StatelessWidget {
           .watch<InventoryCubit>()
           .state
           .items
-          .where((element) => element.status.isToBeEaten)
+          .where((element) => ItemStatus.fromItem(element).isToBeEaten)
           .length,
       onTap: () {
         final routeName = AppRoute.inventoryFilteredBy.name;

@@ -21,5 +21,8 @@ class Measure extends Equatable with ModelToStringMixin {
   }
 
   @override
-  List<Object?> get props => [quantity, unitOfMeasure];
+  List<Object?> get props => [
+        quantity,
+        unitOfMeasure,
+      ];
 }

@@ -1,7 +1,6 @@
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:items_repository/items_repository.dart';
-
+import '../../features/features.dart';
 import '../../l10n/l10n.dart';
 
 class ItemStatusDaysHeaderTile extends StatelessWidget {

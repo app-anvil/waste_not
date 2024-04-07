@@ -12,17 +12,18 @@ abstract class ItemsRepository
 
   Future<ItemEntity> upsert({
     required ProductEntity product,
-    required DateTime expirationDate,
-    required Measure remainingMeasure,
+    required DateTime initialExpiryDate,
+    required int amount,
     required StorageEntity storage,
     required DateTime? openedAt,
     String? id,
     int? shelf,
   });
 
+  /// The [amount] indicates how many items with [id] user has consumed.
   Future<void> consume({
     required String id,
-    required double quantity,
+    required int amount,
   });
 
   // delete

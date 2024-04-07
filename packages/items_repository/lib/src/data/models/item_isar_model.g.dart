@@ -17,40 +17,44 @@ const ItemIsarModelSchema = CollectionSchema(
   name: r'ItemIsarModel',
   id: 7840271036790876950,
   properties: {
-    r'createdAt': PropertySchema(
+    r'amount': PropertySchema(
       id: 0,
+      name: r'amount',
+      type: IsarType.long,
+    ),
+    r'createdAt': PropertySchema(
+      id: 1,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'expirationDate': PropertySchema(
-      id: 1,
-      name: r'expirationDate',
+    r'initialExpiryDate': PropertySchema(
+      id: 2,
+      name: r'initialExpiryDate',
       type: IsarType.dateTime,
     ),
     r'openedAt': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'openedAt',
       type: IsarType.dateTime,
     ),
     r'product': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'product',
       type: IsarType.object,
       target: r'ProductIsar',
-    ),
-    r'remainingMeasure': PropertySchema(
-      id: 4,
-      name: r'remainingMeasure',
-      type: IsarType.object,
-      target: r'MeasureIsar',
     ),
     r'shelf': PropertySchema(
       id: 5,
       name: r'shelf',
       type: IsarType.long,
     ),
-    r'uuid': PropertySchema(
+    r'unsealedLifeTimeInDays': PropertySchema(
       id: 6,
+      name: r'unsealedLifeTimeInDays',
+      type: IsarType.long,
+    ),
+    r'uuid': PropertySchema(
+      id: 7,
       name: r'uuid',
       type: IsarType.string,
     )
@@ -83,10 +87,7 @@ const ItemIsarModelSchema = CollectionSchema(
       single: true,
     )
   },
-  embeddedSchemas: {
-    r'MeasureIsar': MeasureIsarSchema,
-    r'ProductIsar': ProductIsarSchema
-  },
+  embeddedSchemas: {r'ProductIsar': ProductIsarSchema},
   getId: _itemIsarModelGetId,
   getLinks: _itemIsarModelGetLinks,
   attach: _itemIsarModelAttach,
@@ -102,9 +103,6 @@ int _itemIsarModelEstimateSize(
   bytesCount += 3 +
       ProductIsarSchema.estimateSize(
           object.product, allOffsets[ProductIsar]!, allOffsets);
-  bytesCount += 3 +
-      MeasureIsarSchema.estimateSize(
-          object.remainingMeasure, allOffsets[MeasureIsar]!, allOffsets);
   bytesCount += 3 + object.uuid.length * 3;
   return bytesCount;
 }
@@ -115,23 +113,19 @@ void _itemIsarModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdAt);
-  writer.writeDateTime(offsets[1], object.expirationDate);
-  writer.writeDateTime(offsets[2], object.openedAt);
+  writer.writeLong(offsets[0], object.amount);
+  writer.writeDateTime(offsets[1], object.createdAt);
+  writer.writeDateTime(offsets[2], object.initialExpiryDate);
+  writer.writeDateTime(offsets[3], object.openedAt);
   writer.writeObject<ProductIsar>(
-    offsets[3],
+    offsets[4],
     allOffsets,
     ProductIsarSchema.serialize,
     object.product,
   );
-  writer.writeObject<MeasureIsar>(
-    offsets[4],
-    allOffsets,
-    MeasureIsarSchema.serialize,
-    object.remainingMeasure,
-  );
   writer.writeLong(offsets[5], object.shelf);
-  writer.writeString(offsets[6], object.uuid);
+  writer.writeLong(offsets[6], object.unsealedLifeTimeInDays);
+  writer.writeString(offsets[7], object.uuid);
 }
 
 ItemIsarModel _itemIsarModelDeserialize(
@@ -141,24 +135,20 @@ ItemIsarModel _itemIsarModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ItemIsarModel();
-  object.createdAt = reader.readDateTime(offsets[0]);
-  object.expirationDate = reader.readDateTime(offsets[1]);
+  object.amount = reader.readLong(offsets[0]);
+  object.createdAt = reader.readDateTime(offsets[1]);
   object.id = id;
-  object.openedAt = reader.readDateTimeOrNull(offsets[2]);
+  object.initialExpiryDate = reader.readDateTime(offsets[2]);
+  object.openedAt = reader.readDateTimeOrNull(offsets[3]);
   object.product = reader.readObjectOrNull<ProductIsar>(
-        offsets[3],
+        offsets[4],
         ProductIsarSchema.deserialize,
         allOffsets,
       ) ??
       ProductIsar();
-  object.remainingMeasure = reader.readObjectOrNull<MeasureIsar>(
-        offsets[4],
-        MeasureIsarSchema.deserialize,
-        allOffsets,
-      ) ??
-      MeasureIsar();
   object.shelf = reader.readLongOrNull(offsets[5]);
-  object.uuid = reader.readString(offsets[6]);
+  object.unsealedLifeTimeInDays = reader.readLongOrNull(offsets[6]);
+  object.uuid = reader.readString(offsets[7]);
   return object;
 }
 
@@ -170,28 +160,25 @@ P _itemIsarModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 3:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 4:
       return (reader.readObjectOrNull<ProductIsar>(
             offset,
             ProductIsarSchema.deserialize,
             allOffsets,
           ) ??
           ProductIsar()) as P;
-    case 4:
-      return (reader.readObjectOrNull<MeasureIsar>(
-            offset,
-            MeasureIsarSchema.deserialize,
-            allOffsets,
-          ) ??
-          MeasureIsar()) as P;
     case 5:
       return (reader.readLongOrNull(offset)) as P;
     case 6:
+      return (reader.readLongOrNull(offset)) as P;
+    case 7:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -342,6 +329,62 @@ extension ItemIsarModelQueryWhere
 extension ItemIsarModelQueryFilter
     on QueryBuilder<ItemIsarModel, ItemIsarModel, QFilterCondition> {
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      amountEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'amount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      amountGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'amount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      amountLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'amount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      amountBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'amount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
       createdAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -397,62 +440,6 @@ extension ItemIsarModelQueryFilter
     });
   }
 
-  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
-      expirationDateEqualTo(DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'expirationDate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
-      expirationDateGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'expirationDate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
-      expirationDateLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'expirationDate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
-      expirationDateBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'expirationDate',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -499,6 +486,62 @@ extension ItemIsarModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      initialExpiryDateEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'initialExpiryDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      initialExpiryDateGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'initialExpiryDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      initialExpiryDateLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'initialExpiryDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      initialExpiryDateBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'initialExpiryDate',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -655,6 +698,80 @@ extension ItemIsarModelQueryFilter
     });
   }
 
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      unsealedLifeTimeInDaysIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'unsealedLifeTimeInDays',
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      unsealedLifeTimeInDaysIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'unsealedLifeTimeInDays',
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      unsealedLifeTimeInDaysEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'unsealedLifeTimeInDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      unsealedLifeTimeInDaysGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'unsealedLifeTimeInDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      unsealedLifeTimeInDaysLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'unsealedLifeTimeInDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
+      unsealedLifeTimeInDaysBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'unsealedLifeTimeInDays',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition> uuidEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -799,13 +916,6 @@ extension ItemIsarModelQueryObject
       return query.object(q, r'product');
     });
   }
-
-  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterFilterCondition>
-      remainingMeasure(FilterQuery<MeasureIsar> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'remainingMeasure');
-    });
-  }
 }
 
 extension ItemIsarModelQueryLinks
@@ -827,6 +937,18 @@ extension ItemIsarModelQueryLinks
 
 extension ItemIsarModelQuerySortBy
     on QueryBuilder<ItemIsarModel, ItemIsarModel, QSortBy> {
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> sortByAmount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> sortByAmountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.desc);
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -841,16 +963,16 @@ extension ItemIsarModelQuerySortBy
   }
 
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
-      sortByExpirationDate() {
+      sortByInitialExpiryDate() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'expirationDate', Sort.asc);
+      return query.addSortBy(r'initialExpiryDate', Sort.asc);
     });
   }
 
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
-      sortByExpirationDateDesc() {
+      sortByInitialExpiryDateDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'expirationDate', Sort.desc);
+      return query.addSortBy(r'initialExpiryDate', Sort.desc);
     });
   }
 
@@ -879,6 +1001,20 @@ extension ItemIsarModelQuerySortBy
     });
   }
 
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      sortByUnsealedLifeTimeInDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unsealedLifeTimeInDays', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      sortByUnsealedLifeTimeInDaysDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unsealedLifeTimeInDays', Sort.desc);
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> sortByUuid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uuid', Sort.asc);
@@ -894,6 +1030,18 @@ extension ItemIsarModelQuerySortBy
 
 extension ItemIsarModelQuerySortThenBy
     on QueryBuilder<ItemIsarModel, ItemIsarModel, QSortThenBy> {
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenByAmount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenByAmountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'amount', Sort.desc);
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -907,20 +1055,6 @@ extension ItemIsarModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
-      thenByExpirationDate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'expirationDate', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
-      thenByExpirationDateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'expirationDate', Sort.desc);
-    });
-  }
-
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -930,6 +1064,20 @@ extension ItemIsarModelQuerySortThenBy
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      thenByInitialExpiryDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'initialExpiryDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      thenByInitialExpiryDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'initialExpiryDate', Sort.desc);
     });
   }
 
@@ -958,6 +1106,20 @@ extension ItemIsarModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      thenByUnsealedLifeTimeInDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unsealedLifeTimeInDays', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy>
+      thenByUnsealedLifeTimeInDaysDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unsealedLifeTimeInDays', Sort.desc);
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QAfterSortBy> thenByUuid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uuid', Sort.asc);
@@ -973,6 +1135,12 @@ extension ItemIsarModelQuerySortThenBy
 
 extension ItemIsarModelQueryWhereDistinct
     on QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct> {
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct> distinctByAmount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'amount');
+    });
+  }
+
   QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
@@ -980,9 +1148,9 @@ extension ItemIsarModelQueryWhereDistinct
   }
 
   QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct>
-      distinctByExpirationDate() {
+      distinctByInitialExpiryDate() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'expirationDate');
+      return query.addDistinctBy(r'initialExpiryDate');
     });
   }
 
@@ -995,6 +1163,13 @@ extension ItemIsarModelQueryWhereDistinct
   QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct> distinctByShelf() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'shelf');
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, ItemIsarModel, QDistinct>
+      distinctByUnsealedLifeTimeInDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'unsealedLifeTimeInDays');
     });
   }
 
@@ -1014,6 +1189,12 @@ extension ItemIsarModelQueryProperty
     });
   }
 
+  QueryBuilder<ItemIsarModel, int, QQueryOperations> amountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'amount');
+    });
+  }
+
   QueryBuilder<ItemIsarModel, DateTime, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
@@ -1021,9 +1202,9 @@ extension ItemIsarModelQueryProperty
   }
 
   QueryBuilder<ItemIsarModel, DateTime, QQueryOperations>
-      expirationDateProperty() {
+      initialExpiryDateProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'expirationDate');
+      return query.addPropertyName(r'initialExpiryDate');
     });
   }
 
@@ -1039,16 +1220,16 @@ extension ItemIsarModelQueryProperty
     });
   }
 
-  QueryBuilder<ItemIsarModel, MeasureIsar, QQueryOperations>
-      remainingMeasureProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'remainingMeasure');
-    });
-  }
-
   QueryBuilder<ItemIsarModel, int?, QQueryOperations> shelfProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'shelf');
+    });
+  }
+
+  QueryBuilder<ItemIsarModel, int?, QQueryOperations>
+      unsealedLifeTimeInDaysProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'unsealedLifeTimeInDays');
     });
   }
 
@@ -1961,7 +2142,12 @@ int _measureIsarEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.unitOfMeasure.name.length * 3;
+  {
+    final value = object.unitOfMeasure;
+    if (value != null) {
+      bytesCount += 3 + value.name.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -1972,7 +2158,7 @@ void _measureIsarSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDouble(offsets[0], object.quantity);
-  writer.writeString(offsets[1], object.unitOfMeasure.name);
+  writer.writeString(offsets[1], object.unitOfMeasure?.name);
 }
 
 MeasureIsar _measureIsarDeserialize(
@@ -1982,10 +2168,9 @@ MeasureIsar _measureIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = MeasureIsar();
-  object.quantity = reader.readDouble(offsets[0]);
+  object.quantity = reader.readDoubleOrNull(offsets[0]);
   object.unitOfMeasure = _MeasureIsarunitOfMeasureValueEnumMap[
-          reader.readStringOrNull(offsets[1])] ??
-      UnitOfMeasure.kilogram;
+      reader.readStringOrNull(offsets[1])];
   return object;
 }
 
@@ -1997,11 +2182,10 @@ P _measureIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (_MeasureIsarunitOfMeasureValueEnumMap[
-              reader.readStringOrNull(offset)] ??
-          UnitOfMeasure.kilogram) as P;
+          reader.readStringOrNull(offset)]) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -2010,18 +2194,34 @@ P _measureIsarDeserializeProp<P>(
 const _MeasureIsarunitOfMeasureEnumValueMap = {
   r'kilogram': r'kilogram',
   r'liter': r'liter',
-  r'unit': r'unit',
 };
 const _MeasureIsarunitOfMeasureValueEnumMap = {
   r'kilogram': UnitOfMeasure.kilogram,
   r'liter': UnitOfMeasure.liter,
-  r'unit': UnitOfMeasure.unit,
 };
 
 extension MeasureIsarQueryFilter
     on QueryBuilder<MeasureIsar, MeasureIsar, QFilterCondition> {
+  QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
+      quantityIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'quantity',
+      ));
+    });
+  }
+
+  QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
+      quantityIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'quantity',
+      ));
+    });
+  }
+
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition> quantityEqualTo(
-    double value, {
+    double? value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2035,7 +2235,7 @@ extension MeasureIsarQueryFilter
 
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
       quantityGreaterThan(
-    double value, {
+    double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -2051,7 +2251,7 @@ extension MeasureIsarQueryFilter
 
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
       quantityLessThan(
-    double value, {
+    double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -2066,8 +2266,8 @@ extension MeasureIsarQueryFilter
   }
 
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition> quantityBetween(
-    double lower,
-    double upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,
@@ -2085,8 +2285,26 @@ extension MeasureIsarQueryFilter
   }
 
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
+      unitOfMeasureIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'unitOfMeasure',
+      ));
+    });
+  }
+
+  QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
+      unitOfMeasureIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'unitOfMeasure',
+      ));
+    });
+  }
+
+  QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
       unitOfMeasureEqualTo(
-    UnitOfMeasure value, {
+    UnitOfMeasure? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2100,7 +2318,7 @@ extension MeasureIsarQueryFilter
 
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
       unitOfMeasureGreaterThan(
-    UnitOfMeasure value, {
+    UnitOfMeasure? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2116,7 +2334,7 @@ extension MeasureIsarQueryFilter
 
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
       unitOfMeasureLessThan(
-    UnitOfMeasure value, {
+    UnitOfMeasure? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2132,8 +2350,8 @@ extension MeasureIsarQueryFilter
 
   QueryBuilder<MeasureIsar, MeasureIsar, QAfterFilterCondition>
       unitOfMeasureBetween(
-    UnitOfMeasure lower,
-    UnitOfMeasure upper, {
+    UnitOfMeasure? lower,
+    UnitOfMeasure? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,

@@ -7,11 +7,12 @@ class ShelfItemModel extends ItemModel implements ShelfItemEntity {
   ShelfItemModel({
     required super.uuid,
     required super.product,
-    required super.expirationDate,
+    required super.initialExpiryDate,
     required super.createdAt,
-    required super.remainingMeasure,
     required super.storage,
+    required super.amount,
     super.openedAt,
+    super.unsealedLifeTimeInDays,
     this.shelf,
   }) : assert(
           storage.storageType == StorageType.fridge ||
@@ -21,21 +22,24 @@ class ShelfItemModel extends ItemModel implements ShelfItemEntity {
 
   @override
   ShelfItemModel copyWith({
-    DateTime? expirationDate,
-    Measure? remainingMeasure,
+    DateTime? initialExpiryDate,
     StorageEntity? storage,
     Optional<DateTime?> openedAt = const Optional.absent(),
+    int? amount,
     int? shelf,
+    int? unsealedLifeTimeInDays,
   }) {
     return ShelfItemModel(
       uuid: uuid,
       product: product,
       createdAt: createdAt,
-      expirationDate: expirationDate ?? this.expirationDate,
-      remainingMeasure: remainingMeasure ?? this.remainingMeasure,
+      initialExpiryDate: initialExpiryDate ?? this.initialExpiryDate,
       storage: storage ?? this.storage,
       openedAt: openedAt.present ? openedAt.value : this.openedAt,
       shelf: shelf ?? this.shelf,
+      amount: amount ?? this.amount,
+      unsealedLifeTimeInDays:
+          unsealedLifeTimeInDays ?? this.unsealedLifeTimeInDays,
     );
   }
 

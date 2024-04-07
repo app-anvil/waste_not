@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
+import '../../features.dart';
+
 part 'inventory_by_status_state.dart';
 
 class InventoryByStatusCubit extends Cubit<InventoryByStatusState> {
@@ -20,9 +22,9 @@ class InventoryByStatusCubit extends Cubit<InventoryByStatusState> {
       if (state is ItemsRepositoryItemDeletedSuccess ||
           state is ItemsRepositoryItemFullConsumedSuccess ||
           state is ItemsRepositoryItemUpdatedSuccess) {
-        final updatedItemDateTime =
-            state is ItemsRepositoryItemUpdatedSuccess &&
-                state.prevItem.expirationDate != state.item.expirationDate;
+        final updatedItemDateTime = state
+                is ItemsRepositoryItemUpdatedSuccess &&
+            state.prevItem.initialExpiryDate != state.item.initialExpiryDate;
         final openedOrClosedItem = state is ItemsRepositoryItemUpdatedSuccess &&
             state.prevItem.openedAt != state.item.openedAt;
         final sortItems =
@@ -46,11 +48,11 @@ class InventoryByStatusCubit extends Cubit<InventoryByStatusState> {
 
   bool _filter(ItemEntity item) {
     if (state.filter == ItemStatus.opened) {
-      return item.status.isOpened;
+      return ItemStatus.fromItem(item).isOpened;
     } else if (state.filter == ItemStatus.expired) {
-      return item.status.isExpired;
+      return ItemStatus.fromItem(item).isExpired;
     } else if (state.filter == ItemStatus.toBeEaten) {
-      return item.status.isToBeEaten;
+      return ItemStatus.fromItem(item).isToBeEaten;
     }
     return false;
   }
@@ -62,7 +64,9 @@ class InventoryByStatusCubit extends Cubit<InventoryByStatusState> {
     late final List<ItemEntity> sortedItems;
     if (sortItems) {
       sortedItems = [
-        ...items.where(_filter).sortedBy((element) => element.expirationDate),
+        ...items
+            .where(_filter)
+            .sortedBy((element) => element.initialExpiryDate),
       ];
     } else {
       sortedItems = [...items.where(_filter)];
@@ -79,7 +83,7 @@ class InventoryByStatusCubit extends Cubit<InventoryByStatusState> {
     final container = <DateTime, List<ItemEntity>>{};
     for (final item in items) {
       final itemExpDt =
-          state.filter.isOpened ? item.openedAt! : item.expirationDate;
+          state.filter.isOpened ? item.openedAt! : item.initialExpiryDate;
       final dt = DateTime.utc(
         itemExpDt.year,
         itemExpDt.month,

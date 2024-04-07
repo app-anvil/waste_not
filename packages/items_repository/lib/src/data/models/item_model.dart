@@ -4,14 +4,15 @@ import 'package:storages_repository/storages_repository.dart';
 
 import '../../../items_repository.dart';
 
-abstract class ItemModel implements ItemEntity {
+abstract class ItemModel with ModelToStringMixin implements ItemEntity {
   const ItemModel({
     required this.uuid,
     required this.product,
-    required this.expirationDate,
+    required this.initialExpiryDate,
     required this.createdAt,
-    required this.remainingMeasure,
     required this.storage,
+    required this.amount,
+    this.unsealedLifeTimeInDays,
     this.openedAt,
   });
 
@@ -22,7 +23,7 @@ abstract class ItemModel implements ItemEntity {
   final ProductEntity product;
 
   @override
-  final DateTime expirationDate;
+  final DateTime initialExpiryDate;
 
   @override
   final DateTime createdAt;
@@ -34,28 +35,30 @@ abstract class ItemModel implements ItemEntity {
   final StorageEntity storage;
 
   @override
-  final Measure remainingMeasure;
+  final int? unsealedLifeTimeInDays;
+
+  @override
+  final int amount;
 
   ItemModel copyWith({
-    DateTime? expirationDate,
-    Measure? remainingMeasure,
+    DateTime? initialExpiryDate,
     StorageEntity? storage,
+    Optional<DateTime?> openedAt,
+    int? amount,
+    int? unsealedLifeTimeInDays,
   });
 
   @override
-  ItemStatus get status {
-    if (expirationDate.toDate().isBefore(DateTime.now().toDate())) {
-      return ItemStatus.expired;
-    } else if (openedAt != null) {
-      return ItemStatus.opened;
+  DateTime get actualExpiryDate {
+    if (openedAt == null) {
+      return initialExpiryDate.toDate();
     }
-    final remainingDays =
-        expirationDate.toDate().difference(DateTime.now().toDate()).inDays;
-    if (remainingDays >= 0 &&
-        remainingDays <= ItemEntity.shouldBeItemBeforeDays) {
-      return ItemStatus.toBeEaten;
-    }
-    return ItemStatus.normal;
+    // gets the minimum value from initialExpiryDate and openedAt + days.
+    final minDate = [
+      initialExpiryDate,
+      openedAt!.add(Duration(days: unsealedLifeTimeInDays ?? 3)),
+    ].reduce((a, b) => a.isBefore(b) ? a : b);
+    return minDate.toDate();
   }
 
   @override
@@ -63,12 +66,27 @@ abstract class ItemModel implements ItemEntity {
         uuid,
         product,
         storage,
-        expirationDate,
+        initialExpiryDate,
         openedAt,
-        remainingMeasure,
         createdAt,
+        amount,
+        unsealedLifeTimeInDays,
       ];
 
   @override
   bool? get stringify => false;
+
+  @override
+  Map<String, dynamic> $toMap() {
+    return {
+      'uuid': uuid,
+      'amount': amount,
+      'product': product,
+      'storage': storage,
+      'initialExpiryDate': initialExpiryDate,
+      'openedAt': openedAt,
+      'createdAt': createdAt,
+      'unsealedLifeTimeInDays': unsealedLifeTimeInDays,
+    };
+  }
 }

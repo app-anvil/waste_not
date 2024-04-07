@@ -13,11 +13,11 @@ class ConsumeItemCubit extends Cubit<ConsumeItemState> with LoggerMixin {
   final ItemsRepository _repo;
 
   void onDecrease() {
-    if (state.consumedUnits > 1) {
-      final newValue = state.consumedUnits - 1;
+    if (state.consumedAmount > 1) {
+      final newValue = state.consumedAmount - 1;
       emit(
         state.copyWith(
-          consumedUnits: newValue,
+          consumedAmount: newValue,
           isDecreaseEnabled: newValue > 1,
           isIncreaseEnabled: true,
         ),
@@ -26,12 +26,12 @@ class ConsumeItemCubit extends Cubit<ConsumeItemState> with LoggerMixin {
   }
 
   void onIncrease() {
-    if (state.consumedUnits < item.remainingMeasure.quantity) {
-      final newValue = state.consumedUnits + 1;
+    if (state.consumedAmount < item.amount) {
+      final newValue = state.consumedAmount + 1;
       emit(
         state.copyWith(
-          consumedUnits: newValue,
-          isIncreaseEnabled: newValue < item.remainingMeasure.quantity,
+          consumedAmount: newValue,
+          isIncreaseEnabled: newValue < item.amount,
           isDecreaseEnabled: true,
         ),
       );
@@ -42,7 +42,7 @@ class ConsumeItemCubit extends Cubit<ConsumeItemState> with LoggerMixin {
     emit(state.copyWith(status: StateStatus.progress));
     try {
       await _repo.consume(
-        quantity: state.consumedUnits.toDouble(),
+        amount: state.consumedAmount,
         id: item.uuid,
       );
       emit(

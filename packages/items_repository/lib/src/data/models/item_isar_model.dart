@@ -13,11 +13,9 @@ class ItemIsarModel {
   @Index()
   late String uuid;
 
-  late DateTime expirationDate;
+  late DateTime initialExpiryDate;
 
   late DateTime createdAt;
-
-  late MeasureIsar remainingMeasure;
 
   late ProductIsar product;
 
@@ -28,12 +26,17 @@ class ItemIsarModel {
 
   late DateTime? openedAt;
 
+  late int amount;
+
+  late int? unsealedLifeTimeInDays;
+
   ItemIsarModel copyWith({
-    DateTime? expirationDate,
-    MeasureIsar? remainingMeasure,
+    DateTime? initialExpiryDate,
     StorageDbModel? storage,
     Optional<DateTime?> openedAt = const Optional.absent(),
     int? shelf,
+    int? amount,
+    int? unsealedLifeTimeInDays,
   }) {
     return ItemIsarModel()
       ..id = id
@@ -42,9 +45,11 @@ class ItemIsarModel {
       ..product = product
       ..shelf = shelf ?? this.shelf
       ..storage.value = storage ?? this.storage.value
-      ..expirationDate = expirationDate ?? this.expirationDate
-      ..remainingMeasure = remainingMeasure ?? this.remainingMeasure
-      ..openedAt = openedAt.present ? openedAt.value : this.openedAt;
+      ..initialExpiryDate = initialExpiryDate ?? this.initialExpiryDate
+      ..openedAt = openedAt.orElseIfAbsent(this.openedAt)
+      ..unsealedLifeTimeInDays =
+          unsealedLifeTimeInDays ?? this.unsealedLifeTimeInDays
+      ..amount = amount ?? this.amount;
   }
 
   ItemModel toModel() {
@@ -61,30 +66,26 @@ class ItemIsarModel {
     if (storage.value?.storageType == StorageType.pantry) {
       return PantryItemModel(
         uuid: uuid,
-        expirationDate: expirationDate,
+        initialExpiryDate: initialExpiryDate,
         createdAt: createdAt,
-        remainingMeasure: Measure(
-          quantity: remainingMeasure.quantity,
-          unitOfMeasure: remainingMeasure.unitOfMeasure,
-        ),
         openedAt: openedAt,
         storage: storage.value!,
         product: productModel,
+        amount: amount,
+        unsealedLifeTimeInDays: unsealedLifeTimeInDays,
       );
     }
     return ShelfItemModel(
       uuid: uuid,
-      expirationDate: expirationDate,
+      initialExpiryDate: initialExpiryDate,
       createdAt: createdAt,
-      remainingMeasure: Measure(
-        quantity: remainingMeasure.quantity,
-        unitOfMeasure: remainingMeasure.unitOfMeasure,
-      ),
       openedAt: openedAt,
       storage: storage.value!,
       product: productModel,
       // check value of null on isar
       shelf: shelf,
+      amount: amount,
+      unsealedLifeTimeInDays: unsealedLifeTimeInDays,
     );
   }
 }
@@ -118,10 +119,10 @@ class MeasureIsar {
   MeasureIsar.fromEntity(Measure measure)
       : quantity = measure.quantity,
         unitOfMeasure = measure.unitOfMeasure;
-  late double quantity;
+  late double? quantity;
 
   @Enumerated(EnumType.name)
-  late UnitOfMeasure unitOfMeasure;
+  late UnitOfMeasure? unitOfMeasure;
 
   MeasureIsar copyWith({
     double? quantity,

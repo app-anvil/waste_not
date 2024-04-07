@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
@@ -45,8 +44,8 @@ class ItemsRepositoryImpl extends ItemsRepository {
   @override
   Future<ItemModel> upsert({
     required ProductEntity product,
-    required DateTime expirationDate,
-    required Measure remainingMeasure,
+    required DateTime initialExpiryDate,
+    required int amount,
     required StorageEntity storage,
     required DateTime? openedAt,
     String? id,
@@ -61,8 +60,8 @@ class ItemsRepositoryImpl extends ItemsRepository {
       prevItem = getItemOrThrow(id);
       updatedItem = await _provider.update(
         id: id,
-        expirationDate: expirationDate,
-        remainingMeasure: remainingMeasure,
+        initialExpiryDate: initialExpiryDate,
+        amount: amount,
         storage: storage,
         openedAt: openedAt,
         shelf: shelf,
@@ -76,8 +75,8 @@ class ItemsRepositoryImpl extends ItemsRepository {
       logger.v('Creating new item...');
       final item = await _provider.add(
         product: product,
-        expirationDate: expirationDate,
-        remainingMeasure: remainingMeasure,
+        initialExpiryDate: initialExpiryDate,
+        amount: amount,
         storage: storage,
         openedAt: openedAt,
         shelf: shelf,
@@ -109,10 +108,10 @@ class ItemsRepositoryImpl extends ItemsRepository {
   @override
   Future<void> consume({
     required String id,
-    required double quantity,
+    required int amount,
   }) async {
     final prevItem = getItemOrThrow(id);
-    if (prevItem.remainingMeasure.quantity == quantity) {
+    if (prevItem.amount == amount) {
       // full consume
       await _provider.delete(id);
       _itemsMap.remove(id);
@@ -121,11 +120,8 @@ class ItemsRepositoryImpl extends ItemsRepository {
     } else {
       final updatedItem = await _provider.update(
         id: id,
-        expirationDate: prevItem.expirationDate,
-        remainingMeasure: Measure(
-          quantity: quantity,
-          unitOfMeasure: UnitOfMeasure.unit,
-        ),
+        initialExpiryDate: prevItem.initialExpiryDate,
+        amount: amount,
         storage: prevItem.storage,
         openedAt: prevItem.openedAt,
         shelf: prevItem is ShelfItemEntity
