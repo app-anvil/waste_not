@@ -2,7 +2,7 @@ import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:items_repository/items_repository.dart';
+import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 import '../../../../l10n/l10n.dart';

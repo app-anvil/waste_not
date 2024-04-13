@@ -13,6 +13,9 @@ class ProductModel implements ProductEntity {
     this.name,
     this.imageFrontUrl,
     this.imageFrontSmallUrl,
+    this.measure,
+    this.expectedShelfLife,
+    this.unsealedLifeTimeInDays,
   });
 
   /// {@macro product_model}
@@ -45,6 +48,15 @@ class ProductModel implements ProductEntity {
   final String? imageFrontSmallUrl;
 
   @override
+  final Measure? measure;
+
+  @override
+  final int? expectedShelfLife;
+
+  @override
+  final int? unsealedLifeTimeInDays;
+
+  @override
   List<Object?> get props => [
         id,
         barcode,
@@ -52,6 +64,9 @@ class ProductModel implements ProductEntity {
         brand,
         imageFrontUrl,
         imageFrontSmallUrl,
+        measure,
+        expectedShelfLife,
+        unsealedLifeTimeInDays,
       ];
 
   @override
@@ -64,7 +79,11 @@ class ProductModel implements ProductEntity {
         name = json['name'] as String?,
         brand = json['brand'] as String?,
         imageFrontUrl = json['imageFrontUrl'] as String?,
-        imageFrontSmallUrl = json['imageFrontSmallUrl'] as String?;
+        imageFrontSmallUrl = json['imageFrontSmallUrl'] as String?,
+        // FIXME: it does not work becaus Measure is not serializable
+        measure = json['measure'] as Measure?,
+        expectedShelfLife = json['expectedShelfLife'] as int?,
+        unsealedLifeTimeInDays = json['unsealedLifeTimeInDays'] as int?;
 
   @override
   Map<String, dynamic> toJson() => {
@@ -74,5 +93,8 @@ class ProductModel implements ProductEntity {
         'brand': brand,
         'imageFromUrl': imageFrontUrl,
         'imageFrontSmallUrl': imageFrontSmallUrl,
+        'unsealedLifeTimeInDays': unsealedLifeTimeInDays,
+        'expectedShelfLife': expectedShelfLife,
+        'measure': measure,
       };
 }

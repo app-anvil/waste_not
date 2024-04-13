@@ -2,6 +2,8 @@
 
 import 'package:equatable/equatable.dart';
 
+import 'entities.dart';
+
 /// A product entity interface. It is a sample mapping of a [OpenFoodFacts]'
 /// product.
 abstract interface class ProductEntity extends Equatable {
@@ -31,6 +33,19 @@ abstract interface class ProductEntity extends Equatable {
   ///
   /// Cannot be changed.
   abstract final String? imageFrontSmallUrl;
+
+  /// `how long the product is expected to last after it has been "produced"
+  /// (e.g. packaged, harvested, etc.)
+  ///
+  /// It is expressed in days;
+  abstract final int? expectedShelfLife;
+
+  /// How long the product is expected to last after it has been opened.
+  ///
+  /// It is expressed in days;
+  abstract final int? unsealedLifeTimeInDays;
+
+  abstract final Measure? measure;
 
   // These two methods are required to enable the conversion from
   // [ProductEntity]

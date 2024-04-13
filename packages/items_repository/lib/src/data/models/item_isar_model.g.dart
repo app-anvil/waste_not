@@ -1256,25 +1256,41 @@ const ProductIsarSchema = Schema(
       name: r'barcode',
       type: IsarType.string,
     ),
-    r'id': PropertySchema(
+    r'expectedShelfLife': PropertySchema(
       id: 1,
+      name: r'expectedShelfLife',
+      type: IsarType.long,
+    ),
+    r'id': PropertySchema(
+      id: 2,
       name: r'id',
       type: IsarType.string,
     ),
     r'imageFrontSmallUrl': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'imageFrontSmallUrl',
       type: IsarType.string,
     ),
     r'imageFrontUrl': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'imageFrontUrl',
       type: IsarType.string,
     ),
+    r'measure': PropertySchema(
+      id: 5,
+      name: r'measure',
+      type: IsarType.object,
+      target: r'MeasureIsar',
+    ),
     r'name': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'name',
       type: IsarType.string,
+    ),
+    r'unsealedLifeTimeInDays': PropertySchema(
+      id: 7,
+      name: r'unsealedLifeTimeInDays',
+      type: IsarType.long,
     )
   },
   estimateSize: _productIsarEstimateSize,
@@ -1309,6 +1325,14 @@ int _productIsarEstimateSize(
     }
   }
   {
+    final value = object.measure;
+    if (value != null) {
+      bytesCount += 3 +
+          MeasureIsarSchema.estimateSize(
+              value, allOffsets[MeasureIsar]!, allOffsets);
+    }
+  }
+  {
     final value = object.name;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -1324,10 +1348,18 @@ void _productIsarSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.barcode);
-  writer.writeString(offsets[1], object.id);
-  writer.writeString(offsets[2], object.imageFrontSmallUrl);
-  writer.writeString(offsets[3], object.imageFrontUrl);
-  writer.writeString(offsets[4], object.name);
+  writer.writeLong(offsets[1], object.expectedShelfLife);
+  writer.writeString(offsets[2], object.id);
+  writer.writeString(offsets[3], object.imageFrontSmallUrl);
+  writer.writeString(offsets[4], object.imageFrontUrl);
+  writer.writeObject<MeasureIsar>(
+    offsets[5],
+    allOffsets,
+    MeasureIsarSchema.serialize,
+    object.measure,
+  );
+  writer.writeString(offsets[6], object.name);
+  writer.writeLong(offsets[7], object.unsealedLifeTimeInDays);
 }
 
 ProductIsar _productIsarDeserialize(
@@ -1338,10 +1370,17 @@ ProductIsar _productIsarDeserialize(
 ) {
   final object = ProductIsar();
   object.barcode = reader.readStringOrNull(offsets[0]);
-  object.id = reader.readString(offsets[1]);
-  object.imageFrontSmallUrl = reader.readStringOrNull(offsets[2]);
-  object.imageFrontUrl = reader.readStringOrNull(offsets[3]);
-  object.name = reader.readStringOrNull(offsets[4]);
+  object.expectedShelfLife = reader.readLongOrNull(offsets[1]);
+  object.id = reader.readString(offsets[2]);
+  object.imageFrontSmallUrl = reader.readStringOrNull(offsets[3]);
+  object.imageFrontUrl = reader.readStringOrNull(offsets[4]);
+  object.measure = reader.readObjectOrNull<MeasureIsar>(
+    offsets[5],
+    MeasureIsarSchema.deserialize,
+    allOffsets,
+  );
+  object.name = reader.readStringOrNull(offsets[6]);
+  object.unsealedLifeTimeInDays = reader.readLongOrNull(offsets[7]);
   return object;
 }
 
@@ -1355,13 +1394,23 @@ P _productIsarDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
       return (reader.readStringOrNull(offset)) as P;
+    case 5:
+      return (reader.readObjectOrNull<MeasureIsar>(
+        offset,
+        MeasureIsarSchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 6:
+      return (reader.readStringOrNull(offset)) as P;
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -1517,6 +1566,80 @@ extension ProductIsarQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'barcode',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      expectedShelfLifeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'expectedShelfLife',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      expectedShelfLifeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'expectedShelfLife',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      expectedShelfLifeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'expectedShelfLife',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      expectedShelfLifeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'expectedShelfLife',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      expectedShelfLifeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'expectedShelfLife',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      expectedShelfLifeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'expectedShelfLife',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -1959,6 +2082,24 @@ extension ProductIsarQueryFilter
     });
   }
 
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      measureIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'measure',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      measureIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'measure',
+      ));
+    });
+  }
+
   QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition> nameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2106,10 +2247,91 @@ extension ProductIsarQueryFilter
       ));
     });
   }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      unsealedLifeTimeInDaysIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'unsealedLifeTimeInDays',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      unsealedLifeTimeInDaysIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'unsealedLifeTimeInDays',
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      unsealedLifeTimeInDaysEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'unsealedLifeTimeInDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      unsealedLifeTimeInDaysGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'unsealedLifeTimeInDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      unsealedLifeTimeInDaysLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'unsealedLifeTimeInDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition>
+      unsealedLifeTimeInDaysBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'unsealedLifeTimeInDays',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension ProductIsarQueryObject
-    on QueryBuilder<ProductIsar, ProductIsar, QFilterCondition> {}
+    on QueryBuilder<ProductIsar, ProductIsar, QFilterCondition> {
+  QueryBuilder<ProductIsar, ProductIsar, QAfterFilterCondition> measure(
+      FilterQuery<MeasureIsar> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'measure');
+    });
+  }
+}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types

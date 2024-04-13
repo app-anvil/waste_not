@@ -4,6 +4,7 @@ import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
+import 'package:products_repository/products_repository.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../router/app_route.dart';
