@@ -99,7 +99,10 @@ class ProductIsar {
         barcode = product.barcode,
         name = product.name,
         imageFrontUrl = product.imageFrontUrl,
-        imageFrontSmallUrl = product.imageFrontSmallUrl;
+        imageFrontSmallUrl = product.imageFrontSmallUrl,
+        measure = null,
+        expectedShelfLife = null,
+        unsealedLifeTimeInDays = null;
 
   late String id;
 
@@ -110,6 +113,12 @@ class ProductIsar {
   late String? imageFrontUrl;
 
   late String? imageFrontSmallUrl;
+
+  late MeasureIsar? measure;
+
+  late int? expectedShelfLife;
+
+  late int? unsealedLifeTimeInDays;
 }
 
 @Embedded(ignore: {'copyWith'})

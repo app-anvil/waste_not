@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: a2f_sdk
+dependency_overrides:
+  a2f_sdk:
+    path: ../a2f_sdk
