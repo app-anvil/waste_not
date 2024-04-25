@@ -22,7 +22,7 @@ final class AddEditItemState extends SuperBlocState {
         // unitOfMeasure = product?.measure.unitOfMeasure,
         quantity = null,
         unitOfMeasure = null,
-        amount = 1,
+        amount = PositiveField.dirty(item?.amount ?? 1),
         super.initial();
 
   final DateTime? expirationDate;
@@ -32,10 +32,10 @@ final class AddEditItemState extends SuperBlocState {
 
   final UnitOfMeasure? unitOfMeasure;
 
-  final int amount;
+  final PositiveField amount;
 
   bool get isValid {
-    return expirationDate != null && storage != null && quantity != null;
+    return expirationDate != null && storage != null && amount.isValid;
   }
 
   @override
@@ -43,7 +43,7 @@ final class AddEditItemState extends SuperBlocState {
     StateStatus? status,
     DateTime? expirationDate,
     StorageEntity? storage,
-    int? amount,
+    PositiveField? amount,
     double? quantity,
     UnitOfMeasure? unitOfMeasure,
   }) {

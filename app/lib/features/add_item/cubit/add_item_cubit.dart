@@ -57,7 +57,7 @@ class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
   }
 
   void onAmountChanged(int value) {
-    emit(state.copyWith(amount: value));
+    emit(state.copyWith(amount: PositiveField.dirty(value)));
   }
 
   void onUnitOfMeasureChanged(UnitOfMeasure value) {
@@ -67,7 +67,7 @@ class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
   Future<void> onSave() async {
     if (!state.isValid) {
       // FIXME:l10n
-      state.copyWithError('Insert all required fields');
+      emit(state.copyWithError('Insert all required fields'));
       return;
     }
     emit(state.copyWith(status: StateStatus.progress));
@@ -75,7 +75,7 @@ class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
       await _itemsRepo.upsert(
         product: state.product,
         initialExpiryDate: state.expirationDate!,
-        amount: state.amount,
+        amount: state.amount.value.toInt(),
         storage: state.storage!,
         openedAt: null,
         id: _item?.uuid,
