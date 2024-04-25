@@ -14,7 +14,11 @@ final class ItemState extends SuperBlocState {
 
   @override
   ItemState copyWithError(String errorMessage) {
-    throw UnimplementedError();
+    return ItemState._(
+      item: item,
+      status: StateStatus.failure,
+      errorMessage: errorMessage,
+    );
   }
 
   @override

@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:storages_repository/storages_repository.dart';
+import 'package:storages_repository/storages_repository.dart' as s;
 
 part 'storages_state.dart';
 
 class StoragesCubit extends Cubit<StoragesState> with LoggerMixin {
   StoragesCubit(this._repo) : super(const StoragesState.initial()) {
     _storagesRepoSubscription = _repo.listen((_, state) {
-      if (state is! StoragesRepositoryInitial) {
+      if (state is! s.StoragesRepositoryInitial) {
         _update(_repo.items);
       }
     });
@@ -22,12 +22,12 @@ class StoragesCubit extends Cubit<StoragesState> with LoggerMixin {
     // });
   }
 
-  final StoragesRepository _repo;
+  final s.StoragesRepository _repo;
 
-  late final StreamSubscription<ObservableEvent<StoragesRepositoryState>>
+  late final StreamSubscription<ObservableEvent<s.StoragesRepositoryState>>
       _storagesRepoSubscription;
 
-  void _update(List<StorageEntity> storages) {
+  void _update(List<s.StorageEntity> storages) {
     emit(
       state.copyWith(storages: storages, status: StateStatus.success),
     );
@@ -44,7 +44,7 @@ class StoragesCubit extends Cubit<StoragesState> with LoggerMixin {
     }
   }
 
-  /// Fetches the storages from the [StoragesRepository].
+  /// Fetches the storages from the [s.StoragesRepository].
   Future<void> onFetch() async {
     emit(state.copyWith(status: StateStatus.progress));
     try {

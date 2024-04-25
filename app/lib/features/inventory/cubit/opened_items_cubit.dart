@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:storages_repository/storages_repository.dart';
+import 'package:storages_repository/storages_repository.dart' as s;
 
 import '../../features.dart';
 
@@ -12,14 +12,15 @@ part 'opened_items_state.dart';
 class OpenedItemsCubit extends Cubit<OpenedItemsState> {
   OpenedItemsCubit(this._repo) : super(const OpenedItemsState.initial()) {
     _itemsRepoSubscription = _repo.listen((_, state) {
-      final openedOrClosedItem = state is ItemsRepositoryItemUpdatedSuccess &&
-          state.prevItem.openedAt != state.item.openedAt;
+      final openedItem = state is ItemsRepositoryItemOpenedSuccess;
+      final closedItem = state is ItemsRepositoryItemUnOpenedSuccess;
       // when an opened item is restored (undo action) a new item with same
       // values is added.
       final openedItemRestored = state is ItemsRepositoryItemAddedSuccess &&
           ItemStatus.fromItem(state.item).isOpened;
       if (state is ItemsRepositoryItemLoadedSuccess ||
-          openedOrClosedItem ||
+          openedItem ||
+          closedItem ||
           state is ItemsRepositoryItemDeletedSuccess ||
           state is ItemsRepositoryItemFullConsumedSuccess ||
           openedItemRestored) {
@@ -62,7 +63,7 @@ class OpenedItemsCubit extends Cubit<OpenedItemsState> {
     );
   }
 
-  void applyFilter(StorageEntity? storage) {
+  void applyFilter(s.StorageEntity? storage) {
     if (storage == null) {
       // returns all items
       final openedItems = [
