@@ -55,3 +55,17 @@ class ItemsRepositoryUpdatedSuccess extends ItemsRepositoryState {
   @override
   List<Object?> get props => [items];
 }
+
+class ItemsRepositoryItemOpenedSuccess extends ItemsRepositoryState {
+  const ItemsRepositoryItemOpenedSuccess(this.item);
+  final ItemEntity item;
+  @override
+  List<Object?> get props => [item];
+}
+
+class ItemsRepositoryItemUnOpenedSuccess extends ItemsRepositoryState {
+  const ItemsRepositoryItemUnOpenedSuccess(this.item);
+  final ItemEntity item;
+  @override
+  List<Object?> get props => [item];
+}

@@ -25,5 +25,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   isar_generator: ^3.1.0+1
+  mockito: ^5.4.4
   mocktail: ^1.0.0
   very_good_analysis: ^5.1.0

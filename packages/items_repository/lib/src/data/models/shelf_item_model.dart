@@ -1,5 +1,4 @@
 import 'package:a2f_sdk/a2f_sdk.dart';
-import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 import '../../../items_repository.dart';
@@ -49,4 +48,12 @@ class ShelfItemModel extends ItemModel implements ShelfItemEntity {
 
   @override
   List<Object?> get props => [...super.props, shelf];
+
+  @override
+  bool shouldBeMergedWith(ItemModel other) {
+    return super.shouldBeMergedWith(other) &&
+        ((other is ShelfItemEntity &&
+                (other as ShelfItemEntity).shelf == shelf) ||
+            other is! ShelfItemEntity);
+  }
 }

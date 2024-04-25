@@ -21,21 +21,19 @@ class InventoryCubit extends Cubit<InventoryState> with LoggerMixin {
           state is ItemsRepositoryItemAddedSuccess ||
           state is ItemsRepositoryItemDeletedSuccess ||
           state is ItemsRepositoryItemFullConsumedSuccess ||
-          state is ItemsRepositoryItemUpdatedSuccess) {
+          state is ItemsRepositoryItemUpdatedSuccess ||
+          state is ItemsRepositoryUpdatedSuccess) {
         final updatedItemDateTime = state
                 is ItemsRepositoryItemUpdatedSuccess &&
             state.prevItem.initialExpiryDate != state.item.initialExpiryDate;
-        final openedOrClosedItem = state is ItemsRepositoryItemUpdatedSuccess &&
-            state.prevItem.openedAt != state.item.openedAt;
         final sortItems = state is ItemsRepositoryItemAddedSuccess ||
             state is ItemsRepositoryItemDeletedSuccess ||
             updatedItemDateTime;
         // it does not monitor the updating of items's remainingMeasure and
         // storage because each item's tile has already rebuilding by its cubit
         // if any of these changes happened.
-        final updatesUI = state is! ItemsRepositoryItemUpdatedSuccess ||
-            updatedItemDateTime ||
-            openedOrClosedItem;
+        final updatesUI =
+            state is! ItemsRepositoryItemUpdatedSuccess || updatedItemDateTime;
 
         _update(
           _repo.items,

@@ -41,7 +41,7 @@ void main() {
     initialExpiryDate: DateTime(2023, 12, 12),
     createdAt: DateTime.now(),
     storage: fridge,
-    amount: 2,
+    amount: 4,
   );
 
   final freezerItem = ShelfItemModel(

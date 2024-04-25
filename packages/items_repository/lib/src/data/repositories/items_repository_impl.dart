@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
@@ -132,5 +133,75 @@ class ItemsRepositoryImpl extends ItemsRepository {
       logger.d('Item partially consumed successfully: $prevItem, $updatedItem');
       emit(ItemsRepositoryItemUpdatedSuccess(prevItem, updatedItem));
     }
+  }
+
+  @override
+  Future<void> open({required String id}) async {
+    final item = getItemOrThrow(id);
+    // create a new opened item with amount 1.
+    final openedItem = await _provider.add(
+      initialExpiryDate: item.initialExpiryDate,
+      amount: 1,
+      storage: item.storage,
+      openedAt: DateTime.now(),
+      product: item.product,
+      shelf: item is ShelfItemEntity ? (item as ShelfItemEntity).shelf : null,
+    );
+    _itemsMap[openedItem.uuid] = openedItem;
+    // decrese the item amount by 1 or delete it.
+    if (item.amount > 1) {
+      final updatedItem = await _provider.update(
+        id: id,
+        initialExpiryDate: item.initialExpiryDate,
+        amount: item.amount - 1,
+        storage: item.storage,
+        openedAt: null,
+        shelf: item is ShelfItemEntity ? (item as ShelfItemEntity).shelf : null,
+      );
+      _itemsMap[updatedItem.uuid] = updatedItem;
+    } else {
+      await _provider.delete(id);
+      _itemsMap.remove(id);
+    }
+    logger.d('Item opened successfully: $openedItem');
+    emit(ItemsRepositoryItemOpenedSuccess(openedItem));
+    emit(ItemsRepositoryUpdatedSuccess(items));
+  }
+
+  @override
+  Future<void> unOpen({required String id}) async {
+    final item = getItemOrThrow(id);
+
+    final sameItem = items.firstWhereOrNull(
+      (i) => i.shouldBeMergedWith(item),
+    );
+    await _provider.delete(id);
+    _itemsMap.remove(id);
+    if (sameItem != null) {
+      final updatedItem = await _provider.update(
+        id: sameItem.uuid,
+        initialExpiryDate: sameItem.initialExpiryDate,
+        amount: sameItem.amount + 1,
+        storage: sameItem.storage,
+        openedAt: null,
+        shelf: sameItem is ShelfItemEntity
+            ? (sameItem as ShelfItemEntity).shelf
+            : null,
+      );
+      _itemsMap[updatedItem.uuid] = updatedItem;
+    } else {
+      final newItem = await _provider.add(
+        initialExpiryDate: item.initialExpiryDate,
+        amount: 1,
+        storage: item.storage,
+        openedAt: null,
+        product: item.product,
+        shelf: item is ShelfItemEntity ? (item as ShelfItemEntity).shelf : null,
+      );
+      _itemsMap[newItem.uuid] = newItem;
+      logger.d('Item unopened successfully: $newItem');
+      emit(ItemsRepositoryItemUnOpenedSuccess(newItem));
+    }
+    emit(ItemsRepositoryUpdatedSuccess(items));
   }
 }

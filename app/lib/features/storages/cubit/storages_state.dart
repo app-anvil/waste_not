@@ -11,12 +11,12 @@ final class StoragesState extends SuperBlocState {
       : storages = const [],
         super.initial();
 
-  final List<StorageEntity> storages;
+  final List<s.StorageEntity> storages;
 
   @override
   StoragesState copyWith({
     StateStatus? status,
-    List<StorageEntity>? storages,
+    List<s.StorageEntity>? storages,
   }) {
     return StoragesState._(
       storages: storages ?? this.storages,

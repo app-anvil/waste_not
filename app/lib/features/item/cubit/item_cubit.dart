@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:storages_repository/storages_repository.dart';
 
 part 'item_state.dart';
 
@@ -37,17 +36,27 @@ class ItemCubit extends Cubit<ItemState> with LoggerMixin {
   }
 
   Future<void> onOpened() async {
-    // emit(state.copyWith(status: StateStatus.progress));
+    emit(state.copyWith(status: StateStatus.progress));
     try {
       final item = state.item;
-      await _repo.upsert(
-        product: item.product,
-        initialExpiryDate: item.initialExpiryDate,
-        amount: item.amount,
-        storage: item.storage,
-        id: item.uuid,
-        openedAt: state.item.openedAt == null ? DateTime.now() : null,
+      await _repo.open(id: item.uuid);
+      emit(
+        state.copyWith(
+          status: StateStatus.success,
+        ),
       );
+    } catch (e, s) {
+      logger.e(e.toString(), e, s);
+      // FIXME: add exception message
+      emit(state.copyWithError(e.toString()));
+    }
+  }
+
+  Future<void> onUnOpened() async {
+    emit(state.copyWith(status: StateStatus.progress));
+    try {
+      final item = state.item;
+      await _repo.unOpen(id: item.uuid);
       emit(
         state.copyWith(
           status: StateStatus.success,

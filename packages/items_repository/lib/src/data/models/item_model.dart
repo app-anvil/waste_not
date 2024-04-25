@@ -48,6 +48,13 @@ abstract class ItemModel with ModelToStringMixin implements ItemEntity {
     int? unsealedLifeTimeInDays,
   });
 
+  bool shouldBeMergedWith(ItemModel other) {
+    return uuid != other.uuid &&
+        product.id == other.product.id &&
+        storage == other.storage &&
+        initialExpiryDate == other.initialExpiryDate;
+  }
+
   @override
   DateTime get actualExpiryDate {
     if (openedAt == null) {

@@ -4,7 +4,6 @@ import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:items_repository/items_repository.dart';
-import 'package:products_repository/products_repository.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../router/app_route.dart';
@@ -67,7 +66,7 @@ class ItemTileState extends State<ItemTile> {
               color: Colors.white,
             ),
             Text(
-              widget.item.openedAt == null
+              !ItemStatus.fromItem(widget.item).isOpened
                   ? context.l10n.openAction
                   : context.l10n.undoOpenAction,
               style: const TextStyle(
@@ -127,6 +126,10 @@ class ItemTileState extends State<ItemTile> {
     context.read<ItemCubit>().onOpened();
   }
 
+  void _unOpen(BuildContext context) {
+    context.read<ItemCubit>().onUnOpened();
+  }
+
   void _consume(BuildContext context) {
     unawaited(
       const ConsumeItemModal().show(
@@ -151,8 +154,8 @@ class ItemTileState extends State<ItemTile> {
         ModalBottomSheetActions.edit(context).copyWith(onTap: _edit),
         if (!ItemStatus.fromItem(widget.item).isExpired)
           ModalBottomSheetActions.open(context).copyWith(
-            onTap: _open,
-            title: widget.item.openedAt == null
+            onTap: !ItemStatus.fromItem(widget.item).isOpened ? _open : _unOpen,
+            title: !ItemStatus.fromItem(widget.item).isOpened
                 ? context.l10n.openAction
                 : context.l10n.undoOpenAction,
           ),
@@ -185,7 +188,9 @@ class ItemTileState extends State<ItemTile> {
       movementDuration: Duration.zero,
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
-          _open(context);
+          !ItemStatus.fromItem(widget.item).isOpened
+              ? _open(context)
+              : _unOpen(context);
         } else {
           if (_fullConsumeItemAction) {
             _onFullConsume(context);

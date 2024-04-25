@@ -87,7 +87,10 @@ const ItemIsarModelSchema = CollectionSchema(
       single: true,
     )
   },
-  embeddedSchemas: {r'ProductIsar': ProductIsarSchema},
+  embeddedSchemas: {
+    r'ProductIsar': ProductIsarSchema,
+    r'MeasureIsar': MeasureIsarSchema
+  },
   getId: _itemIsarModelGetId,
   getLinks: _itemIsarModelGetLinks,
   attach: _itemIsarModelAttach,
