@@ -274,6 +274,8 @@ class ItemTileState extends State<ItemTile> {
                             const TextSpan(
                               text: ' - ',
                             ),
+                            // FIXME: l10n
+                            TextSpan(text: '${widget.item.amount} units'),
                             // TODO: to be obtained by the item product
                             // TextSpan(
                             //   text: measure.quantity.toString(),

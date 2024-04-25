@@ -74,8 +74,9 @@ class AddEditItemForm extends StatelessWidget {
             },
           ),
           VSpan($style.insets.sm),
-          const _QuantityAndMeasureSection(),
-          VSpan($style.insets.md),
+          // TODO: to be added. Now it is not used.
+          // const _QuantityAndMeasureSection(),
+          // VSpan($style.insets.md),
           const _UnitsSection(),
           VSpan($style.insets.md),
           if (isEditing) const _AddBtn.edit() else const _AddBtn.add(),
@@ -135,22 +136,27 @@ class _UnitsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddEditItemCubit>();
-    return TextFormField(
-      initialValue: cubit.state.quantity?.toString(),
-      keyboardType: TextInputType.number,
-      inputFormatters: [ReplaceCommaFormatter('.')],
-      decoration: const InputDecoration().copyWith(
-        // FIXME: l10n
-        labelText: 'Units',
-        // FIXME: l10n
-        hintText: 'Enter a units of product you buyed',
-      ),
-      onChanged: (value) => cubit.onAmountChanged(
-        value.isEmpty ? 1 : int.parse(value),
-      ),
-      // FIXME: l10n
-      validator: (value) =>
-          value == null || value.isEmpty ? 'Required field' : null,
+    return BlocSelector<AddEditItemCubit, AddEditItemState, PositiveField>(
+      selector: (state) {
+        return state.amount;
+      },
+      builder: (context, amount) {
+        return TextFormField(
+          initialValue: '${amount.value}',
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration().copyWith(
+            // FIXME: l10n
+            labelText: 'Amount',
+            // FIXME: l10n
+            hintText: 'Enter how many items you want to add',
+          ),
+          onChanged: (value) => cubit.onAmountChanged(
+            value.isEmpty ? 1 : int.parse(value),
+          ),
+          // FIXME: l10n
+          validator: (_) => amount.error?.message,
+        );
+      },
     );
   }
 }
@@ -163,6 +169,8 @@ class _AddBtn extends StatelessWidget {
   final bool isEditing;
 
   void _onSave(BuildContext context) {
+    // call all form validator method, also the amount (positive input)
+    // validator.
     final isValid = Form.of(context).validate();
     if (isValid) {
       final cubit = context.read<AddEditItemCubit>();
