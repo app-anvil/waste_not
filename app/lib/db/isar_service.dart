@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:items_repository/items_repository.dart';
+import 'package:notifications_repository/notifications_repository.dart';
 import 'package:path/path.dart' as path;
 import 'package:storages_repository/storages_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -58,7 +59,11 @@ class IsarServiceImpl implements IsarService {
           !File(path.join(dir.path, '$dbName$ext')).existsSync();
 
       final isar = await Isar.open(
-        [StorageDbModelSchema, ItemIsarModelSchema],
+        [
+          StorageDbModelSchema,
+          ItemIsarModelSchema,
+          NotificationIsarModelSchema,
+        ],
         name: 'db',
         directory: dir.path,
       );

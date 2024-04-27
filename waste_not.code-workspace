@@ -24,6 +24,10 @@
       "name": "📦 storages_repository",
       "path": "packages/storages_repository",
     },
+    {
+      "name": "📦 notifications_repository",
+      "path": "packages/notifications_repository",
+    },
 
   ],
   "settings": {

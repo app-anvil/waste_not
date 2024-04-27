@@ -1,9 +1,11 @@
-# melos_managed_dependency_overrides: products_repository,storages_repository,items_repository,a2f_sdk
+# melos_managed_dependency_overrides: products_repository,storages_repository,items_repository,a2f_sdk,notifications_repository
 dependency_overrides:
   a2f_sdk:
     path: ../packages/a2f_sdk
   items_repository:
     path: ../packages/items_repository
+  notifications_repository:
+    path: ../packages/notifications_repository
   products_repository:
     path: ../packages/products_repository
   storages_repository:

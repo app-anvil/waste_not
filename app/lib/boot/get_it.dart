@@ -9,6 +9,8 @@ import '../db/isar_service.dart';
 void initializeDependencies() {
   GetIt.I.registerSingleton<MessageHelper>(MessageHelper());
   GetIt.I.registerSingleton<IsarService>(IsarServiceImpl());
+  // TODO: move inside specific environment dependencies. We shoulb be pass
+  // is is prod or test
   GetIt.I.registerSingleton<ProductsApiClient>(OpenFoodFactsApiClient());
   GetIt.I.registerSingleton<StoragesRepository>(
     StoragesRepositoryImpl(StoragesDbProvider(GetIt.I.get<IsarService>())),

@@ -1,0 +1,22 @@
+name: notifications_repository
+description: The notifications package
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  a2f_sdk: 1.0.0
+  flutter: {sdk: flutter}
+  flutter_timezone: ^1.0.8  
+  timezone: ^0.9.3
+
+dev_dependencies:
+  build_runner: ^2.4.9
+  flutter_test:
+    sdk: flutter
+  isar_generator: ^3.1.0+1    
+  mocktail: ^1.0.0
+  very_good_analysis: ^5.1.0

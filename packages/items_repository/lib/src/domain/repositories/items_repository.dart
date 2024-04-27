@@ -1,3 +1,4 @@
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:get_it/get_it.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';

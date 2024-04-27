@@ -17,6 +17,7 @@ dependencies:
   intl: ^0.18.0
   items_repository: { path: ../packages/items_repository }
   mobile_scanner: ^3.5.1
+  notifications_repository: { path: ../packages/notifications_repository }
   path: ^1.8.3
   products_repository: { path: ../packages/products_repository }
   shimmer: ^3.0.0

@@ -10,5 +10,5 @@ dev_dependencies:
   a2f_sdk:
     git:
       url: git@github.com:app-anvil/a2f_sdk.git
-  melos: ^3.1.1
+  melos: ^6.0.0
   very_good_analysis: ^5.1.0
