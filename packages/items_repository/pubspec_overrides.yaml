@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: products_repository,storages_repository,a2f_sdk
+# melos_managed_dependency_overrides: a2f_sdk,products_repository,storages_repository
 dependency_overrides:
   a2f_sdk:
     path: ../a2f_sdk

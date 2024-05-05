@@ -1,4 +1,4 @@
-package com.example.verygoodcore.app
+package dev.appanvil.wastenot
 
 import io.flutter.embedding.android.FlutterActivity
 
