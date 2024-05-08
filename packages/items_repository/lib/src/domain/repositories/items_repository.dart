@@ -41,4 +41,6 @@ abstract class ItemsRepository
 
   // delete
   Future<bool> delete(String id);
+
+  // TODO: add maybeGetById
 }

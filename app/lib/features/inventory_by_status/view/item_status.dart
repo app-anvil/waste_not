@@ -21,17 +21,8 @@ enum ItemStatus {
   bool get isOpened => this == opened;
   bool get isToBeEaten => this == toBeEaten;
 
-  static ItemStatus fromValue(String value) {
-    if (value == 'expired') {
-      return ItemStatus.expired;
-    } else if (value == 'opened') {
-      return ItemStatus.opened;
-    } else if (value == 'normal') {
-      return ItemStatus.normal;
-    } else {
-      return ItemStatus.toBeEaten;
-    }
-  }
+  factory ItemStatus.fromName(String name) =>
+      ItemStatus.values.firstWhere((e) => e.name == name);
 
   static ItemStatus fromItem(ItemEntity item) {
     if (item.initialExpiryDate.toDate().isBefore(DateTime.now().toDate())) {

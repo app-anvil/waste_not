@@ -1,13 +1,22 @@
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:storages_repository/storages_repository.dart';
 
-import '../../../router/app_route.dart';
 import '../storages.dart';
 
 class StoragesPage extends StatelessWidget {
-  const StoragesPage({super.key});
+  const StoragesPage._();
+
+  static const path = '/inventory/storages';
+
+  static GoRoute get route => GoRoute(
+        path: path,
+        builder: (context, state) => const StoragesPage._(),
+      );
+
+  static void push(BuildContext context) => context.router.push(path);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +35,7 @@ class StoragesView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton.small(
         child: const Icon(Icons.add_rounded),
-        onPressed: () => context.router.goNamed(AppRoute.addStorage.name),
+        onPressed: () => AddStoragePage.push(context),
       ),
       body: CustomScrollView(
         slivers: [

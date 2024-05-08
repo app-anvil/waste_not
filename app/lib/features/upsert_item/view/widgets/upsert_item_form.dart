@@ -8,16 +8,16 @@ import 'package:storages_repository/storages_repository.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../features.dart';
 
-class AddEditItemForm extends StatelessWidget {
-  const AddEditItemForm.add({super.key}) : isEditing = false;
+class UpsertItemForm extends StatelessWidget {
+  const UpsertItemForm.add({super.key}) : isEditing = false;
 
-  const AddEditItemForm.edit({super.key}) : isEditing = true;
+  const UpsertItemForm.edit({super.key}) : isEditing = true;
 
   final bool isEditing;
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AddEditItemCubit>();
+    final cubit = context.read<UpsertItemCubit>();
     return Form(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -51,13 +51,18 @@ class AddEditItemForm extends StatelessWidget {
             ],
           ),
           VSpan($style.insets.sm),
-          DateInput(
-            initialDate: cubit.state.expirationDate,
-            onChanged: cubit.onExpirationDateChanged,
-            // FIXME: l10n
-            hintText: 'Expiration date',
-            // FIXME: l10n
-            validator: (value) => value == null ? 'Required field' : null,
+          BlocSelector<UpsertItemCubit, UpsertItemState, DateTime?>(
+            selector: (state) => state.expirationDate,
+            builder: (context, expirationDate) {
+              return DateInput(
+                initialDate: expirationDate,
+                onChanged: cubit.onExpirationDateChanged,
+                // FIXME: l10n
+                hintText: 'Expiration date',
+                // FIXME: l10n
+                validator: (value) => value == null ? 'Required field' : null,
+              );
+            },
           ),
           VSpan($style.insets.sm),
           SimpleSelectionInput<StorageEntity>(
@@ -91,7 +96,7 @@ class _QuantityAndMeasureSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AddEditItemCubit>();
+    final cubit = context.read<UpsertItemCubit>();
     return Row(
       children: [
         Expanded(
@@ -135,8 +140,8 @@ class _UnitsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AddEditItemCubit>();
-    return BlocSelector<AddEditItemCubit, AddEditItemState, PositiveField>(
+    final cubit = context.read<UpsertItemCubit>();
+    return BlocSelector<UpsertItemCubit, UpsertItemState, PositiveField>(
       selector: (state) {
         return state.amount;
       },
@@ -173,9 +178,8 @@ class _AddBtn extends StatelessWidget {
     // validator.
     final isValid = Form.of(context).validate();
     if (isValid) {
-      final cubit = context.read<AddEditItemCubit>();
-      context.navRoot
-          .pushBlocListenerBarrier<AddEditItemCubit, AddEditItemState>(
+      final cubit = context.read<UpsertItemCubit>();
+      context.navRoot.pushBlocListenerBarrier<UpsertItemCubit, UpsertItemState>(
         bloc: cubit,
         listener: (ctx, curr) {
           if (curr.status.isSuccess) {
@@ -207,7 +211,8 @@ class _AddBtn extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () => _onSave(context),
-            child: Text(isEditing ? l10n.editAction : l10n.addAction),
+            // FIXME: l10n
+            child: Text((isEditing ? 'Save' : l10n.addAction).toUpperCase()),
           ),
         ),
       ],

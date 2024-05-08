@@ -1,6 +1,7 @@
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:items_repository/items_repository.dart';
 
 import '../../../l10n/l10n.dart';
@@ -8,9 +9,40 @@ import '../../../widgets/widgets.dart';
 import '../../features.dart';
 
 class InventoryByStatusPage extends StatelessWidget {
-  const InventoryByStatusPage({required this.filter, super.key});
+  const InventoryByStatusPage._({required this.filter});
 
   final ItemStatus filter;
+
+  static const path = '/inventory/by-status';
+
+  static const routeName = 'inventoryByStatus';
+
+  static GoRoute get route => GoRoute(
+        path: path,
+        name: routeName,
+        builder: (context, state) {
+          final filter = ItemStatus.fromName(
+            state.uri.queryParameters['filter']!,
+          );
+          final cubit = state.extra! as InventoryCubit;
+          return BlocProvider.value(
+            value: cubit,
+            child: InventoryByStatusPage._(filter: filter),
+          );
+        },
+      );
+
+  static void push(
+    BuildContext context, {
+    required ItemStatus filter,
+    required InventoryCubit cubit,
+  }) {
+    context.router.pushNamed(
+      routeName,
+      queryParameters: {'filter': filter.name},
+      extra: cubit,
+    );
+  }
 
   String _getTitle(BuildContext context) {
     final l10n = context.l10n;
@@ -110,21 +142,9 @@ class _ItemsSection extends StatelessWidget {
             }
             assert(obj is ItemEntity, 'Unexpected object type');
             final item = obj as ItemEntity;
-            return BlocProvider(
-              create: (context) => ItemCubit(
-                repo: ItemsRepository.I,
-                item: item,
-              ),
-              child: Builder(
-                builder: (context) {
-                  // the item from the list is not updated.
-                  // So we get the value of item from its cubit with watch.
-                  return ItemTile(
-                    item: context.watch<ItemCubit>().state.item,
-                    category: '',
-                  );
-                },
-              ),
+            return ItemTile(
+              itemId: item.uuid,
+              category: '',
             );
           },
         );

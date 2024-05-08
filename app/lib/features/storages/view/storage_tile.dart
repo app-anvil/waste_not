@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storages_repository/storages_repository.dart';
 
-import '../../../router/app_route.dart';
 import '../../../styles/app_colors.dart';
 import '../../features.dart';
 
@@ -59,10 +58,7 @@ class StorageTile extends StatelessWidget {
           Icons.edit_rounded,
           size: 18,
         ),
-        onPressed: () => context.router.goNamed(
-          AppRoute.editStorage.name,
-          extra: storage.uuid,
-        ),
+        onPressed: () => EditStoragePage.push(context, storageId: storage.uuid),
       ),
       // leading: IconButton(
       //   padding: EdgeInsets.all(2),

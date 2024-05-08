@@ -17,7 +17,7 @@ abstract interface class ProductEntity extends Equatable {
   /// The name of the product.
   ///
   /// Cannot be changed.
-  abstract final String? name;
+  String? get name;
 
   /// The brand of the product.
   ///

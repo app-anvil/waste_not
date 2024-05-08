@@ -21,7 +21,6 @@ class ItemIsarModel {
 
   final storage = IsarLink<StorageDbModel>();
 
-  ///
   late int? shelf;
 
   late DateTime? openedAt;

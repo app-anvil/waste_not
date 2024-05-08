@@ -1,10 +1,8 @@
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:items_repository/items_repository.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../item/cubit/item_cubit.dart';
 import '../../inventory.dart';
 
 class OpenedItemsSection extends StatelessWidget {
@@ -17,7 +15,6 @@ class OpenedItemsSection extends StatelessWidget {
         context.read<OpenedItemsCubit>().applyFilter(state.selectedStorage);
       },
       child: BlocBuilder<OpenedItemsCubit, OpenedItemsState>(
-        buildWhen: (prev, current) => prev != current,
         builder: (context, state) {
           if (state.items.isEmpty) {
             return const SizedBox.shrink().asSliver;
@@ -34,21 +31,9 @@ class OpenedItemsSection extends StatelessWidget {
                   return const _HeaderTile();
                 }
                 final item = state.items[index - 1];
-                return BlocProvider(
-                  create: (context) => ItemCubit(
-                    repo: ItemsRepository.I,
-                    item: item,
-                  ),
-                  child: Builder(
-                    builder: (context) {
-                      // the item from the list is not updated.
-                      // So we get the value of item from its cubit with watch.
-                      return ItemTile(
-                        item: context.watch<ItemCubit>().state.item,
-                        category: '',
-                      );
-                    },
-                  ),
+                return ItemTile(
+                  itemId: item.uuid,
+                  category: '',
                 );
               },
             ),

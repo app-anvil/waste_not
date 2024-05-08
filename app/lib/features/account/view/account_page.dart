@@ -1,29 +1,20 @@
 import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 
-class AccountAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const AccountAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverAppBar.large(
-      title: Text(
-        context.l10n.accountAppBarTitle,
-        style: const TextStyle().copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  @override
-  Size get preferredSize => AppBar().preferredSize;
-}
-
 class AccountPage extends StatelessWidget {
-  const AccountPage({super.key});
+  const AccountPage._();
+
+  static const path = '/account';
+
+  static GoRoute get route => GoRoute(
+        path: path,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: AccountPage._(),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {

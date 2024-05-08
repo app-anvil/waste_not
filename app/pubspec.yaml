@@ -8,12 +8,11 @@ environment:
 
 dependencies:
   a2f_sdk: 1.0.0
-  flext: ^0.1.0
   flutter: { sdk: flutter }
   flutter_bloc: ^8.1.3
   flutter_localizations: { sdk: flutter }
   get_it: ^7.6.4
-  go_router: ^12.0.1
+  go_router: ^14.0.2
   intl: ^0.18.0
   items_repository: { path: ../packages/items_repository }
   mobile_scanner: ^3.5.1

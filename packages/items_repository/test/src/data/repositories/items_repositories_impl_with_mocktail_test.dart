@@ -166,12 +166,12 @@ void main() {
 
   group('Unopen an item', () {
     final fridge = StorageModel(
-        uuid: '0',
-        name: 'Fridge',
-        storageType: StorageType.fridge,
-        orderingPriority: 2,
-      );
-      
+      uuid: '0',
+      name: 'Fridge',
+      storageType: StorageType.fridge,
+      orderingPriority: 2,
+    );
+
     final openedPantryItem = PantryItemModel(
       uuid: '2',
       product: product,

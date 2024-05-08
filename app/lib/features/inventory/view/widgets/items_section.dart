@@ -12,7 +12,6 @@ import '../../../features.dart';
 /// It is rebuilt only if the order of the list changes:
 ///
 /// - item expiration date is changed
-///
 /// - item is opened / closed.
 ///
 /// If item's remainingMeasure is changed the list is not updated, only the
@@ -64,31 +63,10 @@ class ItemsSection extends StatelessWidget {
                 }
                 assert(obj is ItemEntity, 'Unexpected object type');
                 final item = obj as ItemEntity;
-                return BlocProvider(
-                  create: (context) => ItemCubit(
-                    repo: ItemsRepository.I,
-                    item: item,
-                  ),
-                  child: Builder(
-                    builder: (context) {
-                      // The item from the list is always updated, but the list
-                      // is rebuilt only if state.updatesUI is true.
-                      // Only a single tile is updated if an item is edited.
-                      // The whole tile is rebuilt if the state changes.
-                      return BlocSelector<ItemCubit, ItemState, ItemEntity>(
-                        selector: (state) {
-                          return state.item;
-                        },
-                        builder: (context, item) {
-                          return ItemTile(
-                            key: ValueKey(item.uuid),
-                            item: item,
-                            category: '',
-                          );
-                        },
-                      );
-                    },
-                  ),
+                return ItemTile(
+                  key: ValueKey(item.uuid),
+                  itemId: item.uuid,
+                  category: '',
                 );
               },
             );

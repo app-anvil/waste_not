@@ -5,7 +5,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../router/app_route.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../storages/storages.dart';
 import '../../cubit/cubit.dart';
@@ -77,9 +76,7 @@ class StorageSection extends StatelessWidget {
                       style: TextButton.styleFrom(
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      onPressed: () => context.router.goNamed(
-                        AppRoute.storages.name,
-                      ),
+                      onPressed: () => StoragesPage.push(context),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
