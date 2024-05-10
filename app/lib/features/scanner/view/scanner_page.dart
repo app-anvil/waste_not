@@ -2,9 +2,10 @@ import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:products_repository/products_repository.dart';
 
-import '../../../router/app_route.dart';
+import '../../upsert_item/view/upsert_item_page.dart';
 import '../bloc/scanner_bloc.dart';
 import 'scanner_content.dart';
 
@@ -12,10 +13,25 @@ import 'scanner_content.dart';
 /// When a barcode is returned you perform a fetch with the barcode.
 /// When the base product is returned successfully, push the add product page.
 ///
-/// If en error occcurs during the fetch or during the scan, provide a widget
+/// If en error occurs during the fetch or during the scan, provide a widget
 /// to allow user to retry.
 class ScannerPage extends StatelessWidget {
-  const ScannerPage({super.key});
+  const ScannerPage._();
+
+  static const path = '/scanner';
+
+  static GoRoute get route => GoRoute(
+        path: path,
+        builder: (context, state) => const ScannerPage._(),
+        pageBuilder: (context, state) => const MaterialPage(
+          fullscreenDialog: true,
+          child: ScannerPage._(),
+        ),
+      );
+
+  static void push(BuildContext context) {
+    context.router.push(path);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +52,8 @@ class ScannerView extends StatelessWidget {
     // listener, when the product is fetched push to add-product page
     return BlocListener<ScannerBloc, ScannerState>(
       listener: (context, state) {
-        if (state.status.isSuccess) {
-          context.router.goNamed(
-            AppRoute.addProduct.name,
-            extra: state.product,
-          );
+        if (state.status.isSuccess && state.product != null) {
+          AddItemPage.push(context, product: state.product!);
         }
         // We reset all the state of the bloc to avoid same possible errors.
         context.read<ScannerBloc>().add(const ScannerOnBarcodeReset());

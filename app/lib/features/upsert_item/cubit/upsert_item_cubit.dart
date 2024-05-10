@@ -5,40 +5,40 @@ import 'package:items_repository/items_repository.dart';
 import 'package:products_repository/products_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
-part 'add_item_state.dart';
+part 'upsert_item_state.dart';
 
-class AddEditItemCubit extends Cubit<AddEditItemState> with LoggerMixin {
+class UpsertItemCubit extends Cubit<UpsertItemState> with LoggerMixin {
   /// Create a new add or edit cubit.
   ///
-  /// If itemId is not null, it creates a [AddEditItemCubit.edit] cubit,
+  /// If itemId is not null, it creates a [UpsertItemCubit.edit] cubit,
   /// otherwise [product] must be not null.
-  factory AddEditItemCubit({
+  factory UpsertItemCubit({
     required ItemsRepository itemsRepo,
     String? itemId,
     ProductEntity? product,
   }) {
     if (itemId != null) {
       final item = itemsRepo.getItemOrThrow(itemId);
-      return AddEditItemCubit.edit(itemsRepo: itemsRepo, item: item);
+      return UpsertItemCubit.edit(itemsRepo: itemsRepo, item: item);
     }
-    return AddEditItemCubit.add(product: product!, itemsRepo: itemsRepo);
+    return UpsertItemCubit.add(product: product!, itemsRepo: itemsRepo);
   }
 
-  AddEditItemCubit.add({
+  UpsertItemCubit.add({
     required ProductEntity product,
     required ItemsRepository itemsRepo,
   })  : _itemsRepo = itemsRepo,
         _item = null,
         super(
-          AddEditItemState.initial(product),
+          UpsertItemState.initial(product),
         );
 
-  AddEditItemCubit.edit({
+  UpsertItemCubit.edit({
     required ItemsRepository itemsRepo,
     required ItemEntity item,
   })  : _itemsRepo = itemsRepo,
         _item = item,
-        super(AddEditItemState.initial(item.product, item: item));
+        super(UpsertItemState.initial(item.product, item: item));
 
   final ItemsRepository _itemsRepo;
 

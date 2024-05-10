@@ -46,6 +46,8 @@ class OverviewCard extends StatelessWidget {
           Text(
             label,
             style: context.tt.titleMedium,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ],
       ),

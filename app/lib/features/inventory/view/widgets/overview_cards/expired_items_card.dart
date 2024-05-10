@@ -1,9 +1,7 @@
-import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../../../router/app_route.dart';
 import '../../../../features.dart';
 
 class ExpiredItemsCard extends StatelessWidget {
@@ -20,15 +18,11 @@ class ExpiredItemsCard extends StatelessWidget {
           .items
           .where((element) => ItemStatus.fromItem(element).isExpired)
           .length,
-      onTap: () {
-        final routeName = AppRoute.inventoryFilteredBy.name;
-        final filter = ItemStatus.expired.name;
-        context.router.goNamed(
-          routeName,
-          queryParameters: {'filter': filter},
-          extra: context.read<InventoryCubit>(),
-        );
-      },
+      onTap: () => InventoryByStatusPage.push(
+        context,
+        filter: ItemStatus.expired,
+        cubit: context.read<InventoryCubit>(),
+      ),
     );
   }
 }

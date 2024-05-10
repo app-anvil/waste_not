@@ -2,14 +2,15 @@
 // should be present only in the root pages.
 import 'dart:convert';
 
+import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:products_repository/products_repository.dart';
 
 import '../features/features.dart';
 import '../widgets/scaffold_with_nested_navigation.dart';
-import 'app_route.dart';
+
+export 'route_tokens.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _inventoryNavigatorKey = GlobalKey<NavigatorState>();
@@ -17,13 +18,37 @@ final _accountNavigatorKey = GlobalKey<NavigatorState>();
 
 // Because child of routes doesn't have a bottom navigation bar, they use
 // _rootNavigatorKey as a parentNavigationKey parameter.
-final $router = GoRouter(
+final router = GoRouter(
   // FIXME: use / with redirect.
   initialLocation: '/inventory',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
-  extraCodec: const MyExtraCodec(),
+  //extraCodec: const MyExtraCodec(),
   routes: [
+    // /scanner
+    ScannerPage.route,
+
+    // /inventory/items/add
+    AddItemPage.route,
+
+    // /inventory/items/:itemId/edit
+    EditItemPage.route,
+
+    // /inventory/items/:itemId
+    ItemPage.route,
+
+    // /inventory/by-status?filter=...
+    InventoryByStatusPage.route,
+
+    // /inventory/storages
+    StoragesPage.route,
+
+    // /inventory/storages/add
+    AddStoragePage.route,
+
+    // /inventory/storages/:storageId/edit
+    EditStoragePage.route,
+
     // initial routes with no app bar, e.g. login and sign up routes
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -34,110 +59,19 @@ final $router = GoRouter(
       branches: [
         StatefulShellBranch(
           navigatorKey: _inventoryNavigatorKey,
-          routes: [
-            GoRoute(
-              path: AppRoute.inventory.rootPath,
-              name: AppRoute.inventory.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: InventoryPage(),
-              ),
-              // all children routes
-              routes: [
-                GoRoute(
-                  path: AppRoute.inventoryFilteredBy.path,
-                  name: AppRoute.inventoryFilteredBy.name,
-                  parentNavigatorKey: _rootNavigatorKey,
-                  builder: (context, state) {
-                    final filter = ItemStatus.fromValue(
-                      state.uri.queryParameters['filter']!,
-                    );
-                    final cubit = state.extra! as InventoryCubit;
-                    return BlocProvider.value(
-                      value: cubit,
-                      child: InventoryByStatusPage(filter: filter),
-                    );
-                  },
-                ),
-                GoRoute(
-                  path: AppRoute.scanner.path,
-                  name: AppRoute.scanner.name,
-                  parentNavigatorKey: _rootNavigatorKey,
-                  pageBuilder: (context, state) {
-                    return const MaterialPage(
-                      fullscreenDialog: true,
-                      child: ScannerPage(),
-                    );
-                  },
-                  routes: [
-                    GoRoute(
-                      path: AppRoute.addProduct.path,
-                      name: AppRoute.addProduct.name,
-                      parentNavigatorKey: _rootNavigatorKey,
-                      builder: (context, state) {
-                        final product = state.extra! as ProductEntity;
-                        return AddEditItemPage.add(product);
-                      },
-                    ),
-                  ],
-                ),
-                GoRoute(
-                  path: '${AppRoute.editItem.path}/:id',
-                  name: AppRoute.editItem.name,
-                  parentNavigatorKey: _rootNavigatorKey,
-                  builder: (context, state) {
-                    final id = state.pathParameters['id']!;
-                    return AddEditItemPage.edit(itemId: id);
-                  },
-                ),
-                GoRoute(
-                  path: AppRoute.storages.path,
-                  name: AppRoute.storages.name,
-                  parentNavigatorKey: _rootNavigatorKey,
-                  builder: (context, state) => const StoragesPage(),
-                  routes: [
-                    GoRoute(
-                      path: AppRoute.addStorage.path,
-                      name: AppRoute.addStorage.name,
-                      parentNavigatorKey: _rootNavigatorKey,
-                      pageBuilder: (context, state) {
-                        return const MaterialPage(
-                          fullscreenDialog: true,
-                          child: AddEditStoragePage(),
-                        );
-                      },
-                    ),
-                    GoRoute(
-                      path: AppRoute.editStorage.path,
-                      name: AppRoute.editStorage.name,
-                      parentNavigatorKey: _rootNavigatorKey,
-                      builder: (context, state) {
-                        final storageId = state.extra as String?;
-                        return AddEditStoragePage(
-                          storageId: storageId,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+          routes: [InventoryPage.route],
         ),
         StatefulShellBranch(
           navigatorKey: _accountNavigatorKey,
-          routes: [
-            GoRoute(
-              path: AppRoute.account.rootPath,
-              name: AppRoute.account.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: AccountPage(),
-              ),
-            ),
-          ],
+          routes: [AccountPage.route],
         ),
       ],
     ),
   ],
+  redirect: (context, state) {
+    const NthLogger('Router').v('Redirect: ${state.uri}');
+    return null;
+  },
 );
 
 /// A codec that can serialize [ProductEntity].

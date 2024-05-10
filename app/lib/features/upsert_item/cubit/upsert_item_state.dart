@@ -1,8 +1,8 @@
-part of 'add_item_cubit.dart';
+part of 'upsert_item_cubit.dart';
 
 @immutable
-final class AddEditItemState extends SuperBlocState {
-  const AddEditItemState._({
+final class UpsertItemState extends SuperBlocState {
+  const UpsertItemState._({
     required this.product,
     required this.expirationDate,
     required this.quantity,
@@ -13,7 +13,7 @@ final class AddEditItemState extends SuperBlocState {
     super.errorMessage,
   });
 
-  AddEditItemState.initial(
+  UpsertItemState.initial(
     this.product, {
     ItemEntity? item,
   })  : expirationDate = item?.initialExpiryDate,
@@ -39,7 +39,7 @@ final class AddEditItemState extends SuperBlocState {
   }
 
   @override
-  AddEditItemState copyWith({
+  UpsertItemState copyWith({
     StateStatus? status,
     DateTime? expirationDate,
     StorageEntity? storage,
@@ -47,7 +47,7 @@ final class AddEditItemState extends SuperBlocState {
     double? quantity,
     UnitOfMeasure? unitOfMeasure,
   }) {
-    return AddEditItemState._(
+    return UpsertItemState._(
       status: status ?? this.status,
       product: product,
       expirationDate: expirationDate ?? this.expirationDate,
@@ -59,8 +59,8 @@ final class AddEditItemState extends SuperBlocState {
   }
 
   @override
-  AddEditItemState copyWithError(String errorMessage) {
-    return AddEditItemState._(
+  UpsertItemState copyWithError(String errorMessage) {
+    return UpsertItemState._(
       expirationDate: expirationDate,
       storage: storage,
       amount: amount,

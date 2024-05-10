@@ -19,8 +19,8 @@ class WasteNotApp extends StatelessWidget {
         // ),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        routeInformationParser: $router.routeInformationParser,
-        routerDelegate: $router.routerDelegate,
-        routeInformationProvider: $router.routeInformationProvider,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+        routeInformationProvider: router.routeInformationProvider,
       );
 }

@@ -2,6 +2,7 @@ import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:items_repository/items_repository.dart';
 import 'package:storages_repository/storages_repository.dart';
 
@@ -12,7 +13,16 @@ import '../../features.dart';
 ///
 /// So far (2024-04-06) this is the page that is shown when the app is started.
 class InventoryPage extends StatelessWidget {
-  const InventoryPage({super.key});
+  const InventoryPage._();
+
+  static const path = '/inventory';
+
+  static GoRoute get route => GoRoute(
+        path: path,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: InventoryPage._(),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {

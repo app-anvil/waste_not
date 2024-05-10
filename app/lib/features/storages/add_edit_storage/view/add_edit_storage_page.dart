@@ -2,13 +2,54 @@ import 'package:a2f_sdk/a2f_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:storages_repository/storages_repository.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../router/router.dart';
 import '../add_edit_storage.dart';
 
-class AddEditStoragePage extends StatelessWidget {
-  const AddEditStoragePage({this.storageId, super.key});
+class AddStoragePage extends _AddEditStoragePage {
+  const AddStoragePage._();
+
+  static const path = '/inventory/storages/add';
+
+  static GoRoute get route => GoRoute(
+        path: path,
+        pageBuilder: (context, state) => const MaterialPage(
+          fullscreenDialog: true,
+          child: AddStoragePage._(),
+        ),
+      );
+
+  static void push(BuildContext context) => context.router.push(path);
+}
+
+class EditStoragePage extends _AddEditStoragePage {
+  const EditStoragePage._({required String storageId})
+      : super(storageId: storageId);
+
+  static final String path =
+      '/inventory/storages/${RouteTokens.storageId.asPathToken}/edit';
+
+  static GoRoute get route => GoRoute(
+        path: path,
+        builder: (context, state) => EditStoragePage._(
+          storageId: state.pathParameters[RouteTokens.storageId.value]!,
+        ),
+      );
+
+  static void push(
+    BuildContext context, {
+    required String storageId,
+  }) =>
+      context.router.push(
+        path.replaceFirst(RouteTokens.storageId.asPathToken, storageId),
+      );
+}
+
+class _AddEditStoragePage extends StatelessWidget {
+  const _AddEditStoragePage({this.storageId});
 
   final String? storageId;
 
