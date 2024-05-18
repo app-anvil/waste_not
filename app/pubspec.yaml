@@ -8,24 +8,34 @@ environment:
 
 dependencies:
   a2f_sdk: 1.0.0
+  app_settings: ^5.1.1
   flext: ^0.1.0
   flutter: { sdk: flutter }
   flutter_bloc: ^8.1.3
+  flutter_local_notifications: ^17.1.1
   flutter_localizations: { sdk: flutter }
+  flutter_timezone: ^1.0.8
   get_it: ^7.6.4
   go_router: ^12.0.1
+  google_api_availability: ^5.0.0
   intl: ^0.18.0
   items_repository: { path: ../packages/items_repository }
+  json_annotation: ^4.9.0
   mobile_scanner: ^3.5.1
   path: ^1.8.3
+  # TODO: removes it when permissions are moved inside the a2f package
+  permission_handler: ^11.3.1
   products_repository: { path: ../packages/products_repository }
   shimmer: ^3.0.0
   storages_repository: { path: ../packages/storages_repository }
+  timezone: ^0.9.3
   uuid: ^4.2.1
 
 dev_dependencies:
   bloc_test: ^9.1.2
+  build_runner: ^2.4.6
   flutter_test: { sdk: flutter }
+  json_serializable: ^6.7.1
   mocktail: ^0.3.0
   very_good_analysis: ^5.0.0
 
