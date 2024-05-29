@@ -1,6 +1,6 @@
 name: waste_not
 description: Waste Not App
-version: 1.0.0+1
+version: 0.1.0+240529001
 publish_to: none
 
 environment:

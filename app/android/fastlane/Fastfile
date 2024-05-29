@@ -1,0 +1,63 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+  
+  desc "Prepare the app build"
+  lane :prepareBuild do
+    sh("echo Prepare the build or env: #{lane_context[SharedValues::ENVIRONMENT]} with package name: #{ENV['PACKAGE_NAME']}")
+    sh("melos clean")
+    sh("melos bs")
+    sh("melos generate")
+  end
+
+  desc "Generate app bundle"
+  lane :buildBundle do
+    envName = lane_context[SharedValues::ENVIRONMENT]
+    sh "flutter build appbundle --flavor #{envName} -t lib/main_#{envName}.dart"
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    prepareBuild
+    buildBundle
+    versionName = flutter_version()["version_name"]
+    versionCode = flutter_version()["version_code"]
+    envName = lane_context[SharedValues::ENVIRONMENT]
+    releaseName = "#{versionCode} (#{versionName})"
+    upload_to_play_store(
+      package_name: ENV['PACKAGE_NAME'],
+      aab: "../build/app/outputs/bundle/#{envName}Release/app-#{envName}-release.aab",
+      version_name: releaseName,
+      track: "internal",
+      release_status: "draft", # "completed", # only supported after the first manual release
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+
+  # desc "Fetch all metadata of apps"
+  # lane :fetchMetadata do
+  #   sh("fastlane supply init --metadata_path ./fastlane/metadata/development --package_name com.anvil.wastenot.dev")
+  #   sh("fastlane supply init --metadata_path ./fastlane/metadata/production --package_name com.nvil.wastenot.dev")
+  # end
+
+end
